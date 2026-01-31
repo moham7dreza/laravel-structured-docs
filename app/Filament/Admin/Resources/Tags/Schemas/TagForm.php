@@ -3,8 +3,8 @@
 namespace App\Filament\Admin\Resources\Tags\Schemas;
 
 use Filament\Forms\Components\ColorPicker;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 

@@ -68,6 +68,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the documents owned by this user (alias for ownedDocuments).
+     * This is used by Filament for counting relationships.
+     */
+    public function documents(): HasMany
+    {
+        return $this->ownedDocuments();
+    }
+
+    /**
      * Get documents this user is editing.
      */
     public function editingDocuments(): BelongsToMany
