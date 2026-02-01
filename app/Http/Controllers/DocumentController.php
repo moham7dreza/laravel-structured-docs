@@ -127,7 +127,131 @@ class DocumentController extends Controller
 
     public function show(string $slug): Response
     {
-        // TODO: Implement show method
-        return Inertia::render('documents/show');
+        $document = Document::query()
+            ->with(['category', 'owner', 'tags', 'branches'])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Increment view count
+        $document->increment('view_count');
+
+        // Get document sections
+        $sections = $document->sections
+            ->map(fn ($section) => [
+                'id' => $section->id,
+                'title' => $section->title,
+                'order' => $section->position,
+            ]);
+
+        // Get related documents (same category, limit 5)
+        $relatedDocuments = Document::query()
+            ->where('category_id', $document->category_id)
+            ->where('id', '!=', $document->id)
+            ->where('status', 'published')
+            ->limit(5)
+            ->get()
+            ->map(fn ($doc) => [
+                'id' => $doc->id,
+                'title' => $doc->title,
+                'slug' => $doc->slug,
+                'category' => $doc->category ? [
+                    'name' => $doc->category->name,
+                ] : null,
+            ]);
+
+        // Generate simple HTML content (placeholder - will be dynamic later)
+        $content = $this->generateDocumentContent($document);
+
+        return Inertia::render('documents/show', [
+            'document' => [
+                'id' => $document->id,
+                'title' => $document->title,
+                'description' => $document->description,
+                'content' => $content,
+                'status' => $document->status,
+                'score' => $document->total_score,
+                'views_count' => $document->view_count,
+                'comments_count' => $document->comment_count,
+                'created_at' => $document->created_at->toISOString(),
+                'updated_at' => $document->updated_at->toISOString(),
+                'published_at' => $document->published_at?->toISOString(),
+                'category' => $document->category ? [
+                    'id' => $document->category->id,
+                    'name' => $document->category->name,
+                    'slug' => $document->category->slug,
+                    'icon' => $document->category->icon,
+                    'color' => $document->category->color,
+                ] : null,
+                'owner' => [
+                    'id' => $document->owner->id,
+                    'name' => $document->owner->name,
+                    'avatar' => $document->owner->avatar,
+                ],
+                'tags' => $document->tags->map(fn ($tag) => [
+                    'id' => $tag->id,
+                    'name' => $tag->name,
+                    'slug' => $tag->slug,
+                ])->toArray(),
+                'branches' => $document->branches->map(fn ($branch) => [
+                    'id' => $branch->id,
+                    'name' => $branch->branch_name,
+                    'repository' => $branch->repository_url,
+                ])->toArray(),
+            ],
+            'sections' => $sections,
+            'relatedDocuments' => $relatedDocuments,
+        ]);
+    }
+
+    private function generateDocumentContent(Document $document): string
+    {
+        // Simple placeholder content generation
+        // In production, this would render the actual document sections
+        $html = '<div class="space-y-6">';
+
+        $html .= '<section>';
+        $html .= '<h2 class="text-2xl font-bold mb-4">Overview</h2>';
+        $html .= '<p class="text-base leading-relaxed">'.($document->description ?? 'This document provides comprehensive information about '.$document->title.'.').'</p>';
+        $html .= '</section>';
+
+        $html .= '<section>';
+        $html .= '<h2 class="text-2xl font-bold mb-4">Introduction</h2>';
+        $html .= '<p class="text-base leading-relaxed">Welcome to the '.$document->title.' documentation. This guide will help you understand the key concepts and implementation details.</p>';
+        $html .= '</section>';
+
+        $html .= '<section>';
+        $html .= '<h2 class="text-2xl font-bold mb-4">Key Features</h2>';
+        $html .= '<ul class="list-disc list-inside space-y-2">';
+        $html .= '<li>Comprehensive coverage of all topics</li>';
+        $html .= '<li>Step-by-step instructions</li>';
+        $html .= '<li>Best practices and examples</li>';
+        $html .= '<li>Troubleshooting guide</li>';
+        $html .= '</ul>';
+        $html .= '</section>';
+
+        $html .= '<section>';
+        $html .= '<h2 class="text-2xl font-bold mb-4">Getting Started</h2>';
+        $html .= '<p class="text-base leading-relaxed mb-4">Follow these steps to get started:</p>';
+        $html .= '<ol class="list-decimal list-inside space-y-2">';
+        $html .= '<li>Review the prerequisites</li>';
+        $html .= '<li>Install required dependencies</li>';
+        $html .= '<li>Configure your environment</li>';
+        $html .= '<li>Run the setup process</li>';
+        $html .= '</ol>';
+        $html .= '</section>';
+
+        $html .= '<section>';
+        $html .= '<h2 class="text-2xl font-bold mb-4">Example Usage</h2>';
+        $html .= '<pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code>';
+        $html .= '// Example code snippet\n';
+        $html .= 'const example = () => {\n';
+        $html .= '  console.log("Hello, World!");\n';
+        $html .= '};\n';
+        $html .= '</code></pre>';
+        $html .= '</section>';
+
+        $html .= '</div>';
+
+        return $html;
     }
 }
