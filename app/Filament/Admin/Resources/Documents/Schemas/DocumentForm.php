@@ -55,13 +55,31 @@ class DocumentForm
                                             ->required()
                                             ->searchable()
                                             ->preload()
-                                            ->live(),
+                                            ->live()
+                                            ->afterStateUpdated(fn (callable $set) => $set('structure_id', null))
+                                            ->helperText('Select a category first to see available structures'),
                                         Select::make('structure_id')
-                                            ->relationship('structure', 'title')
+                                            ->relationship(
+                                                'structure',
+                                                'title',
+                                                fn ($query, callable $get) => $query
+                                                    ->when(
+                                                        $get('category_id'),
+                                                        fn ($q, $categoryId) => $q->where('category_id', $categoryId)
+                                                            ->where('is_active', true)
+                                                    )
+                                                    ->orderBy('is_default', 'desc')
+                                                    ->orderBy('title')
+                                            )
+                                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->is_default
+                                                ? "{$record->title} (Default - v{$record->version})"
+                                                : "{$record->title} (v{$record->version})")
                                             ->required()
                                             ->searchable()
                                             ->preload()
-                                            ->helperText('Select the document structure/schema'),
+                                            ->disabled(fn (callable $get) => ! $get('category_id'))
+                                            ->helperText('Select a category first to see available structures. Default structure is recommended.')
+                                            ->live(),
                                         Select::make('owner_id')
                                             ->relationship('owner', 'name')
                                             ->required()
