@@ -291,6 +291,119 @@ class ViewDocument extends ViewRecord
                     ->collapsible()
                     ->visible(fn ($record) => ($record->editors && $record->editors->isNotEmpty()) || ($record->reviewers && $record->reviewers->isNotEmpty())),
 
+                Section::make('References & Links')
+                    ->description('Document references and external links')
+                    ->schema([
+                        Placeholder::make('references_info')
+                            ->label('Document References')
+                            ->content(function ($record) {
+                                if (! $record->referencedDocuments || $record->referencedDocuments->isEmpty()) {
+                                    return new HtmlString('<p class="text-sm text-gray-500">No document references.</p>');
+                                }
+
+                                $html = '<div class="space-y-2">';
+
+                                foreach ($record->referencedDocuments as $refDoc) {
+                                    $html .= '<div class="flex items-start justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">';
+                                    $html .= '<div class="flex-1">';
+                                    $html .= '<div class="font-medium text-blue-600">→ '.htmlspecialchars($refDoc->title).'</div>';
+
+                                    if ($refDoc->pivot && $refDoc->pivot->context) {
+                                        $html .= '<div class="text-xs text-gray-600 mt-1">';
+                                        $html .= htmlspecialchars($refDoc->pivot->context);
+                                        $html .= '</div>';
+                                    }
+
+                                    $html .= '</div>';
+                                    $html .= '</div>';
+                                }
+
+                                $html .= '</div>';
+
+                                return new HtmlString($html);
+                            })
+                            ->columnSpanFull(),
+
+                        Placeholder::make('external_links_info')
+                            ->label('External Links')
+                            ->content(function ($record) {
+                                if (! $record->externalLinks || $record->externalLinks->isEmpty()) {
+                                    return new HtmlString('<p class="text-sm text-gray-500 mt-4">No external links.</p>');
+                                }
+
+                                $html = '<div class="space-y-2 mt-4">';
+
+                                foreach ($record->externalLinks as $link) {
+                                    $typeColors = [
+                                        'jira' => 'blue',
+                                        'gitlab_mr' => 'orange',
+                                        'gitlab_wiki' => 'purple',
+                                        'confluence' => 'indigo',
+                                        'custom' => 'gray',
+                                    ];
+                                    $color = $typeColors[$link->type] ?? 'gray';
+                                    $typeLabel = str_replace('_', ' ', ucfirst($link->type));
+
+                                    $validBadge = $link->is_valid
+                                        ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">✓ Valid</span>'
+                                        : '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">✗ Invalid</span>';
+
+                                    $html .= '<div class="p-3 bg-gray-50 rounded-lg border border-gray-200">';
+                                    $html .= '<div class="flex items-center justify-between mb-2">';
+                                    $html .= '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-'.$color.'-100 text-'.$color.'-800">'.$typeLabel.'</span>';
+                                    $html .= $validBadge;
+                                    $html .= '</div>';
+
+                                    if ($link->title) {
+                                        $html .= '<div class="font-medium text-gray-900 mb-1">'.htmlspecialchars($link->title).'</div>';
+                                    }
+
+                                    $html .= '<div class="text-sm">';
+                                    $html .= '<a href="'.htmlspecialchars($link->url).'" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline break-all">';
+                                    $html .= htmlspecialchars($link->url);
+                                    $html .= ' <svg class="inline w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>';
+                                    $html .= '</a>';
+                                    $html .= '</div>';
+
+                                    $html .= '</div>';
+                                }
+
+                                $html .= '</div>';
+
+                                return new HtmlString($html);
+                            })
+                            ->columnSpanFull(),
+
+                        Placeholder::make('watchers_info')
+                            ->label('Document Watchers')
+                            ->content(function ($record) {
+                                if (! $record->watchers || $record->watchers->isEmpty()) {
+                                    return new HtmlString('<p class="text-sm text-gray-500 mt-4">No watchers.</p>');
+                                }
+
+                                $html = '<div class="mt-4">';
+                                $html .= '<div class="flex flex-wrap gap-2">';
+
+                                foreach ($record->watchers as $watcher) {
+                                    $html .= '<span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">';
+                                    $html .= '<svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>';
+                                    $html .= htmlspecialchars($watcher->name);
+                                    $html .= '</span>';
+                                }
+
+                                $html .= '</div>';
+                                $html .= '</div>';
+
+                                return new HtmlString($html);
+                            })
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible()
+                    ->visible(fn ($record) => ($record->referencedDocuments && $record->referencedDocuments->isNotEmpty()) ||
+                        ($record->externalLinks && $record->externalLinks->isNotEmpty()) ||
+                        ($record->watchers && $record->watchers->isNotEmpty())
+                    ),
+
                 Section::make('Document Content')
                     ->description('Content based on the selected structure')
                     ->schema([
@@ -367,6 +480,9 @@ class ViewDocument extends ViewRecord
             'editors.user',
             'editors.sections',
             'reviewers.user',
+            'referencedDocuments',
+            'externalLinks',
+            'watchers',
             'sections.structureSection',
             'sections.items.structureSectionItem',
             'sections.items.lastEditor',

@@ -263,6 +263,93 @@ class DocumentForm
                                     ->collapsible(),
                             ]),
 
+                        Tabs\Tab::make('References & Links')
+                            ->schema([
+                                Section::make('Document References')
+                                    ->description('Link to other documents in the system')
+                                    ->schema([
+                                        Repeater::make('referencedDocuments')
+                                            ->relationship('referencedDocuments')
+                                            ->schema([
+                                                Select::make('id')
+                                                    ->label('Referenced Document')
+                                                    ->options(function () {
+                                                        return \App\Models\Document::query()
+                                                            ->orderBy('title')
+                                                            ->pluck('title', 'id');
+                                                    })
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->required()
+                                                    ->distinct()
+                                                    ->helperText('Select a document to reference'),
+                                                Textarea::make('pivot.context')
+                                                    ->label('Context')
+                                                    ->rows(2)
+                                                    ->placeholder('Why is this document referenced? Where is it mentioned?')
+                                                    ->helperText('Optional: Explain why this reference exists')
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->columns(1)
+                                            ->collapsible()
+                                            ->itemLabel(fn (array $state): ?string => isset($state['id'])
+                                                    ? \App\Models\Document::find($state['id'])?->title ?? 'Document Reference'
+                                                    : 'New Reference'
+                                            )
+                                            ->defaultItems(0)
+                                            ->addActionLabel('Add Document Reference')
+                                            ->reorderableWithButtons(),
+                                    ])
+                                    ->collapsible(),
+
+                                Section::make('External Links')
+                                    ->description('Links to external services (Jira, GitLab, Confluence, etc.)')
+                                    ->schema([
+                                        Repeater::make('externalLinks')
+                                            ->relationship('externalLinks')
+                                            ->schema([
+                                                Select::make('type')
+                                                    ->label('Link Type')
+                                                    ->options([
+                                                        'jira' => 'Jira Issue',
+                                                        'gitlab_mr' => 'GitLab Merge Request',
+                                                        'gitlab_wiki' => 'GitLab Wiki',
+                                                        'confluence' => 'Confluence Page',
+                                                        'custom' => 'Custom Link',
+                                                    ])
+                                                    ->required()
+                                                    ->native(false)
+                                                    ->helperText('Select the type of external link'),
+                                                TextInput::make('url')
+                                                    ->label('URL')
+                                                    ->url()
+                                                    ->required()
+                                                    ->maxLength(2000)
+                                                    ->placeholder('https://...')
+                                                    ->helperText('Full URL to the external resource')
+                                                    ->columnSpanFull(),
+                                                TextInput::make('title')
+                                                    ->label('Title')
+                                                    ->maxLength(500)
+                                                    ->placeholder('e.g., Issue #123: Fix login bug')
+                                                    ->helperText('Optional: Descriptive title for the link')
+                                                    ->columnSpanFull(),
+                                                Toggle::make('is_valid')
+                                                    ->label('Is Valid')
+                                                    ->default(true)
+                                                    ->helperText('Mark as invalid if link is broken'),
+                                            ])
+                                            ->columns(2)
+                                            ->collapsible()
+                                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? ($state['type'] ?? 'External Link')
+                                            )
+                                            ->defaultItems(0)
+                                            ->addActionLabel('Add External Link')
+                                            ->reorderableWithButtons(),
+                                    ])
+                                    ->collapsible(),
+                            ]),
+
                         Tabs\Tab::make('Settings')
                             ->schema([
                                 Section::make('Visibility & Status')
@@ -300,6 +387,39 @@ class DocumentForm
                                             ->native(false),
                                     ])
                                     ->columns(3),
+
+                                Section::make('Document Watchers')
+                                    ->description('Users who will be notified of changes to this document')
+                                    ->schema([
+                                        Repeater::make('watchers')
+                                            ->relationship('watchers')
+                                            ->schema([
+                                                Select::make('id')
+                                                    ->label('User')
+                                                    ->options(function () {
+                                                        return \App\Models\User::query()
+                                                            ->orderBy('name')
+                                                            ->pluck('name', 'id');
+                                                    })
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->required()
+                                                    ->distinct()
+                                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                                    ->helperText('Select a user to watch this document')
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->collapsible()
+                                            ->itemLabel(fn (array $state): ?string => isset($state['id'])
+                                                    ? \App\Models\User::find($state['id'])?->name ?? 'Watcher'
+                                                    : 'New Watcher'
+                                            )
+                                            ->defaultItems(0)
+                                            ->addActionLabel('Add Watcher')
+                                            ->reorderableWithButtons(),
+                                    ])
+                                    ->collapsible()
+                                    ->collapsed(),
                             ]),
 
                         Tabs\Tab::make('Statistics')
