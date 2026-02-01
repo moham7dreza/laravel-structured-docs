@@ -5,6 +5,7 @@ namespace App\Filament\Admin\Resources\Documents;
 use App\Filament\Admin\Resources\Documents\Pages\CreateDocument;
 use App\Filament\Admin\Resources\Documents\Pages\EditDocument;
 use App\Filament\Admin\Resources\Documents\Pages\ListDocuments;
+use App\Filament\Admin\Resources\Documents\Pages\ViewDocument;
 use App\Filament\Admin\Resources\Documents\Schemas\DocumentForm;
 use App\Filament\Admin\Resources\Documents\Tables\DocumentsTable;
 use App\Models\Document;
@@ -49,6 +50,7 @@ class DocumentResource extends Resource
         return [
             'index' => ListDocuments::route('/'),
             'create' => CreateDocument::route('/create'),
+            'view' => ViewDocument::route('/{record}'),
             'edit' => EditDocument::route('/{record}/edit'),
         ];
     }

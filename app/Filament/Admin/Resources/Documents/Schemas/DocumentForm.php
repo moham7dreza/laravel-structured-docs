@@ -4,6 +4,8 @@ namespace App\Filament\Admin\Resources\Documents\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -48,7 +50,7 @@ class DocumentForm
 
                         Tabs\Tab::make('Structure & Category')
                             ->schema([
-                                Section::make()
+                                Section::make('Category and Structure Selection')
                                     ->schema([
                                         Select::make('category_id')
                                             ->relationship('category', 'name')
@@ -78,7 +80,7 @@ class DocumentForm
                                             ->searchable()
                                             ->preload()
                                             ->disabled(fn (callable $get) => ! $get('category_id'))
-                                            ->helperText('Select a category first to see available structures. Default structure is recommended.')
+                                            ->helperText('Select a structure first to see available structures. Default structure is recommended.')
                                             ->live(),
                                         Select::make('owner_id')
                                             ->relationship('owner', 'name')
@@ -87,7 +89,23 @@ class DocumentForm
                                             ->preload()
                                             ->default(fn () => auth()->id()),
                                     ])
-                                    ->columns(3),
+                                    ->columns(3)
+                                    ->collapsible(),
+
+                                Section::make('Document Content')
+                                    ->description('Fill in the content based on the selected structure')
+                                    ->schema([
+                                        Placeholder::make('select_structure_first')
+                                            ->label('')
+                                            ->content('👆 Please select a Structure above to see content fields here.')
+                                            ->columnSpanFull()
+                                            ->visible(fn (callable $get) => ! $get('structure_id')),
+
+                                        static::getContentFields(),
+                                    ])
+                                    ->visible(fn (callable $get) => (bool) $get('structure_id'))
+                                    ->collapsible()
+                                    ->collapsed(false),
                             ]),
 
                         Tabs\Tab::make('Settings')
@@ -180,5 +198,72 @@ class DocumentForm
                     ])
                     ->columnSpanFull(),
             ]);
+    }
+
+    protected static function getContentFields()
+    {
+        return Section::make()
+            ->schema(function (callable $get) {
+                $structureId = $get('structure_id');
+
+                if (! $structureId) {
+                    return [];
+                }
+
+                // Load the structure with its sections and items
+                $structure = \App\Models\Structure::with(['sections' => function ($query) {
+                    $query->orderBy('position');
+                }, 'sections.items' => function ($query) {
+                    $query->orderBy('position');
+                }])->find($structureId);
+
+                if (! $structure || $structure->sections->isEmpty()) {
+                    return [
+                        Placeholder::make('no_sections')
+                            ->label('')
+                            ->content('This structure has no sections defined yet.')
+                            ->columnSpanFull(),
+                    ];
+                }
+
+                $fields = [];
+
+                foreach ($structure->sections as $section) {
+                    $itemFields = [];
+
+                    foreach ($section->items as $item) {
+                        $itemFields[] = RichEditor::make("content_data.section_{$section->id}_item_{$item->id}")
+                            ->label($item->label)
+                            ->helperText($item->description)
+                            ->placeholder($item->placeholder)
+                            ->required($item->is_required)
+                            ->columnSpanFull()
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'strike',
+                                'link',
+                                'bulletList',
+                                'orderedList',
+                                'h2',
+                                'h3',
+                                'blockquote',
+                                'codeBlock',
+                            ]);
+                    }
+
+                    if (! empty($itemFields)) {
+                        $fields[] = Section::make($section->title)
+                            ->description($section->description)
+                            ->schema($itemFields)
+                            ->collapsible()
+                            ->columnSpanFull();
+                    }
+                }
+
+                return $fields;
+            })
+            ->columnSpanFull();
     }
 }
