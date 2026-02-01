@@ -61,27 +61,33 @@ class StructureForm
                             ->schema([
                                 TextInput::make('title')
                                     ->required()
-                                    ->maxLength(255),
-                                Select::make('type')
-                                    ->options([
-                                        'header' => 'Header',
-                                        'content' => 'Content',
-                                        'repeatable' => 'Repeatable',
-                                    ])
-                                    ->required()
-                                    ->default('content'),
-                                TextInput::make('order')
+                                    ->maxLength(255)
+                                    ->columnSpan(2),
+                                Textarea::make('description')
+                                    ->rows(2)
+                                    ->columnSpanFull(),
+                                Toggle::make('is_required')
+                                    ->default(false)
+                                    ->helperText('Must be completed before document can be published'),
+                                Toggle::make('is_repeatable')
+                                    ->default(false)
+                                    ->helperText('Section can have multiple instances'),
+                                TextInput::make('min_items')
                                     ->numeric()
                                     ->default(0)
-                                    ->required(),
-                                Toggle::make('is_required')
-                                    ->default(false),
+                                    ->minValue(0)
+                                    ->visible(fn ($get) => $get('is_repeatable')),
+                                TextInput::make('max_items')
+                                    ->numeric()
+                                    ->minValue(1)
+                                    ->nullable()
+                                    ->visible(fn ($get) => $get('is_repeatable')),
                             ])
                             ->columns(4)
                             ->collapsible()
                             ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
                             ->reorderable()
-                            ->orderColumn('order')
+                            ->orderColumn('position')
                             ->addActionLabel('Add Section'),
                     ])
                     ->collapsed(),
