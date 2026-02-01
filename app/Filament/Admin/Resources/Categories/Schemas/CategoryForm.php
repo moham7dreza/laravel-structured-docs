@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Resources\Categories\Schemas;
 
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -39,10 +40,40 @@ class CategoryForm
                     ->schema([
                         Grid::make(2)
                             ->schema([
-                                TextInput::make('icon')
-                                    ->maxLength(100)
-                                    ->placeholder('heroicon-o-document-text')
-                                    ->helperText('Use Heroicon name (e.g., heroicon-o-document-text)'),
+                                Select::make('icon')
+                                    ->options([
+                                        'heroicon-o-book-open' => 'Book Open',
+                                        'heroicon-o-document-text' => 'Document Text',
+                                        'heroicon-o-academic-cap' => 'Academic Cap',
+                                        'heroicon-o-beaker' => 'Beaker',
+                                        'heroicon-o-briefcase' => 'Briefcase',
+                                        'heroicon-o-chart-bar' => 'Chart Bar',
+                                        'heroicon-o-circle-stack' => 'Circle Stack',
+                                        'heroicon-o-clipboard-document-list' => 'Clipboard Document List',
+                                        'heroicon-o-code-bracket' => 'Code Bracket',
+                                        'heroicon-o-cog' => 'Cog',
+                                        'heroicon-o-cube-transparent' => 'Cube Transparent',
+                                        'heroicon-o-cube' => 'Cube',
+                                        'heroicon-o-folder' => 'Folder',
+                                        'heroicon-o-globe-alt' => 'Globe',
+                                        'heroicon-o-home' => 'Home',
+                                        'heroicon-o-light-bulb' => 'Light Bulb',
+                                        'heroicon-o-lock-closed' => 'Lock Closed',
+                                        'heroicon-o-magnifying-glass' => 'Magnifying Glass',
+                                        'heroicon-o-newspaper' => 'Newspaper',
+                                        'heroicon-o-puzzle-piece' => 'Puzzle Piece',
+                                        'heroicon-o-rocket-launch' => 'Rocket Launch',
+                                        'heroicon-o-server' => 'Server',
+                                        'heroicon-o-sparkles' => 'Sparkles',
+                                        'heroicon-o-squares-plus' => 'Squares Plus',
+                                        'heroicon-o-star' => 'Star',
+                                        'heroicon-o-tag' => 'Tag',
+                                        'heroicon-o-wrench-screwdriver' => 'Wrench Screwdriver',
+                                    ])
+                                    ->searchable()
+                                    ->required()
+                                    ->default('heroicon-o-document-text')
+                                    ->helperText('Select an icon for this category'),
                                 ColorPicker::make('color')
                                     ->placeholder('#3B82F6')
                                     ->helperText('Brand color for this category'),
