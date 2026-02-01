@@ -5,6 +5,7 @@ namespace App\Filament\Admin\Resources\Documents\Schemas;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -106,6 +107,51 @@ class DocumentForm
                                     ->visible(fn (callable $get) => (bool) $get('structure_id'))
                                     ->collapsible()
                                     ->collapsed(false),
+                            ]),
+
+                        Tabs\Tab::make('Branch & Integration')
+                            ->schema([
+                                Section::make('Git Branch Information')
+                                    ->description('Link this document to a Git branch and Jira task')
+                                    ->schema([
+                                        Repeater::make('branches')
+                                            ->relationship('branches')
+                                            ->schema([
+                                                TextInput::make('task_id')
+                                                    ->label('Jira Task ID')
+                                                    ->required()
+                                                    ->maxLength(100)
+                                                    ->placeholder('e.g., PROJ-123')
+                                                    ->helperText('The Jira task identifier'),
+                                                TextInput::make('task_title')
+                                                    ->label('Task Title')
+                                                    ->maxLength(500)
+                                                    ->placeholder('e.g., Add user authentication feature')
+                                                    ->columnSpanFull(),
+                                                TextInput::make('branch_name')
+                                                    ->label('Branch Name')
+                                                    ->required()
+                                                    ->maxLength(255)
+                                                    ->placeholder('e.g., feature/PROJ-123-add-authentication')
+                                                    ->helperText('The Git branch name'),
+                                                TextInput::make('repository_url')
+                                                    ->label('Repository URL')
+                                                    ->url()
+                                                    ->maxLength(500)
+                                                    ->placeholder('e.g., https://github.com/company/project')
+                                                    ->columnSpanFull(),
+                                                DateTimePicker::make('merged_at')
+                                                    ->label('Merged At')
+                                                    ->helperText('When this branch was merged (leave empty if not merged yet)'),
+                                            ])
+                                            ->columns(2)
+                                            ->collapsible()
+                                            ->itemLabel(fn (array $state): ?string => $state['task_id'] ?? 'New Branch')
+                                            ->defaultItems(0)
+                                            ->addActionLabel('Add Branch')
+                                            ->reorderableWithButtons(),
+                                    ])
+                                    ->collapsible(),
                             ]),
 
                         Tabs\Tab::make('Settings')

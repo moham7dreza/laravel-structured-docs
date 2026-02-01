@@ -108,6 +108,89 @@ class ViewDocument extends ViewRecord
                     ->collapsible()
                     ->collapsed(),
 
+                Section::make('Branch & Integration')
+                    ->description('Git branches and Jira tasks linked to this document')
+                    ->schema([
+                        Placeholder::make('branches_info')
+                            ->label('')
+                            ->content(function ($record) {
+                                if (! $record->branches || $record->branches->isEmpty()) {
+                                    return new HtmlString('<p class="text-sm text-gray-500">No branches linked to this document.</p>');
+                                }
+
+                                $html = '';
+
+                                foreach ($record->branches as $branch) {
+                                    $isMerged = $branch->merged_at ? true : false;
+                                    $statusBadge = $isMerged
+                                        ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Merged</span>'
+                                        : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Active</span>';
+
+                                    $html .= '<div class="mb-4 border border-gray-200 rounded-lg p-4 bg-white">';
+
+                                    // Header with task ID and status
+                                    $html .= '<div class="flex items-center justify-between mb-3">';
+                                    $html .= '<h4 class="text-base font-semibold text-gray-900">';
+                                    $html .= '<span class="text-blue-600">'.htmlspecialchars($branch->task_id).'</span>';
+                                    $html .= '</h4>';
+                                    $html .= $statusBadge;
+                                    $html .= '</div>';
+
+                                    // Task title
+                                    if ($branch->task_title) {
+                                        $html .= '<div class="mb-3">';
+                                        $html .= '<div class="text-xs font-medium text-gray-500 mb-1">Task Title</div>';
+                                        $html .= '<div class="text-sm text-gray-900">'.htmlspecialchars($branch->task_title).'</div>';
+                                        $html .= '</div>';
+                                    }
+
+                                    // Branch name
+                                    $html .= '<div class="mb-3">';
+                                    $html .= '<div class="text-xs font-medium text-gray-500 mb-1">Branch Name</div>';
+                                    $html .= '<div class="text-sm font-mono bg-gray-50 px-2 py-1 rounded border border-gray-200 inline-block">';
+                                    $html .= htmlspecialchars($branch->branch_name);
+                                    $html .= '</div>';
+                                    $html .= '</div>';
+
+                                    // Repository URL
+                                    if ($branch->repository_url) {
+                                        $html .= '<div class="mb-3">';
+                                        $html .= '<div class="text-xs font-medium text-gray-500 mb-1">Repository</div>';
+                                        $html .= '<div class="text-sm">';
+                                        $html .= '<a href="'.htmlspecialchars($branch->repository_url).'" target="_blank" class="text-blue-600 hover:text-blue-800 hover:underline">';
+                                        $html .= htmlspecialchars($branch->repository_url);
+                                        $html .= ' <svg class="inline w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>';
+                                        $html .= '</a>';
+                                        $html .= '</div>';
+                                        $html .= '</div>';
+                                    }
+
+                                    // Merged date
+                                    if ($branch->merged_at) {
+                                        $html .= '<div class="mb-3">';
+                                        $html .= '<div class="text-xs font-medium text-gray-500 mb-1">Merged At</div>';
+                                        $html .= '<div class="text-sm text-gray-700">';
+                                        $html .= $branch->merged_at->format('M d, Y g:i A');
+                                        $html .= ' <span class="text-gray-500">('.$branch->merged_at->diffForHumans().')</span>';
+                                        $html .= '</div>';
+                                        $html .= '</div>';
+                                    }
+
+                                    // Created date
+                                    $html .= '<div class="text-xs text-gray-500 mt-2 pt-2 border-t border-gray-100">';
+                                    $html .= 'Added '.$branch->created_at->diffForHumans();
+                                    $html .= '</div>';
+
+                                    $html .= '</div>';
+                                }
+
+                                return new HtmlString($html);
+                            })
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible()
+                    ->visible(fn ($record) => $record->branches && $record->branches->isNotEmpty()),
+
                 Section::make('Document Content')
                     ->description('Content based on the selected structure')
                     ->schema([
@@ -179,6 +262,7 @@ class ViewDocument extends ViewRecord
             'category',
             'structure',
             'owner',
+            'branches',
             'sections.structureSection',
             'sections.items.structureSectionItem',
             'sections.items.lastEditor',
