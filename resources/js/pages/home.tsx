@@ -23,7 +23,39 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
         <>
             <Head title="Home - Structured Documentation" />
 
-            <div className="min-h-screen">
+            {/* Navigation Header */}
+            <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+                <div className="container mx-auto px-4">
+                    <div className="flex h-16 items-center justify-between">
+                        <div className="flex items-center gap-6">
+                            <Link href="/" className="text-xl font-bold">
+                                📚 Docs
+                            </Link>
+                            <div className="hidden md:flex items-center gap-4">
+                                <Link
+                                    href="/"
+                                    className="text-sm font-medium text-foreground"
+                                >
+                                    Home
+                                </Link>
+                                <Link
+                                    href="/documents"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    Documents
+                                </Link>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Button variant="ghost" size="sm" asChild>
+                                <Link href="/dashboard">Dashboard</Link>
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div className="min-h-screen bg-background text-foreground">
                 {/* Hero Section */}
                 <section className="relative overflow-hidden bg-gradient-to-br from-brand-600 via-brand-700 to-brand-800 text-white">
                     {/* Background pattern */}
