@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@plugin '@tailwindcss/typography';
+
 @import 'tw-animate-css';
 
 @source '../views';
@@ -8,15 +10,72 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+    /* ===== FONTS ===== */
     --font-sans:
-        'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
+    --font-mono:
+        'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro',
+        Menlo, Monaco, 'Courier New', monospace;
+
+    /* ===== BORDER RADIUS ===== */
+    --radius: 0.5rem;
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
     --radius-sm: calc(var(--radius) - 4px);
 
+    /* ===== PRIMARY BRAND COLORS ===== */
+    --color-brand-50: #eff6ff;
+    --color-brand-100: #dbeafe;
+    --color-brand-200: #bfdbfe;
+    --color-brand-300: #93c5fd;
+    --color-brand-400: #60a5fa;
+    --color-brand-500: #3b82f6;
+    --color-brand-600: #2563eb;
+    --color-brand-700: #1d4ed8;
+    --color-brand-800: #1e40af;
+    --color-brand-900: #1e3a8a;
+
+    /* ===== SEMANTIC COLORS ===== */
+    --color-success-50: #f0fdf4;
+    --color-success-500: #10b981;
+    --color-success-600: #059669;
+    --color-success-700: #047857;
+
+    --color-warning-50: #fffbeb;
+    --color-warning-500: #f59e0b;
+    --color-warning-600: #d97706;
+    --color-warning-700: #b45309;
+
+    --color-error-50: #fef2f2;
+    --color-error-500: #ef4444;
+    --color-error-600: #dc2626;
+    --color-error-700: #b91c1c;
+
+    --color-info-50: #ecfeff;
+    --color-info-500: #06b6d4;
+    --color-info-600: #0891b2;
+    --color-info-700: #0e7490;
+
+    /* ===== STATUS COLORS ===== */
+    --color-status-draft: #94a3b8;
+    --color-status-pending: #f59e0b;
+    --color-status-published: #10b981;
+    --color-status-completed: #8b5cf6;
+    --color-status-stale: #ef4444;
+    --color-status-archived: #64748b;
+
+    /* ===== GRADE COLORS ===== */
+    --color-grade-s: #ffd700;
+    --color-grade-a: #c0c0c0;
+    --color-grade-b: #cd7f32;
+    --color-grade-c: #60a5fa;
+    --color-grade-d: #a78bfa;
+    --color-grade-f: #f87171;
+
+    /* ===== THEME COLORS ===== */
     --color-background: var(--background);
     --color-foreground: var(--foreground);
 
@@ -138,6 +197,107 @@
     }
 
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground antialiased;
     }
+
+    /* Typography improvements */
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold tracking-tight;
+    }
+
+    h1 { @apply text-4xl; }
+    h2 { @apply text-3xl; }
+    h3 { @apply text-2xl; }
+    h4 { @apply text-xl; }
+    h5 { @apply text-lg; }
+    h6 { @apply text-base; }
 }
+
+@layer utilities {
+    /* Custom gradient backgrounds */
+    .gradient-brand {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    }
+
+    .gradient-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .gradient-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+
+    /* Card hover effects */
+    .card-hover {
+        @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
+    }
+
+    /* Status badges */
+    .badge-draft {
+        @apply bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300;
+    }
+
+    .badge-pending {
+        @apply bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400;
+    }
+
+    .badge-published {
+        @apply bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400;
+    }
+
+    .badge-completed {
+        @apply bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400;
+    }
+
+    .badge-stale {
+        @apply bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400;
+    }
+
+    .badge-archived {
+        @apply bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400;
+    }
+
+    /* Grade badges */
+    .badge-grade-s {
+        @apply bg-yellow-400 text-yellow-900 font-bold;
+    }
+
+    .badge-grade-a {
+        @apply bg-gray-300 text-gray-900 font-bold;
+    }
+
+    .badge-grade-b {
+        @apply bg-amber-600 text-white font-bold;
+    }
+
+    .badge-grade-c {
+        @apply bg-blue-400 text-blue-900 font-bold;
+    }
+
+    .badge-grade-d {
+        @apply bg-purple-400 text-purple-900 font-bold;
+    }
+
+    .badge-grade-f {
+        @apply bg-red-400 text-red-900 font-bold;
+    }
+
+    /* Animations */
+    .animate-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+}
+
+
