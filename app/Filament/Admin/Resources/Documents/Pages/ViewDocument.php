@@ -44,6 +44,17 @@ class ViewDocument extends ViewRecord
                         TextInput::make('owner.name')
                             ->label('Owner')
                             ->disabled(),
+                        TextInput::make('tags_display')
+                            ->label('Tags')
+                            ->disabled()
+                            ->formatStateUsing(function ($record) {
+                                if (! $record->tags || $record->tags->isEmpty()) {
+                                    return 'No tags';
+                                }
+
+                                return $record->tags->pluck('name')->join(', ');
+                            })
+                            ->columnSpanFull(),
                     ])
                     ->columns(3)
                     ->collapsible(),
@@ -191,6 +202,95 @@ class ViewDocument extends ViewRecord
                     ->collapsible()
                     ->visible(fn ($record) => $record->branches && $record->branches->isNotEmpty()),
 
+                Section::make('Permissions')
+                    ->description('Document editors and reviewers')
+                    ->schema([
+                        Placeholder::make('editors_info')
+                            ->label('Document Editors')
+                            ->content(function ($record) {
+                                if (! $record->editors || $record->editors->isEmpty()) {
+                                    return new HtmlString('<p class="text-sm text-gray-500">No editors assigned.</p>');
+                                }
+
+                                $html = '<div class="space-y-3">';
+
+                                foreach ($record->editors as $editor) {
+                                    $accessBadge = $editor->access_type === 'full'
+                                        ? '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Full Access</span>'
+                                        : '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">Limited Access</span>';
+
+                                    $html .= '<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">';
+                                    $html .= '<div class="flex-1">';
+                                    $html .= '<div class="font-medium text-gray-900">'.htmlspecialchars($editor->user->name).'</div>';
+
+                                    if ($editor->access_type === 'limited' && $editor->sections && $editor->sections->isNotEmpty()) {
+                                        $html .= '<div class="text-xs text-gray-600 mt-1">';
+                                        $html .= 'Sections: '.htmlspecialchars($editor->sections->pluck('title')->join(', '));
+                                        $html .= '</div>';
+                                    }
+
+                                    if ($editor->can_manage_editors) {
+                                        $html .= '<div class="text-xs text-green-600 mt-1">✓ Can manage editors</div>';
+                                    }
+
+                                    $html .= '</div>';
+                                    $html .= '<div class="ml-3">'.$accessBadge.'</div>';
+                                    $html .= '</div>';
+                                }
+
+                                $html .= '</div>';
+
+                                return new HtmlString($html);
+                            })
+                            ->columnSpanFull(),
+
+                        Placeholder::make('reviewers_info')
+                            ->label('Document Reviewers')
+                            ->content(function ($record) {
+                                if (! $record->reviewers || $record->reviewers->isEmpty()) {
+                                    return new HtmlString('<p class="text-sm text-gray-500">No reviewers assigned.</p>');
+                                }
+
+                                $html = '<div class="space-y-3 mt-4">';
+
+                                foreach ($record->reviewers as $reviewer) {
+                                    $statusColor = match ($reviewer->status) {
+                                        'approved' => 'green',
+                                        'rejected' => 'red',
+                                        'in_progress' => 'yellow',
+                                        default => 'gray',
+                                    };
+
+                                    $statusBadge = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-'.$statusColor.'-100 text-'.$statusColor.'-800">'.ucfirst(str_replace('_', ' ', $reviewer->status)).'</span>';
+
+                                    $html .= '<div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">';
+                                    $html .= '<div class="flex-1">';
+                                    $html .= '<div class="font-medium text-gray-900">'.htmlspecialchars($reviewer->user->name).'</div>';
+
+                                    if ($reviewer->responded_at) {
+                                        $html .= '<div class="text-xs text-gray-600 mt-1">';
+                                        $html .= 'Responded: '.$reviewer->responded_at->diffForHumans();
+                                        $html .= '</div>';
+                                    } elseif ($reviewer->notified_at) {
+                                        $html .= '<div class="text-xs text-gray-600 mt-1">';
+                                        $html .= 'Notified: '.$reviewer->notified_at->diffForHumans();
+                                        $html .= '</div>';
+                                    }
+
+                                    $html .= '</div>';
+                                    $html .= '<div class="ml-3">'.$statusBadge.'</div>';
+                                    $html .= '</div>';
+                                }
+
+                                $html .= '</div>';
+
+                                return new HtmlString($html);
+                            })
+                            ->columnSpanFull(),
+                    ])
+                    ->collapsible()
+                    ->visible(fn ($record) => ($record->editors && $record->editors->isNotEmpty()) || ($record->reviewers && $record->reviewers->isNotEmpty())),
+
                 Section::make('Document Content')
                     ->description('Content based on the selected structure')
                     ->schema([
@@ -262,7 +362,11 @@ class ViewDocument extends ViewRecord
             'category',
             'structure',
             'owner',
+            'tags',
             'branches',
+            'editors.user',
+            'editors.sections',
+            'reviewers.user',
             'sections.structureSection',
             'sections.items.structureSectionItem',
             'sections.items.lastEditor',

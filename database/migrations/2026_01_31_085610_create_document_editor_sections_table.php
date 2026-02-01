@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('document_editor_id')->constrained()->cascadeOnDelete();
             $table->foreignId('structure_section_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('created_at')->nullable();
+            $table->timestamps();
 
             $table->unique(['document_editor_id', 'structure_section_id'], 'editor_section_unique');
             $table->index('document_editor_id');

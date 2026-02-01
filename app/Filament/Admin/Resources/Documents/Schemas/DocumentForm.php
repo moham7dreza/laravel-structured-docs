@@ -10,6 +10,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Schema;
@@ -45,6 +46,13 @@ class DocumentForm
                                             ->directory('documents')
                                             ->imageEditor()
                                             ->columnSpanFull(),
+                                        Select::make('tags')
+                                            ->relationship('tags', 'name')
+                                            ->multiple()
+                                            ->searchable()
+                                            ->preload()
+                                            ->columnSpanFull()
+                                            ->helperText('Select one or more tags to categorize this document'),
                                     ])
                                     ->columns(2),
                             ]),
@@ -149,6 +157,107 @@ class DocumentForm
                                             ->itemLabel(fn (array $state): ?string => $state['task_id'] ?? 'New Branch')
                                             ->defaultItems(0)
                                             ->addActionLabel('Add Branch')
+                                            ->reorderableWithButtons(),
+                                    ])
+                                    ->collapsible(),
+                            ]),
+
+                        Tabs\Tab::make('Permissions')
+                            ->schema([
+                                Section::make('Document Editors')
+                                    ->description('Assign editors who can collaborate on this document')
+                                    ->schema([
+                                        Repeater::make('editors')
+                                            ->relationship('editors')
+                                            ->schema([
+                                                Select::make('user_id')
+                                                    ->label('User')
+                                                    ->relationship('user', 'name')
+                                                    ->required()
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->distinct()
+                                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                                    ->helperText('Select a user to grant editing access'),
+                                                Select::make('access_type')
+                                                    ->label('Access Type')
+                                                    ->options([
+                                                        'full' => 'Full Access',
+                                                        'limited' => 'Limited Access (Specific Sections)',
+                                                    ])
+                                                    ->default('full')
+                                                    ->required()
+                                                    ->native(false)
+                                                    ->live()
+                                                    ->helperText('Full access allows editing all sections'),
+                                                Toggle::make('can_manage_editors')
+                                                    ->label('Can Manage Editors')
+                                                    ->helperText('Allow this editor to add/remove other editors')
+                                                    ->default(false),
+                                                Select::make('sections')
+                                                    ->label('Allowed Sections')
+                                                    ->relationship('sections', 'title')
+                                                    ->multiple()
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->visible(fn (callable $get) => $get('access_type') === 'limited')
+                                                    ->helperText('Select which sections this editor can access')
+                                                    ->columnSpanFull(),
+                                            ])
+                                            ->columns(3)
+                                            ->collapsible()
+                                            ->itemLabel(fn (array $state): ?string => isset($state['user_id'])
+                                                    ? \App\Models\User::find($state['user_id'])?->name ?? 'New Editor'
+                                                    : 'New Editor'
+                                            )
+                                            ->defaultItems(0)
+                                            ->addActionLabel('Add Editor')
+                                            ->reorderableWithButtons(),
+                                    ])
+                                    ->collapsible(),
+
+                                Section::make('Document Reviewers')
+                                    ->description('Assign reviewers for approval and feedback')
+                                    ->schema([
+                                        Repeater::make('reviewers')
+                                            ->relationship('reviewers')
+                                            ->schema([
+                                                Select::make('user_id')
+                                                    ->label('Reviewer')
+                                                    ->relationship('user', 'name')
+                                                    ->required()
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->distinct()
+                                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                                    ->helperText('Select a user to assign as reviewer'),
+                                                Select::make('status')
+                                                    ->label('Review Status')
+                                                    ->options([
+                                                        'pending' => 'Pending',
+                                                        'in_progress' => 'In Progress',
+                                                        'approved' => 'Approved',
+                                                        'rejected' => 'Rejected',
+                                                    ])
+                                                    ->default('pending')
+                                                    ->required()
+                                                    ->native(false)
+                                                    ->helperText('Current review status'),
+                                                DateTimePicker::make('notified_at')
+                                                    ->label('Notified At')
+                                                    ->helperText('When the reviewer was notified'),
+                                                DateTimePicker::make('responded_at')
+                                                    ->label('Responded At')
+                                                    ->helperText('When the reviewer responded'),
+                                            ])
+                                            ->columns(2)
+                                            ->collapsible()
+                                            ->itemLabel(fn (array $state): ?string => isset($state['user_id'])
+                                                    ? \App\Models\User::find($state['user_id'])?->name ?? 'New Reviewer'
+                                                    : 'New Reviewer'
+                                            )
+                                            ->defaultItems(0)
+                                            ->addActionLabel('Add Reviewer')
                                             ->reorderableWithButtons(),
                                     ])
                                     ->collapsible(),
