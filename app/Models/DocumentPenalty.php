@@ -47,4 +47,12 @@ class DocumentPenalty extends Model
     {
         return $this->belongsTo(User::class, 'resolved_by');
     }
+
+    /**
+     * Alias for resolvedBy relationship (for forms).
+     */
+    public function resolver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'resolved_by');
+    }
 }

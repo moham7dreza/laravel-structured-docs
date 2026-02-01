@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Models\Document;
 use App\Models\DocumentBranch;
 use App\Models\DocumentEditor;
+use App\Models\DocumentPenalty;
 use App\Models\DocumentReviewer;
 use App\Models\DocumentSection;
 use App\Models\DocumentSectionItem;
@@ -311,6 +312,54 @@ class DatabaseSeeder extends Seeder
             'priority' => 2,
         ]);
 
+        OutdatedRule::create([
+            'name' => 'Broken external link',
+            'description' => 'External links return 404 or are unreachable',
+            'condition_type' => 'link_broken',
+            'condition_params' => ['check_interval' => 'daily'],
+            'penalty_score' => 25,
+            'is_active' => true,
+            'priority' => 3,
+        ]);
+
+        OutdatedRule::create([
+            'name' => 'Branch merged without update',
+            'description' => 'Git branch was merged but document was not updated',
+            'condition_type' => 'branch_merged',
+            'condition_params' => ['grace_period_days' => 7],
+            'penalty_score' => 20,
+            'is_active' => true,
+            'priority' => 4,
+        ]);
+
+        // Apply penalties to some documents
+        $this->command->info('⚠️  Applying document penalties...');
+        $rules = OutdatedRule::all();
+        $penaltyCount = 0;
+
+        // Apply penalties to draft and stale documents
+        $documentsTopenalize = $documents->shuffle()->take(12);
+
+        foreach ($documentsTopenalize as $index => $document) {
+            $rule = $rules->random();
+            $daysAgo = fake()->numberBetween(1, 30);
+
+            DocumentPenalty::create([
+                'document_id' => $document->id,
+                'rule_id' => $rule->id,
+                'penalty_score' => $rule->penalty_score,
+                'reason' => "Document violated rule: {$rule->name}",
+                'is_resolved' => $index < 4, // First 4 are resolved
+                'resolved_by' => $index < 4 ? $allUsers->random()->id : null,
+                'resolved_at' => $index < 4 ? now()->subDays(fake()->numberBetween(1, 5)) : null,
+                'applied_at' => now()->subDays($daysAgo),
+            ]);
+
+            $penaltyCount++;
+        }
+
+        $this->command->info("   ✓ Applied {$penaltyCount} penalties to documents");
+
         // Create user scores
         $this->command->info('🎮 Creating gamification data...');
         foreach ($allUsers as $user) {
@@ -385,6 +434,8 @@ class DatabaseSeeder extends Seeder
                 ['Tags', Tag::count()],
                 ['Structures', Structure::count()],
                 ['Documents', Document::count()],
+                ['Outdated Rules', OutdatedRule::count()],
+                ['Document Penalties', \App\Models\DocumentPenalty::count()],
                 ['Comments', Comment::count()],
                 ['Reactions', Reaction::count()],
                 ['Activities', Activity::count()],

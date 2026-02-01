@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('source_document_id')->constrained('documents')->cascadeOnDelete();
             $table->foreignId('target_document_id')->constrained('documents')->cascadeOnDelete();
             $table->text('context')->nullable()->comment('Where/why it\'s referenced');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamps();
 
             $table->unique(['source_document_id', 'target_document_id'], 'unique_reference');
             $table->index('source_document_id');
