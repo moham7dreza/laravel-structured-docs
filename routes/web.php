@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -12,6 +13,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Documents
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
 Route::get('/documents/{slug}', [DocumentController::class, 'show'])->name('documents.show');
+
+// Leaderboard
+Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard.index');
 
 // User Profiles
 Route::get('/users/{user}', [UserProfileController::class, 'show'])->name('users.show');
