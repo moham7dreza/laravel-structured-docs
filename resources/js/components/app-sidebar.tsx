@@ -15,6 +15,7 @@ import {
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
+import {NavTheme} from "@/components/nav-theme";
 
 const mainNavItems: NavItem[] = [
     {
@@ -57,6 +58,7 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
+                <NavTheme />
                 <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>

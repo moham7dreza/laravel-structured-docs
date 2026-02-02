@@ -35,6 +35,7 @@ import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem, SharedData } from '@/types';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
+import {ThemeToggle} from "@/components/theme-toggle";
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -113,6 +114,10 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                         </div>
 
                                         <div className="flex flex-col space-y-4">
+                                            <div className="flex items-center justify-between border-t pt-4">
+                                                <span className="text-sm font-medium">Theme</span>
+                                                <ThemeToggle />
+                                            </div>
                                             {rightNavItems.map((item) => (
                                                 <a
                                                     key={item.title}
@@ -178,6 +183,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
                     <div className="ml-auto flex items-center space-x-2">
                         <div className="relative flex items-center space-x-1">
+                            <ThemeToggle />
                             <Button
                                 variant="ghost"
                                 size="icon"

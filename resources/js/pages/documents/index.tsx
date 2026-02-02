@@ -1,6 +1,7 @@
 import { CategoryBadge } from '@/components/category-badge';
 import { DocumentCard } from '@/components/document-card';
 import { SearchBar } from '@/components/search-bar';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -102,6 +103,7 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
+                            <ThemeToggle />
                             <Button variant="ghost" size="sm" asChild>
                                 <Link href="/dashboard">Dashboard</Link>
                             </Button>

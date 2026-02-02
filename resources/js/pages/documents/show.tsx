@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { Head, Link } from '@inertiajs/react';
 import {
     BookOpen,
@@ -91,6 +92,7 @@ export default function DocumentShow({ document, sections, relatedDocuments }: D
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
+                            <ThemeToggle />
                             <Button variant="ghost" size="sm" asChild>
                                 <Link href="/dashboard">Dashboard</Link>
                             </Button>
