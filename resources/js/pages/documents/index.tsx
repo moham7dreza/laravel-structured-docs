@@ -99,6 +99,12 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                 >
                                     Leaderboard
                                 </Link>
+                                <Link
+                                    href="/activity"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    Activity
+                                </Link>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">

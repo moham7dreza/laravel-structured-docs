@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityFeedController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
@@ -16,6 +17,9 @@ Route::get('/documents/{slug}', [DocumentController::class, 'show'])->name('docu
 
 // Leaderboard
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard.index');
+
+// Activity Feed
+Route::get('/activity', [ActivityFeedController::class, 'index'])->name('activity.index');
 
 // User Profiles
 Route::get('/users/{user}', [UserProfileController::class, 'show'])->name('users.show');

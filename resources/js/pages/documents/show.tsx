@@ -108,6 +108,12 @@ export default function DocumentShow({ document, sections, relatedDocuments }: D
                                 >
                                     Leaderboard
                                 </Link>
+                                <Link
+                                    href="/activity"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    Activity
+                                </Link>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
