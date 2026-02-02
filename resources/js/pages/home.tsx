@@ -4,8 +4,10 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Head, Link } from '@inertiajs/react';
-import { ArrowRight, BookOpen, FileText, Sparkles, TrendingUp, Users } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Head, Link, usePage } from '@inertiajs/react';
+import { ArrowRight, BookOpen, FileText, Sparkles, TrendingUp, Users, UserCircle } from 'lucide-react';
+import type { SharedData } from '@/types';
 import React from 'react';
 
 interface HomeProps {
@@ -20,6 +22,17 @@ interface HomeProps {
 }
 
 export default function Home({ featuredDocuments, recentDocuments, popularCategories, stats }: HomeProps) {
+    const { auth } = usePage<SharedData>().props;
+
+    const getInitials = (name: string) => {
+        return name
+            .split(' ')
+            .map((n) => n[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
+    };
+
     return (
         <>
             <Head title="Home - Structured Documentation" />
@@ -49,6 +62,34 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                         </div>
                         <div className="flex items-center gap-2">
                             <ThemeToggle />
+                            {auth.user ? (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-full"
+                                    asChild
+                                >
+                                    <Link href={`/users/${auth.user.id}`}>
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarImage
+                                                src={auth.user.avatar}
+                                                alt={auth.user.name}
+                                            />
+                                            <AvatarFallback className="text-xs bg-brand-500 text-white">
+                                                {getInitials(auth.user.name)}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <span className="sr-only">View Profile</span>
+                                    </Link>
+                                </Button>
+                            ) : (
+                                <Button variant="ghost" size="icon" asChild>
+                                    <Link href="/login">
+                                        <UserCircle className="h-5 w-5" />
+                                        <span className="sr-only">Login</span>
+                                    </Link>
+                                </Button>
+                            )}
                             <Button variant="ghost" size="sm" asChild>
                                 <Link href="/dashboard">Dashboard</Link>
                             </Button>

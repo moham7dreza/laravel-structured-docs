@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('document_references', function (Blueprint $table) {
-            if (!Schema::hasColumn('document_references', 'updated_at')) {
-                $table->timestamp('updated_at')->nullable()->after('created_at');
-            }
+        Schema::table('user_followers', function (Blueprint $table) {
+            $table->timestamp('updated_at')->nullable()->after('created_at');
         });
     }
 
@@ -23,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('document_references', function (Blueprint $table) {
+        Schema::table('user_followers', function (Blueprint $table) {
             $table->dropColumn('updated_at');
         });
     }

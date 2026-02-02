@@ -2,8 +2,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import {
     BookOpen,
     Calendar,
@@ -14,7 +15,9 @@ import {
     Star,
     Tag,
     User,
+    UserCircle,
 } from 'lucide-react';
+import type { SharedData } from '@/types';
 import React, { useState } from 'react';
 
 interface DocumentShowProps {
@@ -62,7 +65,17 @@ interface DocumentShowProps {
 }
 
 export default function DocumentShow({ document, sections, relatedDocuments }: DocumentShowProps) {
+    const { auth } = usePage<SharedData>().props;
     const [activeSection, setActiveSection] = useState<number | null>(null);
+
+    const getInitials = (name: string) => {
+        return name
+            .split(' ')
+            .map((n) => n[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2);
+    };
 
     return (
         <>
@@ -93,6 +106,34 @@ export default function DocumentShow({ document, sections, relatedDocuments }: D
                         </div>
                         <div className="flex items-center gap-2">
                             <ThemeToggle />
+                            {auth.user ? (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-full"
+                                    asChild
+                                >
+                                    <Link href={`/users/${auth.user.id}`}>
+                                        <Avatar className="h-8 w-8">
+                                            <AvatarImage
+                                                src={auth.user.avatar}
+                                                alt={auth.user.name}
+                                            />
+                                            <AvatarFallback className="text-xs bg-brand-500 text-white">
+                                                {getInitials(auth.user.name)}
+                                            </AvatarFallback>
+                                        </Avatar>
+                                        <span className="sr-only">View Profile</span>
+                                    </Link>
+                                </Button>
+                            ) : (
+                                <Button variant="ghost" size="icon" asChild>
+                                    <Link href="/login">
+                                        <UserCircle className="h-5 w-5" />
+                                        <span className="sr-only">Login</span>
+                                    </Link>
+                                </Button>
+                            )}
                             <Button variant="ghost" size="sm" asChild>
                                 <Link href="/dashboard">Dashboard</Link>
                             </Button>
@@ -180,10 +221,13 @@ export default function DocumentShow({ document, sections, relatedDocuments }: D
 
                                 {/* Metadata Bar */}
                                 <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                                    <div className="flex items-center gap-1.5">
+                                    <Link
+                                        href={`/users/${document.owner.id}`}
+                                        className="flex items-center gap-1.5 hover:text-brand-600 transition-colors"
+                                    >
                                         <User className="w-4 h-4" />
                                         <span>{document.owner.name}</span>
-                                    </div>
+                                    </Link>
                                     <div className="flex items-center gap-1.5">
                                         <Eye className="w-4 h-4" />
                                         <span>{document.views_count} views</span>

@@ -98,10 +98,14 @@ export function DocumentCard({ document, className }: DocumentCardProps) {
                     <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t">
                         {/* Author */}
                         {document.owner && (
-                            <div className="flex items-center gap-2">
+                            <Link
+                                href={`/users/${document.owner.id}`}
+                                onClick={(e) => e.stopPropagation()}
+                                className="flex items-center gap-2 hover:text-brand-600 transition-colors"
+                            >
                                 <User className="w-3.5 h-3.5" />
                                 <span>{document.owner.name}</span>
-                            </div>
+                            </Link>
                         )}
 
                         {/* Stats */}

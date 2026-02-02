@@ -105,7 +105,8 @@ class User extends Authenticatable
      */
     public function followers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_followers', 'following_id', 'follower_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_followers', 'following_id', 'follower_id')
+            ->withTimestamps();
     }
 
     /**
@@ -113,7 +114,8 @@ class User extends Authenticatable
      */
     public function following(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_followers', 'follower_id', 'following_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_followers', 'follower_id', 'following_id')
+            ->withTimestamps();
     }
 
     /**
