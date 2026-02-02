@@ -165,4 +165,21 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reaction::class);
     }
+
+    /**
+     * Get the user's document views.
+     */
+    public function documentViews(): HasMany
+    {
+        return $this->hasMany(DocumentView::class);
+    }
+
+    /**
+     * Get documents this user has watched/bookmarked.
+     */
+    public function documentWatchers(): BelongsToMany
+    {
+        return $this->belongsToMany(Document::class, 'document_watchers')
+            ->withTimestamps();
+    }
 }

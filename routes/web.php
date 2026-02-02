@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityFeedController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
@@ -41,8 +42,8 @@ Route::delete('/users/{user}/follow', [UserProfileController::class, 'unfollow']
     ->name('users.unfollow');
 
 // Dashboard (authenticated)
-Route::get('dashboard', function () {
-    return Inertia::render('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 require __DIR__.'/settings.php';
