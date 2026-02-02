@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 
 interface SearchBarProps {
     placeholder?: string;
-    defaultValue?: string;
+    defaultValue?: string | null;
     onSearch?: (query: string) => void;
     className?: string;
 }
@@ -17,7 +17,7 @@ export function SearchBar({
     onSearch,
     className,
 }: SearchBarProps) {
-    const [query, setQuery] = useState(defaultValue);
+    const [query, setQuery] = useState(defaultValue || '');
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();

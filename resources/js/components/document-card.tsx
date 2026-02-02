@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { Clock, Eye, MessageSquare, User } from 'lucide-react';
 import React from 'react';
 
@@ -32,6 +32,12 @@ interface DocumentCardProps {
 }
 
 export function DocumentCard({ document, className }: DocumentCardProps) {
+    // Validate document prop
+    if (!document || !document.slug || !document.title) {
+        console.error('DocumentCard: Invalid document prop', document);
+        return null;
+    }
+
     const statusVariant = getStatusVariant(document.status);
 
     return (
@@ -44,6 +50,10 @@ export function DocumentCard({ document, className }: DocumentCardProps) {
                             src={document.thumbnail}
                             alt={document.title}
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            onError={(e) => {
+                                // Hide broken images
+                                e.currentTarget.style.display = 'none';
+                            }}
                         />
                     ) : (
                         <div className="w-full h-full flex items-center justify-center">
@@ -98,14 +108,17 @@ export function DocumentCard({ document, className }: DocumentCardProps) {
                     <div className="flex items-center justify-between text-xs text-muted-foreground pt-4 border-t">
                         {/* Author */}
                         {document.owner && (
-                            <Link
-                                href={`/users/${document.owner.id}`}
-                                onClick={(e) => e.stopPropagation()}
-                                className="flex items-center gap-2 hover:text-brand-600 transition-colors"
+                            <div
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    router.visit(`/users/${document.owner.id}`);
+                                }}
+                                className="flex items-center gap-2 hover:text-brand-600 transition-colors cursor-pointer"
                             >
                                 <User className="w-3.5 h-3.5" />
                                 <span>{document.owner.name}</span>
-                            </Link>
+                            </div>
                         )}
 
                         {/* Stats */}
@@ -153,21 +166,33 @@ function getScoreColor(score: number): string {
     return 'bg-red-500 text-white';
 }
 
-function formatNumber(num: number): string {
+function formatNumber(num: number | null | undefined): string {
+    if (num === null || num === undefined) return '0';
     if (num >= 1000) return `${(num / 1000).toFixed(1)}k`;
     return num.toString();
 }
 
-function formatDate(date: string): string {
-    const d = new Date(date);
-    const now = new Date();
-    const diffMs = now.getTime() - d.getTime();
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+function formatDate(date: string | null | undefined): string {
+    if (!date) return 'Unknown';
 
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays}d ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo ago`;
-    return `${Math.floor(diffDays / 365)}y ago`;
+    try {
+        const d = new Date(date);
+        const now = new Date();
+        const diffMs = now.getTime() - d.getTime();
+
+        // Check if date is valid
+        if (isNaN(d.getTime())) return 'Invalid date';
+
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 0) return 'Today';
+        if (diffDays === 1) return 'Yesterday';
+        if (diffDays < 7) return `${diffDays}d ago`;
+        if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+        if (diffDays < 365) return `${Math.floor(diffDays / 30)}mo ago`;
+        return `${Math.floor(diffDays / 365)}y ago`;
+    } catch (error) {
+        console.error('Error formatting date:', date, error);
+        return 'Unknown';
+    }
 }

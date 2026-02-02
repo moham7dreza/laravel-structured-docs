@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ActivityFeedController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,6 +16,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Documents
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
 Route::get('/documents/{slug}', [DocumentController::class, 'show'])->name('documents.show');
+
+// Categories
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{slug}', [CategoryController::class, 'show'])->name('categories.show');
+
+// Tags
+Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+Route::get('/tags/{slug}', [TagController::class, 'show'])->name('tags.show');
 
 // Leaderboard
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard.index');
