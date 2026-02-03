@@ -54,15 +54,31 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
     };
 
     const handleFilterChange = (key: string, value: string) => {
-        // ...existing code...
+        router.get('/documents', {
+            ...filters,
+            [key]: value,
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
 
     const clearFilter = (key: string) => {
-        // ...existing code...
+        const newFilters = { ...filters };
+        delete newFilters[key];
+        router.get('/documents', newFilters, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
 
     const clearAllFilters = () => {
-        // ...existing code...
+        router.get('/documents', {
+            sort: filters.sort || 'latest', // Keep sort
+        }, {
+            preserveState: true,
+            preserveScroll: true,
+        });
     };
 
     const hasActiveFilters = Object.keys(filters).some(
@@ -222,7 +238,6 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                             <SelectItem value="all">All categories</SelectItem>
                                             {categories.map((cat) => (
                                                 <SelectItem key={cat.id} value={cat.slug}>
-                                                    {cat.icon && <span className="mr-2">{cat.icon}</span>}
                                                     {cat.name}
                                                 </SelectItem>
                                             ))}
@@ -287,22 +302,14 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                         </label>
                                         <div className="flex flex-wrap gap-2">
                                             {tags.slice(0, 10).map((tag) => (
-                                                <Badge
-                                                    key={tag.id}
-                                                    variant={
-                                                        filters.tag === tag.slug
-                                                            ? 'default'
-                                                            : 'outline'
-                                                    }
-                                                    className="cursor-pointer"
-                                                    onClick={() =>
-                                                        filters.tag === tag.slug
-                                                            ? clearFilter('tag')
-                                                            : handleFilterChange('tag', tag.slug)
-                                                    }
-                                                >
-                                                    {tag.name}
-                                                </Badge>
+                                                <Link key={tag.id} href={`/tags/${tag.slug}`}>
+                                                    <Badge
+                                                        variant="outline"
+                                                        className="cursor-pointer hover:bg-accent transition-colors"
+                                                    >
+                                                        {tag.name}
+                                                    </Badge>
+                                                </Link>
                                             ))}
                                         </div>
                                     </div>
