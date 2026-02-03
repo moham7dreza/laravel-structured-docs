@@ -17,6 +17,7 @@ import {
     Activity as ActivityIcon,
     ArrowRight,
     Sparkles,
+    Plus,
 } from 'lucide-react';
 import type { SharedData } from '@/types';
 import React from 'react';
@@ -256,14 +257,20 @@ export default function Dashboard({
                                 </div>
                             )}
                             {/* My Documents */}
-                            {myDocuments.length > 0 && (
-                                <div>
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h2 className="text-2xl font-bold flex items-center gap-2">
-                                            <FileText className="w-6 h-6 text-primary" />
-                                            My Documents
-                                        </h2>
-                                    </div>
+                            <div>
+                                <div className="flex items-center justify-between mb-6">
+                                    <h2 className="text-2xl font-bold flex items-center gap-2">
+                                        <FileText className="w-6 h-6 text-primary" />
+                                        My Documents
+                                    </h2>
+                                    <Link href="/documents/create">
+                                        <Button size="sm" className="gap-2">
+                                            <Plus className="w-4 h-4" />
+                                            Create Document
+                                        </Button>
+                                    </Link>
+                                </div>
+                                {myDocuments.length > 0 ? (
                                     <Card className="p-6">
                                         <div className="space-y-3">
                                             {myDocuments.map((doc) => (
@@ -290,8 +297,23 @@ export default function Dashboard({
                                             ))}
                                         </div>
                                     </Card>
-                                </div>
-                            )}
+                                ) : (
+                                    <Card className="p-8 text-center">
+                                        <div className="mb-4">
+                                            <FileText className="w-12 h-12 mx-auto text-muted-foreground opacity-50" />
+                                        </div>
+                                        <p className="text-muted-foreground mb-4">
+                                            You haven't created any documents yet
+                                        </p>
+                                        <Link href="/documents/create">
+                                            <Button className="gap-2">
+                                                <Plus className="w-4 h-4" />
+                                                Create Your First Document
+                                            </Button>
+                                        </Link>
+                                    </Card>
+                                )}
+                            </div>
                         </div>
                         {/* Sidebar - 1 column */}
                         <div className="space-y-8">

@@ -4,6 +4,7 @@ use App\Http\Controllers\ActivityFeedController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\DocumentCreateController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\NotificationController;
@@ -21,6 +22,11 @@ Route::get('/search/suggestions', [SearchController::class, 'suggestions'])->nam
 
 // Documents
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+// Document creation must come before {slug} route to avoid collision
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/documents/create', [DocumentCreateController::class, 'create'])->name('documents.create');
+    Route::post('/documents', [DocumentCreateController::class, 'store'])->name('documents.store');
+});
 Route::get('/documents/{slug}', [DocumentController::class, 'show'])->name('documents.show');
 
 // Categories
@@ -48,6 +54,10 @@ Route::delete('/users/{user}/follow', [UserProfileController::class, 'unfollow']
 
 // Notifications (authenticated)
 Route::middleware(['auth', 'verified'])->group(function () {
+    // API endpoint for structures
+    Route::get('/api/structures/by-category', [DocumentCreateController::class, 'getStructures'])->name('structures.by-category');
+
+    // Notifications
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');

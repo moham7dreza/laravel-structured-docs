@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Grid3x3, List, SlidersHorizontal, X, UserCircle } from 'lucide-react';
+import { Grid3x3, List, SlidersHorizontal, X, UserCircle, Plus } from 'lucide-react';
 import type { SharedData } from '@/types';
 import React, { useState } from 'react';
 
@@ -170,8 +170,16 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                 </p>
                             </div>
 
-                            {/* View Toggle */}
+                            {/* Actions */}
                             <div className="flex gap-2">
+                                {auth?.user && (
+                                    <Button asChild>
+                                        <Link href="/documents/create" className="flex items-center gap-2">
+                                            <Plus className="w-4 h-4" />
+                                            Create Document
+                                        </Link>
+                                    </Button>
+                                )}
                                 <Button
                                     variant={view === 'grid' ? 'default' : 'outline'}
                                     size="icon"

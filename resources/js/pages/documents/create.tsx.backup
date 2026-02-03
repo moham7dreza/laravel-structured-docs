@@ -1,0 +1,419 @@
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Head, router, useForm } from '@inertiajs/react';
+import { ArrowLeft, Save, Send, Loader2, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+
+interface Category {
+    id: number;
+    name: string;
+    slug: string;
+    icon: string | null;
+    color: string | null;
+}
+
+interface Tag {
+    id: number;
+    name: string;
+    slug: string;
+}
+
+interface User {
+    id: number;
+    name: string;
+    email: string;
+    avatar: string | null;
+}
+
+interface Structure {
+    id: number;
+    name: string;
+    description: string | null;
+    sections: StructureSection[];
+}
+
+interface StructureSection {
+    id: number;
+    name: string;
+    description: string | null;
+    position: number;
+    items: StructureSectionItem[];
+}
+
+interface StructureSectionItem {
+    id: number;
+    type: string;
+    label: string;
+    placeholder: string | null;
+    is_required: boolean;
+    position: number;
+}
+
+interface DocumentCreateProps {
+    categories: Category[];
+    tags: Tag[];
+    users: User[];
+}
+
+export default function DocumentCreate({ categories, tags, users }: DocumentCreateProps) {
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+    const [structures, setStructures] = useState<Structure[]>([]);
+    const [selectedStructure, setSelectedStructure] = useState<Structure | null>(null);
+    const [loadingStructures, setLoadingStructures] = useState(false);
+    const [selectedTags, setSelectedTags] = useState<number[]>([]);
+    const [selectedEditors, setSelectedEditors] = useState<number[]>([]);
+    const [selectedReviewers, setSelectedReviewers] = useState<number[]>([]);
+    const [currentStep, setCurrentStep] = useState(1);
+
+    const { data, setData, post, processing, errors } = useForm({
+        title: '',
+        description: '',
+        image: '',
+        category_id: '',
+        structure_id: '',
+        tags: [] as number[],
+        editors: [] as number[],
+        reviewers: [] as number[],
+        sections: [] as any[],
+    });
+
+    // Load structures when category is selected
+    useEffect(() => {
+        if (selectedCategory) {
+            setLoadingStructures(true);
+            fetch(`/api/structures/by-category?category_id=${selectedCategory}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    setStructures(data);
+                    setLoadingStructures(false);
+                })
+                .catch(() => setLoadingStructures(false));
+        } else {
+            setStructures([]);
+            setSelectedStructure(null);
+        }
+    }, [selectedCategory]);
+
+    // Initialize section content when structure is selected
+    useEffect(() => {
+        if (selectedStructure) {
+            const sections = selectedStructure.sections.map((section) => ({
+                structure_section_id: section.id,
+                position: section.position,
+                items: section.items.map((item) => ({
+                    structure_section_item_id: item.id,
+                    content: '',
+                })),
+            }));
+            setData('sections', sections);
+        }
+    }, [selectedStructure]);
+
+    const handleCategoryChange = (categoryId: string) => {
+        setSelectedCategory(parseInt(categoryId));
+        setData('category_id', categoryId);
+        setSelectedStructure(null);
+        setData('structure_id', '');
+    };
+
+    const handleStructureChange = (structureId: string) => {
+        const structure = structures.find((s) => s.id === parseInt(structureId));
+        setSelectedStructure(structure || null);
+        setData('structure_id', structureId);
+    };
+
+    const handleSectionItemChange = (sectionIndex: number, itemIndex: number, value: string) => {
+        const newSections = [...data.sections];
+        newSections[sectionIndex].items[itemIndex].content = value;
+        setData('sections', newSections);
+    };
+
+    const handleSubmit = (e: React.FormEvent, saveAsDraft = false) => {
+        e.preventDefault();
+        post('/documents', {
+            preserveScroll: true,
+        });
+    };
+
+    const canProceedToStep2 = data.title && data.category_id && data.structure_id;
+    const canSubmit = canProceedToStep2 && data.sections.every((section) =>
+        section.items.every((item: any, idx: number) => {
+            const structureSection = selectedStructure?.sections.find(
+                (s) => s.id === section.structure_section_id
+            );
+            const structureItem = structureSection?.items[idx];
+            return !structureItem?.is_required || item.content;
+        })
+    );
+
+    return (
+        <>
+            <Head title="Create Document" />
+
+            {/* Header */}
+            <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+                <div className="container mx-auto flex h-14 items-center justify-between px-4">
+                    <Button variant="ghost" size="sm" asChild>
+                        <a href="/documents" className="flex items-center gap-2">
+                            <ArrowLeft className="h-4 w-4" />
+                            Back to Documents
+                        </a>
+                    </Button>
+                    <h1 className="font-semibold">Create New Document</h1>
+                    <div className="w-32" /> {/* Spacer for centering */}
+                </div>
+            </header>
+
+            <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/30">
+                <div className="container mx-auto px-4 py-8 max-w-4xl">
+                    {/* Progress Steps */}
+                    <div className="mb-8 flex items-center justify-center gap-4">
+                        <div className={`flex items-center gap-2 ${currentStep >= 1 ? 'text-primary' : 'text-muted-foreground'}`}>
+                            <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${currentStep >= 1 ? 'border-primary bg-primary text-primary-foreground' : 'border-muted-foreground'}`}>
+                                1
+                            </div>
+                            <span className="font-medium">Basic Info</span>
+                        </div>
+                        <div className={`h-0.5 w-16 ${currentStep >= 2 ? 'bg-primary' : 'bg-muted-foreground'}`} />
+                        <div className={`flex items-center gap-2 ${currentStep >= 2 ? 'text-primary' : 'text-muted-foreground'}`}>
+                            <div className={`flex h-8 w-8 items-center justify-center rounded-full border-2 ${currentStep >= 2 ? 'border-primary bg-primary text-primary-foreground' : 'border-muted-foreground'}`}>
+                                2
+                            </div>
+                            <span className="font-medium">Content</span>
+                        </div>
+                    </div>
+
+                    <form onSubmit={(e) => handleSubmit(e, false)}>
+                        {/* Step 1: Basic Information */}
+                        {currentStep === 1 && (
+                            <Card className="p-6">
+                                <h2 className="text-2xl font-bold mb-6">Basic Information</h2>
+
+                                {/* Title */}
+                                <div className="mb-6">
+                                    <Label htmlFor="title">
+                                        Document Title <span className="text-destructive">*</span>
+                                    </Label>
+                                    <Input
+                                        id="title"
+                                        value={data.title}
+                                        onChange={(e) => setData('title', e.target.value)}
+                                        placeholder="Enter document title..."
+                                        className="mt-2"
+                                    />
+                                    {errors.title && (
+                                        <p className="text-sm text-destructive mt-1">{errors.title}</p>
+                                    )}
+                                </div>
+
+                                {/* Description */}
+                                <div className="mb-6">
+                                    <Label htmlFor="description">Description</Label>
+                                    <Textarea
+                                        id="description"
+                                        value={data.description}
+                                        onChange={(e) => setData('description', e.target.value)}
+                                        placeholder="Brief description of the document..."
+                                        rows={3}
+                                        className="mt-2"
+                                    />
+                                </div>
+
+                                {/* Category */}
+                                <div className="mb-6">
+                                    <Label htmlFor="category">
+                                        Category <span className="text-destructive">*</span>
+                                    </Label>
+                                    <Select value={data.category_id} onValueChange={handleCategoryChange}>
+                                        <SelectTrigger className="mt-2">
+                                            <SelectValue placeholder="Select a category..." />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {categories.map((cat) => (
+                                                <SelectItem key={cat.id} value={cat.id.toString()}>
+                                                    {cat.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                    {errors.category_id && (
+                                        <p className="text-sm text-destructive mt-1">{errors.category_id}</p>
+                                    )}
+                                </div>
+
+                                {/* Structure Template */}
+                                {selectedCategory && (
+                                    <div className="mb-6">
+                                        <Label htmlFor="structure">
+                                            Document Structure <span className="text-destructive">*</span>
+                                        </Label>
+                                        {loadingStructures ? (
+                                            <div className="mt-2 flex items-center gap-2 text-muted-foreground">
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                Loading structures...
+                                            </div>
+                                        ) : structures.length > 0 ? (
+                                            <Select value={data.structure_id} onValueChange={handleStructureChange}>
+                                                <SelectTrigger className="mt-2">
+                                                    <SelectValue placeholder="Select a structure template..." />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {structures.map((struct) => (
+                                                        <SelectItem key={struct.id} value={struct.id.toString()}>
+                                                            {struct.name}
+                                                            {struct.description && ` - ${struct.description}`}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        ) : (
+                                            <p className="mt-2 text-sm text-muted-foreground">
+                                                No structures available for this category.
+                                            </p>
+                                        )}
+                                        {errors.structure_id && (
+                                            <p className="text-sm text-destructive mt-1">{errors.structure_id}</p>
+                                        )}
+                                    </div>
+                                )}
+
+                                {/* Tags */}
+                                <div className="mb-6">
+                                    <Label>Tags</Label>
+                                    <div className="mt-2 flex flex-wrap gap-2">
+                                        {tags.slice(0, 20).map((tag) => (
+                                            <Badge
+                                                key={tag.id}
+                                                variant={selectedTags.includes(tag.id) ? 'default' : 'outline'}
+                                                className="cursor-pointer"
+                                                onClick={() => {
+                                                    const newTags = selectedTags.includes(tag.id)
+                                                        ? selectedTags.filter((id) => id !== tag.id)
+                                                        : [...selectedTags, tag.id];
+                                                    setSelectedTags(newTags);
+                                                    setData('tags', newTags);
+                                                }}
+                                            >
+                                                {tag.name}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Next Button */}
+                                <div className="flex justify-end">
+                                    <Button
+                                        type="button"
+                                        onClick={() => setCurrentStep(2)}
+                                        disabled={!canProceedToStep2}
+                                    >
+                                        Next: Add Content
+                                    </Button>
+                                </div>
+                            </Card>
+                        )}
+
+                        {/* Step 2: Document Content */}
+                        {currentStep === 2 && selectedStructure && (
+                            <div className="space-y-6">
+                                <Card className="p-6">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h2 className="text-2xl font-bold">Document Content</h2>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => setCurrentStep(1)}
+                                        >
+                                            Back to Basic Info
+                                        </Button>
+                                    </div>
+
+                                    {selectedStructure.sections.map((section, sectionIndex) => (
+                                        <Card key={section.id} className="p-6 mb-6">
+                                            <h3 className="text-xl font-semibold mb-2">{section.name}</h3>
+                                            {section.description && (
+                                                <p className="text-sm text-muted-foreground mb-4">
+                                                    {section.description}
+                                                </p>
+                                            )}
+
+                                            <div className="space-y-4">
+                                                {section.items.map((item, itemIndex) => (
+                                                    <div key={item.id}>
+                                                        <Label htmlFor={`item-${item.id}`}>
+                                                            {item.label}
+                                                            {item.is_required && (
+                                                                <span className="text-destructive ml-1">*</span>
+                                                            )}
+                                                        </Label>
+                                                        {item.type === 'textarea' || item.type === 'rich_text' ? (
+                                                            <Textarea
+                                                                id={`item-${item.id}`}
+                                                                value={data.sections[sectionIndex]?.items[itemIndex]?.content || ''}
+                                                                onChange={(e) =>
+                                                                    handleSectionItemChange(
+                                                                        sectionIndex,
+                                                                        itemIndex,
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                                placeholder={item.placeholder || ''}
+                                                                rows={item.type === 'rich_text' ? 8 : 4}
+                                                                className="mt-2"
+                                                            />
+                                                        ) : (
+                                                            <Input
+                                                                id={`item-${item.id}`}
+                                                                type="text"
+                                                                value={data.sections[sectionIndex]?.items[itemIndex]?.content || ''}
+                                                                onChange={(e) =>
+                                                                    handleSectionItemChange(
+                                                                        sectionIndex,
+                                                                        itemIndex,
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                                placeholder={item.placeholder || ''}
+                                                                className="mt-2"
+                                                            />
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </Card>
+                                    ))}
+                                </Card>
+
+                                {/* Submit Buttons */}
+                                <div className="flex justify-end gap-4">
+                                    <Button
+                                        type="submit"
+                                        disabled={processing || !canSubmit}
+                                        className="gap-2"
+                                    >
+                                        {processing ? (
+                                            <>
+                                                <Loader2 className="h-4 w-4 animate-spin" />
+                                                Creating...
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Send className="h-4 w-4" />
+                                                Create Document
+                                            </>
+                                        )}
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+                    </form>
+                </div>
+            </div>
+        </>
+    );
+}
