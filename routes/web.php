@@ -32,6 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/documents/{slug}/edit', [DocumentEditController::class, 'edit'])->name('documents.edit');
     Route::put('/documents/{slug}', [DocumentEditController::class, 'update'])->name('documents.update');
+    Route::delete('/documents/{slug}', [DocumentController::class, 'destroy'])->name('documents.destroy');
 });
 Route::get('/documents/{slug}', [DocumentController::class, 'show'])->name('documents.show');
 

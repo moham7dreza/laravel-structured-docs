@@ -204,6 +204,25 @@ class DocumentController extends Controller
         ]);
     }
 
+    /**
+     * Delete a document (soft delete).
+     */
+    public function destroy(string $slug)
+    {
+        $document = Document::where('slug', $slug)->firstOrFail();
+
+        // Check authorization - only owner can delete
+        if ($document->owner_id !== auth()->id()) {
+            abort(403, 'You are not authorized to delete this document.');
+        }
+
+        // Soft delete the document
+        $document->delete();
+
+        return redirect()->route('documents.index')
+            ->with('success', 'Document deleted successfully.');
+    }
+
     private function generateDocumentContent(Document $document): string
     {
         // Simple placeholder content generation

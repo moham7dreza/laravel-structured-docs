@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     BookOpen,
     Calendar,
@@ -21,6 +21,7 @@ import {
     ArrowLeft,
     TrendingUp,
     Edit,
+    Trash2,
 } from 'lucide-react';
 import type { SharedData } from '@/types';
 import React, { useState, useEffect } from 'react';
@@ -251,12 +252,31 @@ export default function DocumentShow({ document, sections, relatedDocuments }: D
                                             {document.title}
                                         </h1>
                                         {auth?.user?.id === document.owner.id && (
-                                            <Button asChild size="sm" className="gap-2 mt-2">
-                                                <Link href={`/documents/${document.slug}/edit`}>
-                                                    <Edit className="w-4 h-4" />
-                                                    Edit
-                                                </Link>
-                                            </Button>
+                                            <div className="flex gap-2 mt-2">
+                                                <Button asChild size="sm" className="gap-2">
+                                                    <Link href={`/documents/${document.slug}/edit`}>
+                                                        <Edit className="w-4 h-4" />
+                                                        Edit
+                                                    </Link>
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    variant="destructive"
+                                                    className="gap-2"
+                                                    onClick={() => {
+                                                        if (confirm('Are you sure you want to delete this document? This action can be undone from the admin panel.')) {
+                                                            router.delete(`/documents/${document.slug}`, {
+                                                                onSuccess: () => {
+                                                                    // Will redirect to documents index
+                                                                },
+                                                            });
+                                                        }
+                                                    }}
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                    Delete
+                                                </Button>
+                                            </div>
                                         )}
                                     </div>
                                     {document.description && (

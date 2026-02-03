@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import {Tabs, TabsContent, TabsList, TabsTrigger} from '@/components/ui/tabs';
+import { RichTextEditor } from '@/components/rich-text-editor';
 import { Head, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save, Send, Loader2, X, Plus, Trash2 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
@@ -502,18 +503,14 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                                         )}
                                                                     </Label>
                                                                     {item.description && (
-                                                                        <p className="text-sm text-muted-foreground mt-1">
+                                                                        <p className="text-sm text-muted-foreground mt-1 mb-2">
                                                                             {item.description}
                                                                         </p>
                                                                     )}
-                                                                    <Textarea
-                                                                        id={key}
-                                                                        value={data.content_data[key] || ''}
-                                                                        onChange={(e) =>
-                                                                            handleContentChange(key, e.target.value)
-                                                                        }
-                                                                        placeholder={item.placeholder || ''}
-                                                                        rows={item.type === 'rich_text' ? 8 : 4}
+                                                                    <RichTextEditor
+                                                                        content={data.content_data[key] || ''}
+                                                                        onChange={(value) => handleContentChange(key, value)}
+                                                                        placeholder={item.placeholder || 'Start typing...'}
                                                                         className="mt-2"
                                                                     />
                                                                 </div>
