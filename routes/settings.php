@@ -1,31 +1,30 @@
 <?php
 
-use App\Http\Controllers\Settings\PasswordController;
-use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\Settings\TwoFactorAuthenticationController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::middleware(['auth'])->group(function () {
-    Route::redirect('settings', '/settings/profile');
-
-    Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
-});
-
+// New comprehensive settings page (replaces old settings routes)
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Main settings page with all tabs
+    Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
 
-    Route::get('settings/password', [PasswordController::class, 'edit'])->name('user-password.edit');
-
-    Route::put('settings/password', [PasswordController::class, 'update'])
+    // Settings update routes
+    Route::put('settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile');
+    Route::put('settings/password', [SettingsController::class, 'updatePassword'])
         ->middleware('throttle:6,1')
-        ->name('user-password.update');
+        ->name('settings.password');
+    Route::put('settings/email-preferences', [SettingsController::class, 'updateEmailPreferences'])->name('settings.email');
+    Route::put('settings/preferences', [SettingsController::class, 'updateNotificationPreferences'])->name('settings.preferences');
+    Route::put('settings/privacy', [SettingsController::class, 'updatePrivacy'])->name('settings.privacy');
+    Route::post('settings/avatar', [SettingsController::class, 'uploadAvatar'])->name('settings.avatar');
+    Route::delete('settings/account', [SettingsController::class, 'deleteAccount'])->name('settings.delete');
 
-    Route::get('settings/appearance', function () {
-        return Inertia::render('settings/appearance');
-    })->name('appearance.edit');
+    // Keep old routes for backward compatibility (redirect to new settings)
+    Route::redirect('settings/profile', '/settings');
+    Route::redirect('settings/appearance', '/settings');
 
+    // 2FA route (if needed separately)
     Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
         ->name('two-factor.show');
 });

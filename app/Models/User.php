@@ -29,6 +29,25 @@ class User extends Authenticatable
         'telegram_chat_id',
         'total_score',
         'current_rank',
+        // Profile fields
+        'bio',
+        'location',
+        'website',
+        'twitter',
+        'github',
+        // Email preferences
+        'email_notifications',
+        'email_comments',
+        'email_mentions',
+        'email_followers',
+        'email_newsletter',
+        // Preferences
+        'theme',
+        'language',
+        // Privacy settings
+        'profile_visible',
+        'show_email',
+        'show_activity',
     ];
 
     /**
@@ -56,6 +75,15 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
             'total_score' => 'integer',
             'current_rank' => 'integer',
+            // Boolean settings
+            'email_notifications' => 'boolean',
+            'email_comments' => 'boolean',
+            'email_mentions' => 'boolean',
+            'email_followers' => 'boolean',
+            'email_newsletter' => 'boolean',
+            'profile_visible' => 'boolean',
+            'show_email' => 'boolean',
+            'show_activity' => 'boolean',
         ];
     }
 
