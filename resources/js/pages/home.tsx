@@ -60,6 +60,18 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                     Documents
                                 </Link>
                                 <Link
+                                    href="/categories"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    Categories
+                                </Link>
+                                <Link
+                                    href="/tags"
+                                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                                >
+                                    Tags
+                                </Link>
+                                <Link
                                     href="/leaderboard"
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                 >
