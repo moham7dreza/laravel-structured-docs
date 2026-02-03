@@ -2,6 +2,7 @@ import { CategoryBadge } from '@/components/category-badge';
 import { DocumentCard } from '@/components/document-card';
 import { SearchBar } from '@/components/search-bar';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { NotificationBell } from '@/components/notification-bell';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -109,13 +110,9 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                         </div>
                         <div className="flex items-center gap-2">
                             <ThemeToggle />
-                            {auth.user ? (
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="rounded-full"
-                                    asChild
-                                >
+                            {auth?.user && <NotificationBell />}
+                            {auth?.user ? (
+                                <Button variant="ghost" size="icon" asChild>
                                     <Link href={`/users/${auth.user.id}`}>
                                         <Avatar className="h-8 w-8">
                                             <AvatarImage

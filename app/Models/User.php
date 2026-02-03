@@ -182,4 +182,20 @@ class User extends Authenticatable
         return $this->belongsToMany(Document::class, 'document_watchers')
             ->withTimestamps();
     }
+
+    /**
+     * Get the user's notifications.
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Get notifications sent by this user.
+     */
+    public function sentNotifications(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'sender_id');
+    }
 }

@@ -6,13 +6,18 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 // Home page
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Search
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/search/suggestions', [SearchController::class, 'suggestions'])->name('search.suggestions');
 
 // Documents
 Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
@@ -40,6 +45,15 @@ Route::post('/users/{user}/follow', [UserProfileController::class, 'follow'])
 Route::delete('/users/{user}/follow', [UserProfileController::class, 'unfollow'])
     ->middleware('auth')
     ->name('users.unfollow');
+
+// Notifications (authenticated)
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
+    Route::get('/api/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('notifications.unreadCount');
+    Route::get('/api/notifications/recent', [NotificationController::class, 'recent'])->name('notifications.recent');
+});
 
 // Dashboard (authenticated)
 Route::get('dashboard', [DashboardController::class, 'index'])

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { NotificationBell } from '@/components/notification-bell';
 import {
     BookOpen,
     Eye,
@@ -14,7 +15,6 @@ import {
     MessageSquare,
     Star,
     Activity as ActivityIcon,
-    UserCircle,
     ArrowRight,
     Sparkles,
 } from 'lucide-react';
@@ -61,7 +61,7 @@ export default function Dashboard({
             <Head title="Dashboard" />
             {/* Navigation Header */}
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-                <div className="container flex h-14 items-center justify-between">
+                <div className="container mx-auto flex h-14 items-center justify-between px-4">
                     <div className="flex items-center gap-6">
                         <Link href="/" className="flex items-center space-x-2">
                             <FileText className="h-6 w-6" />
@@ -95,6 +95,7 @@ export default function Dashboard({
                         </nav>
                     </div>
                     <div className="flex items-center gap-2">
+                        {auth?.user && <NotificationBell />}
                         <ThemeToggle />
                         {auth?.user && (
                             <Link href={`/users/${auth.user.id}`}>

@@ -1,6 +1,7 @@
 import { DocumentCard } from '@/components/document-card';
 import { SearchBar } from '@/components/search-bar';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { NotificationBell } from '@/components/notification-bell';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -74,6 +75,7 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                         </div>
                         <div className="flex items-center gap-2">
                             <ThemeToggle />
+                            {auth.user && <NotificationBell />}
                             {auth.user ? (
                                 <Button
                                     variant="ghost"
