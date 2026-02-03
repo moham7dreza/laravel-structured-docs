@@ -4,22 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Document;
-use App\Models\DocumentSection;
-use App\Models\DocumentSectionItem;
-use App\Models\Structure;
 use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
-class DocumentCreateController extends Controller
+class DocumentEditController extends Controller
 {
     /**
-     * Show the document creation form.
+     * Show the document edit form.
      */
-    public function create()
+    public function edit(string $slug)
     {
+        $document = Document::with([
+            'category',
+            'structure.sections.items',
+            'tags',
+            'branches',
+            'editors.user',
+            'editors.sections',
+            'reviewers.user',
+            'references',
+            'links',
+            'watchers',
+            'sections.items.structureSectionItem',
+        ])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        // Check authorization
+        if ($document->owner_id !== auth()->id()) {
+            abort(403, 'You are not authorized to edit this document.');
+        }
+
         $categories = Category::select('id', 'name', 'slug', 'icon', 'color')
             ->withCount('documents')
             ->orderBy('name')
@@ -34,7 +52,72 @@ class DocumentCreateController extends Controller
             ->orderBy('name')
             ->get();
 
-        return Inertia::render('documents/create', [
+        // Format content data from sections
+        $contentData = [];
+        foreach ($document->sections as $section) {
+            foreach ($section->items as $item) {
+                $key = "section_{$section->structure_section_id}_item_{$item->structure_section_item_id}";
+                $contentData[$key] = $item->content;
+            }
+        }
+
+        // Format branches
+        $branches = $document->branches->map(fn ($branch) => [
+            'task_id' => $branch->task_id,
+            'task_title' => $branch->task_title,
+            'branch_name' => $branch->branch_name,
+            'repository_url' => $branch->repository_url,
+            'merged_at' => $branch->merged_at?->format('Y-m-d'),
+        ])->toArray();
+
+        // Format editors
+        $editors = $document->editors->map(fn ($editor) => [
+            'user_id' => $editor->user_id,
+            'access_type' => $editor->access_type,
+            'can_manage_editors' => $editor->can_manage_editors,
+            'sections' => $editor->sections->pluck('id')->toArray(),
+        ])->toArray();
+
+        // Format reviewers
+        $reviewers = $document->reviewers->map(fn ($reviewer) => [
+            'user_id' => $reviewer->user_id,
+            'status' => $reviewer->status,
+        ])->toArray();
+
+        // Format references (pivot table relationship)
+        $references = $document->references->map(fn ($ref) => [
+            'target_document_id' => $ref->id,
+            'context' => $ref->pivot->context ?? '',
+        ])->toArray();
+
+        // Format links
+        $links = $document->links->map(fn ($link) => [
+            'title' => $link->title,
+            'url' => $link->url,
+            'description' => $link->description,
+        ])->toArray();
+
+        return Inertia::render('documents/edit', [
+            'document' => [
+                'id' => $document->id,
+                'title' => $document->title,
+                'slug' => $document->slug,
+                'description' => $document->description,
+                'image' => $document->image,
+                'category_id' => $document->category_id,
+                'structure_id' => $document->structure_id,
+                'tags' => $document->tags->pluck('id')->toArray(),
+                'visibility' => $document->visibility,
+                'status' => $document->status,
+                'approval_status' => $document->approval_status,
+                'watchers' => $document->watchers->pluck('id')->toArray(),
+                'content_data' => $contentData,
+                'branches' => $branches,
+                'editors' => $editors,
+                'reviewers' => $reviewers,
+                'references' => $references,
+                'links' => $links,
+            ],
             'categories' => $categories,
             'tags' => $tags,
             'users' => $users,
@@ -42,60 +125,17 @@ class DocumentCreateController extends Controller
     }
 
     /**
-     * Get structures for a specific category.
+     * Update the document.
      */
-    public function getStructures(Request $request)
+    public function update(Request $request, string $slug)
     {
-        $categoryId = $request->get('category_id');
+        $document = Document::where('slug', $slug)->firstOrFail();
 
-        $structures = Structure::where('category_id', $categoryId)
-            ->where('is_active', true)
-            ->with(['sections' => function ($query) {
-                $query->orderBy('position');
-            }, 'sections.items' => function ($query) {
-                $query->orderBy('position');
-            }])
-            ->orderBy('is_default', 'desc')
-            ->orderBy('title')
-            ->get()
-            ->map(function ($structure) {
-                return [
-                    'id' => $structure->id,
-                    'title' => $structure->title,
-                    'description' => $structure->description,
-                    'version' => $structure->version,
-                    'is_default' => $structure->is_default,
-                    'sections' => $structure->sections->map(function ($section) {
-                        return [
-                            'id' => $section->id,
-                            'title' => $section->title,
-                            'description' => $section->description,
-                            'position' => $section->position,
-                            'items' => $section->items->map(function ($item) {
-                                return [
-                                    'id' => $item->id,
-                                    'type' => $item->type,
-                                    'label' => $item->label,
-                                    'description' => $item->description,
-                                    'placeholder' => $item->placeholder,
-                                    'is_required' => $item->is_required,
-                                    'default_value' => $item->default_value,
-                                    'position' => $item->position,
-                                ];
-                            }),
-                        ];
-                    }),
-                ];
-            });
+        // Check authorization
+        if ($document->owner_id !== auth()->id()) {
+            abort(403, 'You are not authorized to edit this document.');
+        }
 
-        return response()->json($structures);
-    }
-
-    /**
-     * Store a new document.
-     */
-    public function store(Request $request)
-    {
         $validated = $request->validate([
             // Basic Information
             'title' => 'required|string|max:255',
@@ -154,38 +194,32 @@ class DocumentCreateController extends Controller
             'content_data' => 'nullable|array',
         ]);
 
-        // Create the document
-        $document = Document::create([
+        // Update the document
+        $document->update([
             'title' => $validated['title'],
             'slug' => Str::slug($validated['title']),
             'description' => $validated['description'] ?? null,
             'image' => $validated['image'] ?? null,
             'category_id' => $validated['category_id'],
             'structure_id' => $validated['structure_id'],
-            'owner_id' => auth()->id(),
             'visibility' => $validated['visibility'] ?? 'private',
             'status' => $validated['status'] ?? 'draft',
             'approval_status' => $validated['approval_status'] ?? 'not_submitted',
-            'view_count' => 0,
-            'comment_count' => 0,
-            'reaction_count' => 0,
-            'total_score' => 0,
-            'completeness_percentage' => 0.0,
         ]);
 
-        // Attach tags
-        if (isset($validated['tags'])) {
-            $document->tags()->attach($validated['tags']);
-        }
+        // Sync tags
+        $document->tags()->sync($validated['tags'] ?? []);
 
-        // Create branches
+        // Update branches - delete old and create new
+        $document->branches()->delete();
         if (isset($validated['branches'])) {
             foreach ($validated['branches'] as $branchData) {
                 $document->branches()->create($branchData);
             }
         }
 
-        // Create editors
+        // Update editors - delete old and create new
+        $document->editors()->delete();
         if (isset($validated['editors'])) {
             foreach ($validated['editors'] as $editorData) {
                 $editor = $document->editors()->create([
@@ -201,7 +235,8 @@ class DocumentCreateController extends Controller
             }
         }
 
-        // Create reviewers
+        // Update reviewers - delete old and create new
+        $document->reviewers()->delete();
         if (isset($validated['reviewers'])) {
             foreach ($validated['reviewers'] as $reviewerData) {
                 $document->reviewers()->create([
@@ -212,7 +247,8 @@ class DocumentCreateController extends Controller
             }
         }
 
-        // Create references
+        // Update references - detach old and attach new
+        $document->references()->detach();
         if (isset($validated['references'])) {
             foreach ($validated['references'] as $refData) {
                 $document->references()->attach($refData['target_document_id'], [
@@ -221,58 +257,34 @@ class DocumentCreateController extends Controller
             }
         }
 
-        // Create links
+        // Update links - delete old and create new
+        $document->links()->delete();
         if (isset($validated['links'])) {
             foreach ($validated['links'] as $linkData) {
                 $document->links()->create($linkData);
             }
         }
 
-        // Attach watchers
-        if (isset($validated['watchers'])) {
-            $document->watchers()->attach($validated['watchers']);
-        }
+        // Sync watchers
+        $document->watchers()->sync($validated['watchers'] ?? []);
 
-        // Initialize document sections and items
-        $this->initializeDocumentSections($document, $validated['content_data'] ?? []);
-
-        return redirect()->route('documents.show', $document->slug)
-            ->with('success', 'Document created successfully!');
-    }
-
-    /**
-     * Initialize document sections and items from structure.
-     */
-    protected function initializeDocumentSections(Document $document, array $contentData): void
-    {
-        // Get all structure sections with their items
-        $structureSections = $document->structure->sections()->with('items')->orderBy('position')->get();
-
-        foreach ($structureSections as $structureSection) {
-            // Create document section
-            $documentSection = DocumentSection::create([
-                'document_id' => $document->id,
-                'structure_section_id' => $structureSection->id,
-                'instance_number' => 1,
-                'is_complete' => false,
-                'position' => $structureSection->position,
-            ]);
-
-            // Create document section items for each structure section item
-            foreach ($structureSection->items()->orderBy('position')->get() as $structureSectionItem) {
-                // Get content from the form data if it exists
-                $contentKey = "section_{$structureSection->id}_item_{$structureSectionItem->id}";
-                $content = $contentData[$contentKey] ?? $structureSectionItem->default_value;
-
-                DocumentSectionItem::create([
-                    'document_section_id' => $documentSection->id,
-                    'structure_section_item_id' => $structureSectionItem->id,
-                    'content' => $content,
-                    'is_valid' => true,
-                    'last_edited_by' => auth()->id(),
-                    'last_edited_at' => now(),
-                ]);
+        // Update content in existing sections
+        if (isset($validated['content_data'])) {
+            foreach ($document->sections as $section) {
+                foreach ($section->items as $item) {
+                    $contentKey = "section_{$section->structure_section_id}_item_{$item->structure_section_item_id}";
+                    if (isset($validated['content_data'][$contentKey])) {
+                        $item->update([
+                            'content' => $validated['content_data'][$contentKey],
+                            'last_edited_by' => auth()->id(),
+                            'last_edited_at' => now(),
+                        ]);
+                    }
+                }
             }
         }
+
+        return redirect()->route('documents.show', $document->slug)
+            ->with('success', 'Document updated successfully!');
     }
 }

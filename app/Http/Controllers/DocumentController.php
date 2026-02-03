@@ -166,6 +166,7 @@ class DocumentController extends Controller
             'document' => [
                 'id' => $document->id,
                 'title' => $document->title,
+                'slug' => $document->slug,
                 'description' => $document->description,
                 'content' => $content,
                 'status' => $document->status,

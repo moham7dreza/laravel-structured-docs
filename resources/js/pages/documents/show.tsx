@@ -20,6 +20,7 @@ import {
     Bookmark,
     ArrowLeft,
     TrendingUp,
+    Edit,
 } from 'lucide-react';
 import type { SharedData } from '@/types';
 import React, { useState, useEffect } from 'react';
@@ -28,6 +29,7 @@ interface DocumentShowProps {
     document: {
         id: number;
         title: string;
+        slug: string;
         description?: string;
         content: string;
         status: string;
@@ -244,9 +246,19 @@ export default function DocumentShow({ document, sections, relatedDocuments }: D
                                     </div>
 
                                     {/* Title & Description */}
-                                    <h1 className="text-4xl md:text-5xl font-black mb-4 leading-tight">
-                                        {document.title}
-                                    </h1>
+                                    <div className="flex items-start justify-between gap-4 mb-4">
+                                        <h1 className="text-4xl md:text-5xl font-black leading-tight flex-1">
+                                            {document.title}
+                                        </h1>
+                                        {auth?.user?.id === document.owner.id && (
+                                            <Button asChild size="sm" className="gap-2 mt-2">
+                                                <Link href={`/documents/${document.slug}/edit`}>
+                                                    <Edit className="w-4 h-4" />
+                                                    Edit
+                                                </Link>
+                                            </Button>
+                                        )}
+                                    </div>
                                     {document.description && (
                                         <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-6">
                                             {document.description}

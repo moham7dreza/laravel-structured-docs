@@ -5,6 +5,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentCreateController;
+use App\Http\Controllers\DocumentEditController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\NotificationController;
@@ -26,6 +27,11 @@ Route::get('/documents', [DocumentController::class, 'index'])->name('documents.
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/documents/create', [DocumentCreateController::class, 'create'])->name('documents.create');
     Route::post('/documents', [DocumentCreateController::class, 'store'])->name('documents.store');
+});
+// Document edit routes (must come before show route)
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/documents/{slug}/edit', [DocumentEditController::class, 'edit'])->name('documents.edit');
+    Route::put('/documents/{slug}', [DocumentEditController::class, 'update'])->name('documents.update');
 });
 Route::get('/documents/{slug}', [DocumentController::class, 'show'])->name('documents.show');
 

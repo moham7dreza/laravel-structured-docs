@@ -220,4 +220,20 @@ class Document extends Model
             'source_document_id'
         )->withPivot('context')->withTimestamps();
     }
+
+    /**
+     * Alias for referencedDocuments (for backwards compatibility).
+     */
+    public function references(): BelongsToMany
+    {
+        return $this->referencedDocuments();
+    }
+
+    /**
+     * Alias for externalLinks (for backwards compatibility).
+     */
+    public function links(): HasMany
+    {
+        return $this->externalLinks();
+    }
 }
