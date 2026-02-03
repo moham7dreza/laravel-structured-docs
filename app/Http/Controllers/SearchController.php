@@ -41,8 +41,7 @@ class SearchController extends Controller
                     ->where('status', 'published')
                     ->where(function ($q) use ($query) {
                         $q->where('title', 'like', "%{$query}%")
-                            ->orWhere('description', 'like', "%{$query}%")
-                            ->orWhere('content', 'like', "%{$query}%");
+                            ->orWhere('description', 'like', "%{$query}%");
                     });
 
                 // Apply filters
@@ -128,8 +127,7 @@ class SearchController extends Controller
                 $usersQuery = User::query()
                     ->where(function ($q) use ($query) {
                         $q->where('name', 'like', "%{$query}%")
-                            ->orWhere('email', 'like', "%{$query}%")
-                            ->orWhere('bio', 'like', "%{$query}%");
+                            ->orWhere('email', 'like', "%{$query}%");
                     });
 
                 $users = $usersQuery
@@ -141,7 +139,6 @@ class SearchController extends Controller
                         'name' => $user->name,
                         'email' => $user->email,
                         'avatar' => $user->avatar,
-                        'bio' => $user->bio,
                         'role' => $user->role,
                         'total_score' => $user->total_score,
                         'current_rank' => $user->current_rank,

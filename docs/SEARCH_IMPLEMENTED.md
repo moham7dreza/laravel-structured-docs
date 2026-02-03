@@ -37,9 +37,11 @@ Implemented a comprehensive global search system that allows users to search acr
 - **Relevance scoring:**
   - Title matches (highest priority)
   - Description matches (medium priority)
-  - Content matches (lowest priority)
+  - ~~Content matches~~ (not included - content stored in structure items)
 - Partial matching with `LIKE` queries
 - Case-insensitive search
+
+**Note:** Documents don't have a `content` column. Content is stored in structure sections and items. For performance, only title and description are searched.
 
 ### 4. **Search Results Display** ✅
 Each result type has a custom card:
@@ -337,6 +339,23 @@ The search returns real-time stats:
 - No fuzzy matching (typos won't work)
 - Limited to 20 results per type
 - Basic LIKE search (not full-text)
+- **Does not search document content** (only title + description)
+
+### Search Scope:
+
+**What Gets Searched:**
+- ✅ Document titles
+- ✅ Document descriptions
+- ✅ User names, emails, bios
+- ✅ Category names and descriptions
+- ✅ Tag names
+
+**What Doesn't Get Searched:**
+- ❌ Document content (stored in structure section items)
+- ❌ Comments
+- ❌ Attachments
+
+**Why:** Documents store content in related tables (structure sections/items) for flexibility. Searching these would require complex joins and significantly slower queries. For production, consider implementing Laravel Scout with full-text indexing if deep content search is needed.
 
 ---
 
