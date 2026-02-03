@@ -4,6 +4,7 @@ import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeToggle } from '@/components/theme-toggle';
+import CommentSection from '@/components/comment-section';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     BookOpen,
@@ -67,7 +68,15 @@ interface DocumentShowProps {
         id: number;
         title: string;
         order: number;
+        items: Array<{
+            id: number;
+            title: string;
+            content: string;
+            order: number;
+        }>;
     }>;
+    comments: Array<any>;
+    inlineComments: Record<number, Array<any>>;
     relatedDocuments: Array<any>;
 }
 
@@ -87,7 +96,7 @@ function getScoreGrade(score: number): string {
     return 'F';
 }
 
-export default function DocumentShow({ document, sections, relatedDocuments }: DocumentShowProps) {
+export default function DocumentShow({ document, sections, comments, inlineComments, relatedDocuments }: DocumentShowProps) {
     const { auth } = usePage<SharedData>().props;
     const [activeSection, setActiveSection] = useState<number | null>(null);
     const [isScrolled, setIsScrolled] = useState(false);
@@ -357,17 +366,11 @@ export default function DocumentShow({ document, sections, relatedDocuments }: D
 
                             {/* Comments Section */}
                             <Card className="p-8">
-                                <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                                    <MessageSquare className="w-6 h-6" />
-                                    Comments ({document.comments_count})
-                                </h2>
-                                <div className="p-12 text-center bg-muted/30 rounded-lg border-2 border-dashed">
-                                    <MessageSquare className="w-16 h-16 mx-auto mb-4 text-muted-foreground opacity-50" />
-                                    <h3 className="text-lg font-semibold mb-2">Comments Coming Soon</h3>
-                                    <p className="text-muted-foreground">
-                                        We're working on bringing discussions to the documentation.
-                                    </p>
-                                </div>
+                                <CommentSection
+                                    documentId={document.id}
+                                    comments={comments}
+                                    currentUser={auth?.user}
+                                />
                             </Card>
                         </div>
 

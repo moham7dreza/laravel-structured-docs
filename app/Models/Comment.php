@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -57,5 +58,36 @@ class Comment extends Model
     public function resolvedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'resolved_by');
+    }
+
+    public function mentions(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'comment_mentions')
+            ->withPivot('notified_at', 'created_at')
+            ->as('mention');
+    }
+
+    /**
+     * Get all replies with user data.
+     */
+    public function repliesWithUser(): HasMany
+    {
+        return $this->replies()->with('user')->latest();
+    }
+
+    /**
+     * Check if comment is a reply.
+     */
+    public function isReply(): bool
+    {
+        return $this->parent_id !== null;
+    }
+
+    /**
+     * Check if comment is inline (attached to section item).
+     */
+    public function isInline(): bool
+    {
+        return $this->section_item_id !== null;
     }
 }

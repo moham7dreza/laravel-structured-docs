@@ -128,20 +128,87 @@ class DocumentController extends Controller
     public function show(string $slug): Response
     {
         $document = Document::query()
-            ->with(['category', 'owner', 'tags', 'branches'])
+            ->with(['category', 'owner', 'tags', 'branches', 'sections.items'])
             ->where('slug', $slug)
             ->firstOrFail();
 
         // Increment view count
         $document->increment('view_count');
 
-        // Get document sections
-        $sections = $document->sections
-            ->map(fn ($section) => [
-                'id' => $section->id,
-                'title' => $section->title,
-                'order' => $section->position,
-            ]);
+        // Get document sections with items (for inline comments)
+        $sections = $document->sections->map(fn ($section) => [
+            'id' => $section->id,
+            'title' => $section->structureSection->title ?? 'Section',
+            'order' => $section->position,
+            'items' => $section->items->map(fn ($item) => [
+                'id' => $item->id,
+                'title' => $item->structureSectionItem->title ?? 'Item',
+                'content' => $item->content,
+                'order' => $item->order,
+            ])->toArray(),
+        ])->toArray();
+
+        // Get comments (threaded)
+        $comments = $document->comments()
+            ->whereNull('parent_id')
+            ->whereNull('section_item_id')
+            ->with(['user', 'replies.user', 'mentions'])
+            ->latest()
+            ->get()
+            ->map(fn ($comment) => [
+                'id' => $comment->id,
+                'content' => $comment->content,
+                'created_at' => $comment->created_at->toISOString(),
+                'updated_at' => $comment->updated_at->toISOString(),
+                'is_resolved' => $comment->is_resolved,
+                'user' => [
+                    'id' => $comment->user->id,
+                    'name' => $comment->user->name,
+                    'avatar' => $comment->user->avatar,
+                ],
+                'replies' => $comment->replies->map(fn ($reply) => [
+                    'id' => $reply->id,
+                    'content' => $reply->content,
+                    'created_at' => $reply->created_at->toISOString(),
+                    'user' => [
+                        'id' => $reply->user->id,
+                        'name' => $reply->user->name,
+                        'avatar' => $reply->user->avatar,
+                    ],
+                ])->toArray(),
+                'mentions' => $comment->mentions->pluck('name')->toArray(),
+            ])->toArray();
+
+        // Get inline comments grouped by section item
+        $inlineComments = $document->comments()
+            ->whereNotNull('section_item_id')
+            ->with(['user', 'replies.user', 'sectionItem'])
+            ->latest()
+            ->get()
+            ->groupBy('section_item_id')
+            ->map(fn ($comments) => $comments->map(fn ($comment) => [
+                'id' => $comment->id,
+                'content' => $comment->content,
+                'created_at' => $comment->created_at->toISOString(),
+                'is_resolved' => $comment->is_resolved,
+                'resolved_at' => $comment->resolved_at?->toISOString(),
+                'user' => [
+                    'id' => $comment->user->id,
+                    'name' => $comment->user->name,
+                    'avatar' => $comment->user->avatar,
+                ],
+                'replies' => $comment->replies->map(fn ($reply) => [
+                    'id' => $reply->id,
+                    'content' => $reply->content,
+                    'created_at' => $reply->created_at->toISOString(),
+                    'user' => [
+                        'id' => $reply->user->id,
+                        'name' => $reply->user->name,
+                        'avatar' => $reply->user->avatar,
+                    ],
+                ])->toArray(),
+            ])->toArray())
+            ->toArray();
 
         // Get related documents (same category, limit 5)
         $relatedDocuments = Document::query()
@@ -200,6 +267,8 @@ class DocumentController extends Controller
                 ])->toArray(),
             ],
             'sections' => $sections,
+            'comments' => $comments,
+            'inlineComments' => $inlineComments,
             'relatedDocuments' => $relatedDocuments,
         ]);
     }

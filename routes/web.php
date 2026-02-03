@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ActivityFeedController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\DocumentCreateController;
@@ -70,6 +71,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.readAll');
     Route::get('/api/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('notifications.unreadCount');
     Route::get('/api/notifications/recent', [NotificationController::class, 'recent'])->name('notifications.recent');
+
+    // Comments
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::post('/comments/{comment}/resolve', [CommentController::class, 'resolve'])->name('comments.resolve');
+    Route::post('/comments/{comment}/unresolve', [CommentController::class, 'unresolve'])->name('comments.unresolve');
 });
 
 // Dashboard (authenticated)
