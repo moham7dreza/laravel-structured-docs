@@ -567,44 +567,44 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                     <span className="text-lg font-bold">DocHub</span>
                                 </div>
                                 <p className="text-sm text-muted-foreground">
-                                    Making documentation beautiful, collaborative, and accessible for everyone.
+                                    {t('home.footer.tagline')}
                                 </p>
                             </div>
                             <div>
-                                <h3 className="font-semibold mb-3">Product</h3>
+                                <h3 className="font-semibold mb-3">{t('home.footer.product')}</h3>
                                 <ul className="space-y-2 text-sm">
-                                    <li><Link href="/documents" className="text-muted-foreground hover:text-foreground transition-colors">Documents</Link></li>
-                                    <li><Link href="/categories" className="text-muted-foreground hover:text-foreground transition-colors">Categories</Link></li>
-                                    <li><Link href="/leaderboard" className="text-muted-foreground hover:text-foreground transition-colors">Leaderboard</Link></li>
-                                    <li><Link href="/activity" className="text-muted-foreground hover:text-foreground transition-colors">Activity Feed</Link></li>
+                                    <li><Link href="/documents" className="text-muted-foreground hover:text-foreground transition-colors">{t('common.documents')}</Link></li>
+                                    <li><Link href="/categories" className="text-muted-foreground hover:text-foreground transition-colors">{t('common.categories')}</Link></li>
+                                    <li><Link href="/leaderboard" className="text-muted-foreground hover:text-foreground transition-colors">{t('common.leaderboard')}</Link></li>
+                                    <li><Link href="/activity" className="text-muted-foreground hover:text-foreground transition-colors">{t('home.footer.activityFeed')}</Link></li>
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="font-semibold mb-3">Community</h3>
+                                <h3 className="font-semibold mb-3">{t('home.footer.community')}</h3>
                                 <ul className="space-y-2 text-sm">
-                                    <li><Link href="/tags" className="text-muted-foreground hover:text-foreground transition-colors">Tags</Link></li>
-                                    <li><Link href="/users" className="text-muted-foreground hover:text-foreground transition-colors">Users</Link></li>
-                                    <li><Link href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Dashboard</Link></li>
+                                    <li><Link href="/tags" className="text-muted-foreground hover:text-foreground transition-colors">{t('common.tags')}</Link></li>
+                                    <li><Link href="/users" className="text-muted-foreground hover:text-foreground transition-colors">{t('home.footer.users')}</Link></li>
+                                    <li><Link href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">{t('common.dashboard')}</Link></li>
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="font-semibold mb-3">Resources</h3>
+                                <h3 className="font-semibold mb-3">{t('home.footer.resources')}</h3>
                                 <ul className="space-y-2 text-sm">
-                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">About</a></li>
-                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Blog</a></li>
-                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Help Center</a></li>
-                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Contact</a></li>
+                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">{t('home.footer.about')}</a></li>
+                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">{t('home.footer.blog')}</a></li>
+                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">{t('home.footer.helpCenter')}</a></li>
+                                    <li><a href="#" className="text-muted-foreground hover:text-foreground transition-colors">{t('home.footer.contact')}</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                             <p className="text-sm text-muted-foreground">
-                                © 2026 DocHub. Made with <Heart className="w-4 h-4 inline text-red-500" /> for documentation lovers.
+                                {t('home.footer.copyright')} <Heart className="w-4 h-4 inline text-red-500" /> {t('home.footer.forDocumentationLovers')}
                             </p>
                             <div className="flex gap-6 text-sm text-muted-foreground">
-                                <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-                                <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-                                <a href="#" className="hover:text-foreground transition-colors">License</a>
+                                <a href="#" className="hover:text-foreground transition-colors">{t('home.footer.privacy')}</a>
+                                <a href="#" className="hover:text-foreground transition-colors">{t('home.footer.terms')}</a>
+                                <a href="#" className="hover:text-foreground transition-colors">{t('home.footer.license')}</a>
                             </div>
                         </div>
                     </div>
