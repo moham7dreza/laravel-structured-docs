@@ -1,7 +1,7 @@
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 interface CategoryBadgeProps {
     category: {

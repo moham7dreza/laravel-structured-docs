@@ -1,7 +1,7 @@
 import { Head, Link, usePage } from '@inertiajs/react';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { dashboard, login, register } from '@/routes';
 import type { SharedData } from '@/types';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 export default function Welcome({
     canRegister = true,

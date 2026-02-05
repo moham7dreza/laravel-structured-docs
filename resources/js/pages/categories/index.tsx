@@ -1,11 +1,14 @@
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { FileText, UserCircle } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import type { SharedData } from '@/types';
 
 interface CategoriesIndexProps {
     categories: Array<{
@@ -21,6 +24,7 @@ interface CategoriesIndexProps {
 
 export default function CategoriesIndex({ categories }: CategoriesIndexProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
 
     // Debug logging
     React.useEffect(() => {
@@ -49,42 +53,43 @@ export default function CategoriesIndex({ categories }: CategoriesIndexProps) {
                     <div className="flex items-center gap-6">
                         <Link href="/" className="flex items-center space-x-2">
                             <FileText className="h-6 w-6" />
-                            <span className="font-bold text-lg">DocSystem</span>
+                            <span className="font-bold text-lg">{t('nav.system')}</span>
                         </Link>
                         <nav className="hidden md:flex gap-6">
                             <Link
                                 href="/documents"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Documents
+                                {t('common.documents')}
                             </Link>
                             <Link
                                 href="/categories"
                                 className="text-sm font-medium text-foreground transition-colors"
                             >
-                                Categories
+                                {t('common.categories')}
                             </Link>
                             <Link
                                 href="/tags"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Tags
+                                {t('common.tags')}
                             </Link>
                             <Link
                                 href="/leaderboard"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Leaderboard
+                                {t('common.leaderboard')}
                             </Link>
                             <Link
                                 href="/activity"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Activity
+                                {t('common.activity')}
                             </Link>
                         </nav>
                     </div>
                     <div className="flex items-center gap-4">
+                        <LanguageSwitcher />
                         <ThemeToggle />
                         {auth?.user ? (
                             <Link href={`/users/${auth.user.id}`}>
@@ -118,32 +123,31 @@ export default function CategoriesIndex({ categories }: CategoriesIndexProps) {
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
-                            <span>Documentation Categories</span>
+                            <span>{t('page.documentationCategories')}</span>
                         </div>
 
                         <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
                             <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
-                                Explore by
+                                {t('page.exploreBy')}
                             </span>
                             <br />
-                            <span className="text-foreground">Category</span>
+                            <span className="text-foreground">{t('page.category')}</span>
                         </h1>
 
                         <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-8">
-                            Browse our comprehensive documentation library organized into {categories?.length || 0} curated categories.
-                            Find exactly what you're looking for.
+                            {t('page.categoriesSubtitle', { count: categories?.length || 0 })}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
                             <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full shadow-md border">
                                 <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 animate-pulse"></div>
-                                <span className="font-medium text-foreground">{categories?.length || 0} Active Categories</span>
+                                <span className="font-medium text-foreground">{t('page.activeCategories', { count: categories?.length || 0 })}</span>
                             </div>
                             <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full shadow-md border">
                                 <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
-                                <span className="font-medium text-muted-foreground">Comprehensive Guides</span>
+                                <span className="font-medium text-muted-foreground">{t('page.comprehensiveGuides')}</span>
                             </div>
                         </div>
                     </div>

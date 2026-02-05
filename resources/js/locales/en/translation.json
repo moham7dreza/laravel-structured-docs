@@ -1,0 +1,485 @@
+{
+  "common": {
+    "home": "Home",
+    "documents": "Documents",
+    "categories": "Categories",
+    "tags": "Tags",
+    "leaderboard": "Leaderboard",
+    "activity": "Activity",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "search": "Search",
+    "login": "Sign In",
+    "register": "Sign Up",
+    "logout": "Logout",
+    "getStarted": "Get Started",
+    "createDocument": "Create Document",
+    "viewAll": "View All",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "noResults": "No results found",
+    "backToHome": "Back to Home"
+  },
+  "home": {
+    "hero": {
+      "badge": "Join {{count}}+ documentation enthusiasts",
+      "title": "Documentation Made",
+      "titleHighlight": "Beautiful & Simple",
+      "description": "Create, collaborate, and share structured documentation with teams.",
+      "descriptionHighlight": "Make knowledge accessible to everyone.",
+      "searchPlaceholder": "Search thousands of documents...",
+      "searchHint": "Try: \"API\", \"Getting Started\", or \"Tutorial\"",
+      "createDocument": "Create Document",
+      "exploreDocuments": "Explore Docs",
+      "getStartedFree": "Get Started Free",
+      "browseLibrary": "Browse Library"
+    },
+    "stats": {
+      "documents": "Documents",
+      "contributors": "Contributors",
+      "totalViews": "Total Views"
+    },
+    "featured": {
+      "badge": "Featured",
+      "title": "Premium",
+      "titleHighlight": "Documentation",
+      "description": "Handpicked high-quality guides and references from our community",
+      "empty": "No featured documents yet",
+      "emptyDescription": "Be the first to create amazing documentation!",
+      "createDocument": "Create Document",
+      "viewAll": "View All Documents"
+    },
+    "categories": {
+      "badge": "Categories",
+      "title": "Explore by",
+      "titleHighlight": "Topic",
+      "description": "Find exactly what you're looking for in our organized library",
+      "viewAll": "View All Categories",
+      "comingSoon": "Categories coming soon..."
+    },
+    "features": {
+      "badge": "Features",
+      "title": "Everything You",
+      "titleHighlight": "Need",
+      "description": "Powerful tools designed for modern documentation workflows",
+      "structuredTemplates": {
+        "title": "Structured Templates",
+        "description": "Use customizable templates with sections and items for consistent, organized documentation."
+      },
+      "teamCollaboration": {
+        "title": "Team Collaboration",
+        "description": "Work together with real-time comments, mentions, and collaborative editing features."
+      },
+      "versionControl": {
+        "title": "Version Control",
+        "description": "Track changes, manage branches, and maintain complete documentation history."
+      },
+      "qualityAssurance": {
+        "title": "Quality Assurance",
+        "description": "Automated checks, review workflows, and quality scoring keep docs up to standards."
+      },
+      "richTextEditor": {
+        "title": "Rich Text Editor",
+        "description": "Format content beautifully with our powerful editor supporting code, media, and more."
+      },
+      "analytics": {
+        "title": "Analytics & Insights",
+        "description": "Track views, engagement, and performance with detailed analytics dashboards."
+      }
+    },
+    "recentUpdates": {
+      "badge": "Latest Updates",
+      "title": "Recently",
+      "titleHighlight": "Updated",
+      "description": "Fresh content and improvements from our community"
+    },
+    "cta": {
+      "badge": "Join Us Today",
+      "title": "Ready to Transform Your Documentation?",
+      "description": "Join thousands of teams creating exceptional documentation. Start for free, collaborate seamlessly, and build something amazing.",
+      "createFirstDoc": "Create Your First Doc",
+      "goToDashboard": "Go to Dashboard",
+      "startFreeToday": "Start Free Today",
+      "exploreLibrary": "Explore Library",
+      "freeForever": "Free forever",
+      "noCreditCard": "No credit card required",
+      "openSource": "Open source"
+    },
+    "footer": {
+      "tagline": "Making documentation beautiful, collaborative, and accessible for everyone.",
+      "product": "Product",
+      "community": "Community",
+      "resources": "Resources",
+      "users": "Users",
+      "about": "About",
+      "blog": "Blog",
+      "helpCenter": "Help Center",
+      "contact": "Contact",
+      "copyright": "DocHub. Made with",
+      "forDocumentationLovers": "for documentation lovers.",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "license": "License",
+      "activityFeed": "Activity Feed"
+    }
+  },
+  "documents": {
+    "title": "Documents",
+    "description": "Browse and search through our documentation library",
+    "createNew": "Create Document",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "viewMode": {
+      "grid": "Grid View",
+      "list": "List View"
+    },
+    "sort": {
+      "latest": "Latest",
+      "oldest": "Oldest",
+      "mostViewed": "Most Viewed",
+      "highestRated": "Highest Rated"
+    },
+    "status": {
+      "all": "All Status",
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived"
+    },
+    "category": {
+      "all": "All Categories",
+      "select": "Select Category"
+    },
+    "tag": {
+      "all": "All Tags",
+      "select": "Select Tag"
+    },
+    "empty": {
+      "title": "No documents found",
+      "description": "Try adjusting your filters or create a new document"
+    },
+    "stats": {
+      "views": "views",
+      "comments": "comments",
+      "score": "Score"
+    }
+  },
+  "categories": {
+    "title": "Categories",
+    "description": "Browse documentation by category",
+    "allCategories": "All Categories",
+    "documentCount": "{{count}} documents",
+    "documentCount_plural": "{{count}} documents",
+    "empty": {
+      "title": "No categories yet",
+      "description": "Categories will appear here once created"
+    }
+  },
+  "tags": {
+    "title": "Tags",
+    "description": "Explore documentation by tags",
+    "allTags": "All Tags",
+    "trendingTags": "Trending Tags",
+    "documentCount": "{{count}} docs",
+    "documentCount_plural": "{{count}} docs"
+  },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "description": "Top contributors and documentation rankings",
+    "topContributors": "Top Contributors",
+    "topDocuments": "Top Documents",
+    "rank": "Rank",
+    "user": "User",
+    "score": "Score",
+    "contributions": "Contributions"
+  },
+  "profile": {
+    "overview": "Overview",
+    "documents": "Documents",
+    "activity": "Activity",
+    "followers": "Followers",
+    "following": "Following",
+    "editProfile": "Edit Profile",
+    "follow": "Follow",
+    "unfollow": "Unfollow",
+    "stats": {
+      "documents": "Documents",
+      "followers": "Followers",
+      "following": "Following",
+      "score": "Score"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "myDocuments": "My Documents",
+    "recentActivity": "Recent Activity",
+    "quickStats": "Quick Stats",
+    "createDocument": "Create Document",
+    "recentlyViewed": "Recently Viewed",
+    "bookmarks": "Bookmarks",
+    "recommended": "Recommended for You",
+    "viewAll": "View All",
+    "noDocuments": "No documents yet",
+    "noBookmarks": "No bookmarks yet",
+    "noActivity": "No recent activity",
+    "stats": {
+      "documentsRead": "Documents Read",
+      "bookmarks": "Bookmarks",
+      "contributions": "Contributions",
+      "comments": "Comments"
+    }
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "continue": "Continue",
+    "login": {
+      "title": "Log in to your account",
+      "description": "Enter your email and password below to log in",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "email@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Password",
+      "loginButton": "Log in"
+    },
+    "register": {
+      "title": "Create an account",
+      "description": "Enter your information to create an account",
+      "nameLabel": "Name",
+      "namePlaceholder": "John Doe",
+      "emailLabel": "Email",
+      "emailPlaceholder": "email@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm Password",
+      "registerButton": "Sign up"
+    },
+    "forgotPasswordPage": {
+      "title": "Forgot your password?",
+      "description": "No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "email@example.com",
+      "sendResetLink": "Email Password Reset Link"
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "description": "Enter your new password below",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "resetButton": "Reset Password"
+    },
+    "verifyEmail": {
+      "title": "Verify your email address",
+      "description": "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you?",
+      "resendButton": "Resend Verification Email",
+      "logoutButton": "Log Out",
+      "verificationSent": "A new verification link has been sent to the email address you provided during registration."
+    },
+    "confirmPassword": {
+      "title": "Confirm Password",
+      "description": "This is a secure area of the application. Please confirm your password before continuing.",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Password",
+      "confirmButton": "Confirm"
+    },
+    "twoFactorChallenge": {
+      "title": "Two-factor authentication",
+      "description": "Please confirm access to your account by entering the authentication code provided by your authenticator application.",
+      "recoveryDescription": "Please confirm access to your account by entering one of your emergency recovery codes.",
+      "codeLabel": "Code",
+      "codePlaceholder": "Authentication code",
+      "recoveryCodeLabel": "Recovery Code",
+      "recoveryCodePlaceholder": "Recovery code",
+      "useRecoveryCode": "Use a recovery code",
+      "useAuthCode": "Use an authentication code",
+      "loginButton": "Log in"
+    }
+  },
+  "comments": {
+    "title": "Comments",
+    "addComment": "Add Comment",
+    "reply": "Reply",
+    "edit": "Edit",
+    "delete": "Delete",
+    "resolve": "Resolve",
+    "resolved": "Resolved",
+    "writeComment": "Write a comment...",
+    "post": "Post Comment",
+    "posting": "Posting...",
+    "noComments": "No comments yet. Be the first to comment!"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAsRead": "Mark as read",
+    "markAllAsRead": "Mark all as read",
+    "empty": "No notifications",
+    "viewAll": "View All Notifications"
+  },
+  "document": {
+    "title": "Document",
+    "description": "Description",
+    "content": "Content",
+    "created": "Created",
+    "updated": "Updated",
+    "author": "Author",
+    "category": "Category",
+    "tags": "Tags",
+    "status": "Status",
+    "visibility": "Visibility",
+    "actions": "Actions",
+    "edit": "Edit",
+    "delete": "Delete",
+    "share": "Share",
+    "watch": "Watch",
+    "unwatch": "Unwatch",
+    "viewHistory": "View History",
+    "relatedDocuments": "Related Documents",
+    "tableOfContents": "Table of Contents",
+    "noContent": "No content available",
+    "create": {
+      "title": "Create Document",
+      "backToDocuments": "Back to Documents",
+      "basicInfo": "Basic Information",
+      "structure": "Structure",
+      "content": "Content",
+      "review": "Review & Publish",
+      "documentTitle": "Document Title",
+      "documentTitlePlaceholder": "Enter document title",
+      "documentDescription": "Description",
+      "documentDescriptionPlaceholder": "Brief description of your document",
+      "selectCategory": "Select Category",
+      "selectTags": "Select Tags",
+      "selectStructure": "Select Structure Template",
+      "noStructureAvailable": "No structure templates available",
+      "saveDraft": "Save Draft",
+      "saveAndPublish": "Save & Publish",
+      "saving": "Saving...",
+      "publishing": "Publishing...",
+      "version": "Version",
+      "sections": "Sections",
+      "addSection": "Add Section",
+      "removeSection": "Remove Section",
+      "sectionTitle": "Section Title",
+      "sectionContent": "Section Content",
+      "fillAllFields": "Please fill in all required fields"
+    },
+    "edit": {
+      "title": "Edit Document",
+      "backToDocument": "Back to Document",
+      "saveChanges": "Save Changes",
+      "cancel": "Cancel",
+      "savingChanges": "Saving changes..."
+    },
+    "show": {
+      "relatedDocs": "Related Documents",
+      "tableOfContents": "Table of Contents",
+      "backToTop": "Back to Top",
+      "lastUpdated": "Last updated",
+      "readTime": "min read",
+      "views": "views",
+      "likes": "likes",
+      "comments": "comments",
+      "shareDocument": "Share Document"
+    }
+  },
+  "search": {
+    "title": "Search Results",
+    "placeholder": "Search...",
+    "results": "results",
+    "noResults": "No results found for",
+    "tryDifferent": "Try different keywords or adjust your filters"
+  },
+  "activity": {
+    "title": "Activity Feed",
+    "recentActivity": "Recent Activity",
+    "allActivity": "All Activity",
+    "noActivity": "No recent activity",
+    "loadMore": "Load More"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile Settings",
+    "appearance": "Appearance",
+    "password": "Change Password",
+    "twoFactor": "Two-Factor Authentication",
+    "notifications": "Notification Settings",
+    "privacy": "Privacy",
+    "save": "Save Changes",
+    "cancel": "Cancel",
+    "saved": "Settings saved successfully",
+    "profileInfo": "Profile information",
+    "profileInfoDesc": "Update your name and email address",
+    "updatePassword": "Update password",
+    "updatePasswordDesc": "Ensure your account is using a long, random password to stay secure",
+    "appearanceSettings": "Appearance settings",
+    "appearanceSettingsDesc": "Update your account's appearance settings",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "savePassword": "Save password",
+    "name": "Name",
+    "email": "Email address",
+    "fullNamePlaceholder": "Full name",
+    "emailPlaceholder": "Email address",
+    "currentPasswordPlaceholder": "Current password",
+    "newPasswordPlaceholder": "New password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "emailUnverified": "Your email address is unverified.",
+    "clickToResend": "Click here to resend the verification email.",
+    "verificationSent": "A new verification link has been sent to your email address.",
+    "deleteAccount": "Delete account",
+    "deleteAccountDesc": "Delete your account and all of its resources",
+    "deleteAccountWarning": "Warning",
+    "deleteAccountWarningText": "Please proceed with caution, this cannot be undone.",
+    "deleteAccountConfirmTitle": "Are you sure you want to delete your account?",
+    "deleteAccountConfirmDesc": "Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+    "passwordPlaceholder": "Password"
+  },
+  "user": {
+    "profile": "User Profile",
+    "bio": "Bio",
+    "location": "Location",
+    "website": "Website",
+    "joined": "Joined",
+    "lastSeen": "Last seen",
+    "viewProfile": "View Profile"
+  },
+  "nav": {
+    "docs": "Docs",
+    "system": "DocSystem"
+  },
+  "page": {
+    "categoriesSubtitle": "Browse our comprehensive documentation library organized into {{count}} curated categories. Find exactly what you're looking for.",
+    "activeCategories": "{{count}} Active Categories",
+    "comprehensiveGuides": "Comprehensive Guides",
+    "documentationCategories": "Documentation Categories",
+    "exploreBy": "Explore by",
+    "category": "Category",
+    "discoverBy": "Discover",
+    "byTags": "by Tags",
+    "topicTags": "Topic Tags",
+    "tagsSubtitle": "Explore {{count}} topic tags covering technologies, frameworks, and concepts. Find content that matches your interests.",
+    "activeTags": "{{count}} Active Tags",
+    "alphabeticalIndex": "Alphabetical Index",
+    "clickLetter": "Click a letter to jump to that section",
+    "filters": "Filters",
+    "clearFilters": "Clear All Filters",
+    "activeFilters": "Active filters",
+    "viewProfile": "View Profile",
+    "signIn": "Sign In"
+  }
+}

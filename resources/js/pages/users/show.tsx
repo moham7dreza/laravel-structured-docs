@@ -1,8 +1,3 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { Head, Link, router } from '@inertiajs/react';
 import {
     Award,
@@ -17,6 +12,11 @@ import {
     Mail,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 interface UserProfileProps {
     user: {

@@ -1,12 +1,17 @@
-import { CategoryBadge } from '@/components/category-badge';
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { Grid3x3, List, SlidersHorizontal, X, UserCircle, Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { DocumentCard } from '@/components/document-card';
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { NotificationBell } from '@/components/notification-bell';
 import { SearchBar } from '@/components/search-bar';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { NotificationBell } from '@/components/notification-bell';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     Select,
     SelectContent,
@@ -15,10 +20,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { Grid3x3, List, SlidersHorizontal, X, UserCircle, Plus } from 'lucide-react';
 import type { SharedData } from '@/types';
-import React, { useState } from 'react';
 
 interface DocumentsListProps {
     documents: {
@@ -41,6 +43,7 @@ interface DocumentsListProps {
 
 export default function DocumentsList({ documents, categories, tags, filters }: DocumentsListProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
     const [view, setView] = useState<'grid' | 'list'>('grid');
     const [showFilters, setShowFilters] = useState(false);
 
@@ -95,36 +98,37 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex items-center gap-6">
                             <Link href="/" className="text-xl font-bold">
-                                📚 Docs
+                                📚 {t('nav.docs')}
                             </Link>
                             <div className="hidden md:flex items-center gap-4">
                                 <Link
                                     href="/"
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                 >
-                                    Home
+                                    {t('common.home')}
                                 </Link>
                                 <Link
                                     href="/documents"
                                     className="text-sm font-medium text-foreground"
                                 >
-                                    Documents
+                                    {t('common.documents')}
                                 </Link>
                                 <Link
                                     href="/leaderboard"
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                 >
-                                    Leaderboard
+                                    {t('common.leaderboard')}
                                 </Link>
                                 <Link
                                     href="/activity"
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                 >
-                                    Activity
+                                    {t('common.activity')}
                                 </Link>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
+                            <LanguageSwitcher />
                             <ThemeToggle />
                             {auth?.user && <NotificationBell />}
                             {auth?.user ? (
@@ -139,19 +143,19 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                                 {getInitials(auth.user.name)}
                                             </AvatarFallback>
                                         </Avatar>
-                                        <span className="sr-only">View Profile</span>
+                                        <span className="sr-only">{t('page.viewProfile')}</span>
                                     </Link>
                                 </Button>
                             ) : (
                                 <Button variant="ghost" size="icon" asChild>
                                     <Link href="/login">
                                         <UserCircle className="h-5 w-5" />
-                                        <span className="sr-only">Login</span>
+                                        <span className="sr-only">{t('common.login')}</span>
                                     </Link>
                                 </Button>
                             )}
                             <Button variant="ghost" size="sm" asChild>
-                                <Link href="/dashboard">Dashboard</Link>
+                                <Link href="/dashboard">{t('common.dashboard')}</Link>
                             </Button>
                         </div>
                     </div>
@@ -164,9 +168,9 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                     <div className="container mx-auto px-4 py-8">
                         <div className="flex items-start justify-between mb-6">
                             <div>
-                                <h1 className="text-4xl font-bold mb-2">Documentation</h1>
+                                <h1 className="text-4xl font-bold mb-2">{t('documents.title')}</h1>
                                 <p className="text-muted-foreground text-lg">
-                                    Browse {documents.total.toLocaleString()} documents
+                                    {t('documents.description')}
                                 </p>
                             </div>
 
@@ -176,7 +180,7 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                     <Button asChild>
                                         <Link href="/documents/create" className="flex items-center gap-2">
                                             <Plus className="w-4 h-4" />
-                                            Create Document
+                                            {t('documents.createNew')}
                                         </Link>
                                     </Button>
                                 )}
@@ -211,7 +215,7 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                         <aside className="hidden lg:block w-64 flex-shrink-0">
                             <Card className="p-6 sticky top-6">
                                 <div className="flex items-center justify-between mb-4">
-                                    <h3 className="font-semibold">Filters</h3>
+                                    <h3 className="font-semibold">{t('documents.filters')}</h3>
                                     {hasActiveFilters && (
                                         <Button
                                             variant="ghost"
@@ -219,7 +223,7 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                             onClick={clearAllFilters}
                                             className="h-auto py-1 px-2"
                                         >
-                                            Clear all
+                                            {t('page.clearFilters')}
                                         </Button>
                                     )}
                                 </div>
@@ -227,7 +231,7 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                 {/* Category Filter */}
                                 <div className="mb-6">
                                     <label className="text-sm font-medium mb-2 block">
-                                        Category
+                                        {t('documents.category.select')}
                                     </label>
                                     <Select
                                         value={filters.category || 'all'}
@@ -240,10 +244,10 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                         }}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="All categories" />
+                                            <SelectValue placeholder={t('documents.category.all')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="all">All categories</SelectItem>
+                                            <SelectItem value="all">{t('documents.category.all')}</SelectItem>
                                             {categories.map((cat) => (
                                                 <SelectItem key={cat.id} value={cat.slug}>
                                                     {cat.name}
@@ -255,7 +259,7 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
 
                                 {/* Status Filter */}
                                 <div className="mb-6">
-                                    <label className="text-sm font-medium mb-2 block">Status</label>
+                                    <label className="text-sm font-medium mb-2 block">{t('document.status')}</label>
                                     <Select
                                         value={filters.status || 'all'}
                                         onValueChange={(value) => {
@@ -267,24 +271,24 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                         }}
                                     >
                                         <SelectTrigger>
-                                            <SelectValue placeholder="All statuses" />
+                                            <SelectValue placeholder={t('documents.status.all')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="all">All statuses</SelectItem>
-                                            <SelectItem value="draft">Draft</SelectItem>
+                                            <SelectItem value="all">{t('documents.status.all')}</SelectItem>
+                                            <SelectItem value="draft">{t('documents.status.draft')}</SelectItem>
                                             <SelectItem value="pending_review">
-                                                Pending Review
+                                                {t('documents.status.draft')}
                                             </SelectItem>
-                                            <SelectItem value="published">Published</SelectItem>
-                                            <SelectItem value="completed">Completed</SelectItem>
-                                            <SelectItem value="stale">Stale</SelectItem>
+                                            <SelectItem value="published">{t('documents.status.published')}</SelectItem>
+                                            <SelectItem value="completed">{t('documents.status.draft')}</SelectItem>
+                                            <SelectItem value="stale">{t('documents.status.draft')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>
 
                                 {/* Sort */}
                                 <div className="mb-6">
-                                    <label className="text-sm font-medium mb-2 block">Sort by</label>
+                                    <label className="text-sm font-medium mb-2 block">{t('documents.sortBy')}</label>
                                     <Select
                                         value={filters.sort || 'latest'}
                                         onValueChange={(value) => handleFilterChange('sort', value)}
@@ -293,7 +297,7 @@ export default function DocumentsList({ documents, categories, tags, filters }: 
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="latest">Latest</SelectItem>
+                                            <SelectItem value="latest">{t('documents.sort.latest')}</SelectItem>
                                             <SelectItem value="oldest">Oldest</SelectItem>
                                             <SelectItem value="title">Title (A-Z)</SelectItem>
                                             <SelectItem value="popular">Most Popular</SelectItem>

@@ -1,12 +1,4 @@
 import { Head, useForm, router, usePage } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
 import {
     User,
     Lock,
@@ -19,6 +11,15 @@ import {
     Loader2,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import type { SharedData } from '@/types';
 
 interface SettingsProps {
@@ -52,6 +53,7 @@ interface SettingsProps {
 
 export default function Settings({ user, preferences, privacy }: SettingsProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState('profile');
 
     // Profile form

@@ -9,10 +9,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
 @theme {
     /* ===== FONTS ===== */
     --font-sans:
-        'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
+        'Vazirmatn', 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
@@ -298,6 +299,49 @@
         }
     }
 
+    /* RTL Support */
+    [dir="rtl"] {
+        direction: rtl;
+        text-align: right;
+    }
+
+    [dir="rtl"] .space-x-reverse > * + * {
+        margin-right: var(--space-x);
+        margin-left: 0;
+    }
+
+    [dir="rtl"] .mr-auto {
+        margin-right: 0;
+        margin-left: auto;
+    }
+
+    [dir="rtl"] .ml-auto {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    /* Fix flex direction in RTL */
+    [dir="rtl"] .flex-row {
+        flex-direction: row-reverse;
+    }
+
+    /* Persian/Farsi specific font optimization */
+    [lang="fa"] {
+        font-family: 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+        font-feature-settings: "ss01" 1, "ss02" 1;
+        letter-spacing: -0.01em;
+    }
+
+    /* Better text rendering for Persian */
+    [lang="fa"] h1,
+    [lang="fa"] h2,
+    [lang="fa"] h3,
+    [lang="fa"] h4,
+    [lang="fa"] h5,
+    [lang="fa"] h6 {
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
 }
 
 

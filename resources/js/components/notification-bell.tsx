@@ -1,8 +1,8 @@
 import { Link } from '@inertiajs/react';
 import { Bell } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import React, { useEffect, useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 
 export function NotificationBell() {
     const [unreadCount, setUnreadCount] = useState(0);

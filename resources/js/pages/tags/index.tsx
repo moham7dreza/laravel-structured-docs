@@ -1,11 +1,14 @@
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { FileText, UserCircle, Tag } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import type { SharedData } from '@/types';
 
 interface TagsIndexProps {
     tags: Array<{
@@ -18,6 +21,7 @@ interface TagsIndexProps {
 
 export default function TagsIndex({ tags }: TagsIndexProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
 
     // Debug logging
     React.useEffect(() => {
@@ -61,42 +65,43 @@ export default function TagsIndex({ tags }: TagsIndexProps) {
                     <div className="flex items-center gap-6">
                         <Link href="/" className="flex items-center space-x-2">
                             <FileText className="h-6 w-6" />
-                            <span className="font-bold text-lg">DocSystem</span>
+                            <span className="font-bold text-lg">{t('nav.system')}</span>
                         </Link>
                         <nav className="hidden md:flex gap-6">
                             <Link
                                 href="/documents"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Documents
+                                {t('common.documents')}
                             </Link>
                             <Link
                                 href="/categories"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Categories
+                                {t('common.categories')}
                             </Link>
                             <Link
                                 href="/tags"
                                 className="text-sm font-medium text-foreground transition-colors"
                             >
-                                Tags
+                                {t('common.tags')}
                             </Link>
                             <Link
                                 href="/leaderboard"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Leaderboard
+                                {t('common.leaderboard')}
                             </Link>
                             <Link
                                 href="/activity"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Activity
+                                {t('common.activity')}
                             </Link>
                         </nav>
                     </div>
                     <div className="flex items-center gap-4">
+                        <LanguageSwitcher />
                         <ThemeToggle />
                         {auth?.user ? (
                             <Link href={`/users/${auth.user.id}`}>
@@ -128,26 +133,25 @@ export default function TagsIndex({ tags }: TagsIndexProps) {
                     <div className="text-center mb-16 max-w-4xl mx-auto">
                         <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 text-primary rounded-full text-sm font-medium mb-6 shadow-lg">
                             <Tag className="w-5 h-5" />
-                            <span>Topic Tags</span>
+                            <span>{t('page.topicTags')}</span>
                         </div>
 
                         <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
                             <span className="bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent">
-                                Discover
+                                {t('page.discoverBy')}
                             </span>
                             <br />
-                            <span className="text-foreground">by Tags</span>
+                            <span className="text-foreground">{t('page.byTags')}</span>
                         </h1>
 
                         <p className="text-xl md:text-2xl text-muted-foreground leading-relaxed mb-8">
-                            Explore {tags?.length || 0} topic tags covering technologies, frameworks, and concepts.
-                            Find content that matches your interests.
+                            {t('page.tagsSubtitle', { count: tags?.length || 0 })}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
                             <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full shadow-md border">
                                 <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 animate-pulse"></div>
-                                <span className="font-medium text-foreground">{tags?.length || 0} Active Tags</span>
+                                <span className="font-medium text-foreground">{t('page.activeTags', { count: tags?.length || 0 })}</span>
                             </div>
                             <div className="flex items-center gap-2 px-4 py-2 bg-card rounded-full shadow-md border">
                                 <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">

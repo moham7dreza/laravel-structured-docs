@@ -5,21 +5,19 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { cn, toUrl } from '@/lib/utils';
-import { edit as editAppearance } from '@/routes/appearance';
-import { edit } from '@/routes/profile';
 import { show } from '@/routes/two-factor';
-import { edit as editPassword } from '@/routes/user-password';
 import type { NavItem } from '@/types';
+import { index as settingsIndex } from '@/routes/settings';
 
 const sidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
-        href: edit(),
+        href: settingsIndex().url + '/profile',
         icon: null,
     },
     {
         title: 'Password',
-        href: editPassword(),
+        href: settingsIndex().url + '/password',
         icon: null,
     },
     {
@@ -29,7 +27,7 @@ const sidebarNavItems: NavItem[] = [
     },
     {
         title: 'Appearance',
-        href: editAppearance(),
+        href: settingsIndex().url + '/appearance',
         icon: null,
     },
 ];

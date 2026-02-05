@@ -1,8 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     Bell,
@@ -17,8 +12,13 @@ import {
     GitBranch,
     AlertCircle,
 } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React, { useState } from 'react';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import type { SharedData } from '@/types';
 
 interface Notification {
     id: number;

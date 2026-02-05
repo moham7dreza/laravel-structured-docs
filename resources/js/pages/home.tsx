@@ -1,20 +1,22 @@
-import { DocumentCard } from '@/components/document-card';
-import { SearchBar } from '@/components/search-bar';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { NotificationBell } from '@/components/notification-bell';
-import { CategoryIcon } from '@/components/category-icon';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Head, Link, usePage } from '@inertiajs/react';
 import {
     ArrowRight, BookOpen, FileText, Sparkles, TrendingUp, Users,
     Star, Zap, Shield, Clock, Search, CheckCircle, Heart,
     Eye, GitBranch, Code2
 } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { CategoryIcon } from '@/components/category-icon';
+import { DocumentCard } from '@/components/document-card';
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { NotificationBell } from '@/components/notification-bell';
+import { SearchBar } from '@/components/search-bar';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import type { SharedData } from '@/types';
 
 interface HomeProps {
     featuredDocuments: any[];
@@ -29,6 +31,7 @@ interface HomeProps {
 
 export default function Home({ featuredDocuments, recentDocuments, popularCategories, stats }: HomeProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
 
     const getInitials = (name: string) => {
         return name
@@ -62,35 +65,36 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                     href="/"
                                     className="px-3 py-2 text-sm font-medium text-foreground rounded-md bg-muted"
                                 >
-                                    Home
+                                    {t('common.home')}
                                 </Link>
                                 <Link
                                     href="/documents"
                                     className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
                                 >
-                                    Documents
+                                    {t('common.documents')}
                                 </Link>
                                 <Link
                                     href="/categories"
                                     className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
                                 >
-                                    Categories
+                                    {t('common.categories')}
                                 </Link>
                                 <Link
                                     href="/tags"
                                     className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
                                 >
-                                    Tags
+                                    {t('common.tags')}
                                 </Link>
                                 <Link
                                     href="/leaderboard"
                                     className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-colors"
                                 >
-                                    Leaderboard
+                                    {t('common.leaderboard')}
                                 </Link>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
+                            <LanguageSwitcher />
                             <ThemeToggle />
                             {auth.user && <NotificationBell />}
                             {auth.user ? (
@@ -110,16 +114,16 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                                 {getInitials(auth.user.name)}
                                             </AvatarFallback>
                                         </Avatar>
-                                        <span className="sr-only">View Profile</span>
+                                        <span className="sr-only">{t('page.viewProfile')}</span>
                                     </Link>
                                 </Button>
                             ) : (
                                 <>
                                     <Button variant="ghost" size="sm" asChild>
-                                        <Link href="/login">Sign In</Link>
+                                        <Link href="/login">{t('common.login')}</Link>
                                     </Button>
                                     <Button size="sm" className="gradient-brand !text-white" asChild>
-                                        <Link href="/register">Get Started</Link>
+                                        <Link href="/register">{t('common.getStarted')}</Link>
                                     </Button>
                                 </>
                             )}
@@ -147,7 +151,7 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="mb-8 flex justify-center animate-fade-in">
                                 <Badge className="gap-2 px-4 py-2 bg-white dark:bg-gray-900 backdrop-blur-sm border-brand-300 dark:border-brand-700 shadow-lg shadow-brand-500/20 text-foreground">
                                     <Sparkles className="w-4 h-4 text-brand-600 animate-pulse" />
-                                    <span className="text-sm font-medium text-foreground">Join {formatNumber(stats.totalUsers)}+ documentation enthusiasts</span>
+                                    <span className="text-sm font-medium text-foreground">{t('home.hero.badge', { count: formatNumber(stats.totalUsers) })}</span>
                                 </Badge>
                             </div>
 
@@ -155,25 +159,25 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="text-center mb-8 animate-fade-in animation-delay-200">
                                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tight">
                                     <span className="bg-gradient-to-r from-brand-600 via-purple-600 to-blue-600 bg-clip-text text-transparent inline-block">
-                                        Documentation Made
+                                        {t('home.hero.title')}
                                     </span>
                                     <br />
                                     <span className="bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-                                        Beautiful & Simple
+                                        {t('home.hero.titleHighlight')}
                                     </span>
                                 </h1>
                                 <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-                                    Create, collaborate, and share structured documentation with teams.
-                                    <span className="text-foreground font-medium"> Make knowledge accessible to everyone.</span>
+                                    {t('home.hero.description')}
+                                    <span className="text-foreground font-medium"> {t('home.hero.descriptionHighlight')}</span>
                                 </p>
                             </div>
 
                             {/* Search bar with glassmorphism */}
                             <div className="max-w-2xl mx-auto mb-12 animate-fade-in animation-delay-400">
                                 <div className="relative">
-                                    <SearchBar placeholder="Search thousands of documents..." />
+                                    <SearchBar placeholder={t('home.hero.searchPlaceholder')} />
                                     <p className="text-center mt-3 text-sm text-muted-foreground">
-                                        Try: "API", "Getting Started", or "Tutorial"
+                                        {t('home.hero.searchHint')}
                                     </p>
                                 </div>
                             </div>
@@ -185,13 +189,13 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                         <Button size="lg" className="gradient-brand !text-white shadow-lg shadow-brand-500/30 hover:shadow-xl hover:shadow-brand-500/40 transition-all" asChild>
                                             <Link href="/documents/create">
                                                 <FileText className="mr-2 w-5 h-5" />
-                                                Create Document
+                                                {t('home.hero.createDocument')}
                                             </Link>
                                         </Button>
                                         <Button size="lg" variant="outline" className="backdrop-blur-sm bg-white/50 dark:bg-gray-900/50" asChild>
                                             <Link href="/documents">
                                                 <Search className="mr-2 w-5 h-5" />
-                                                Explore Docs
+                                                {t('home.hero.exploreDocuments')}
                                             </Link>
                                         </Button>
                                     </>
@@ -200,13 +204,13 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                         <Button size="lg" className="gradient-brand !text-white shadow-lg shadow-brand-500/30 hover:shadow-xl hover:shadow-brand-500/40 transition-all" asChild>
                                             <Link href="/register">
                                                 <Sparkles className="mr-2 w-5 h-5" />
-                                                Get Started Free
+                                                {t('home.hero.getStartedFree')}
                                             </Link>
                                         </Button>
                                         <Button size="lg" variant="outline" className="backdrop-blur-sm bg-white/50 dark:bg-gray-900/50" asChild>
                                             <Link href="/documents">
                                                 <BookOpen className="mr-2 w-5 h-5" />
-                                                Browse Library
+                                                {t('home.hero.browseLibrary')}
                                             </Link>
                                         </Button>
                                     </>
@@ -222,7 +226,7 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                     <div className="text-3xl font-bold mb-1 bg-gradient-to-r from-brand-600 to-brand-800 bg-clip-text text-transparent">
                                         {formatNumber(stats.totalDocuments)}
                                     </div>
-                                    <div className="text-sm text-muted-foreground font-medium">Documents</div>
+                                    <div className="text-sm text-muted-foreground font-medium">{t('home.stats.documents')}</div>
                                 </Card>
 
                                 <Card className="backdrop-blur-md bg-white/60 dark:bg-gray-900/60 border-white/20 dark:border-gray-800/20 shadow-xl p-6 text-center group hover:scale-105 transition-transform">
@@ -232,7 +236,7 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                     <div className="text-3xl font-bold mb-1 bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">
                                         {formatNumber(stats.totalUsers)}
                                     </div>
-                                    <div className="text-sm text-muted-foreground font-medium">Contributors</div>
+                                    <div className="text-sm text-muted-foreground font-medium">{t('home.stats.contributors')}</div>
                                 </Card>
 
                                 <Card className="backdrop-blur-md bg-white/60 dark:bg-gray-900/60 border-white/20 dark:border-gray-800/20 shadow-xl p-6 text-center group hover:scale-105 transition-transform">
@@ -242,7 +246,7 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                     <div className="text-3xl font-bold mb-1 bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
                                         {formatNumber(stats.totalViews)}
                                     </div>
-                                    <div className="text-sm text-muted-foreground font-medium">Total Views</div>
+                                    <div className="text-sm text-muted-foreground font-medium">{t('home.stats.totalViews')}</div>
                                 </Card>
                             </div>
                         </div>
@@ -254,13 +258,13 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                     <div className="text-center mb-12">
                         <Badge className="mb-4">
                             <Star className="w-3 h-3 mr-1" />
-                            Featured
+                            {t('home.featured.badge')}
                         </Badge>
                         <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                            Premium <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">Documentation</span>
+                            {t('home.featured.title')} <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">{t('home.featured.titleHighlight')}</span>
                         </h2>
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Handpicked high-quality guides and references from our community
+                            {t('home.featured.description')}
                         </p>
                     </div>
 
@@ -279,10 +283,10 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                     ) : (
                         <Card className="p-12 text-center">
                             <FileText className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
-                            <h3 className="text-xl font-semibold mb-2">No featured documents yet</h3>
-                            <p className="text-muted-foreground mb-6">Be the first to create amazing documentation!</p>
+                            <h3 className="text-xl font-semibold mb-2">{t('home.featured.empty')}</h3>
+                            <p className="text-muted-foreground mb-6">{t('home.featured.emptyDescription')}</p>
                             <Button asChild>
-                                <Link href="/documents/create">Create Document</Link>
+                                <Link href="/documents/create">{t('home.featured.createDocument')}</Link>
                             </Button>
                         </Card>
                     )}
@@ -290,7 +294,7 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                     <div className="text-center mt-10">
                         <Button size="lg" variant="outline" asChild>
                             <Link href="/documents">
-                                View All Documents
+                                {t('home.featured.viewAll')}
                                 <ArrowRight className="ml-2 w-5 h-5" />
                             </Link>
                         </Button>
@@ -303,13 +307,13 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                         <div className="text-center mb-12">
                             <Badge className="mb-4">
                                 <BookOpen className="w-3 h-3 mr-1" />
-                                Categories
+                                {t('home.categories.badge')}
                             </Badge>
                             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                                Explore by <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">Topic</span>
+                                {t('home.categories.title')} <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">{t('home.categories.titleHighlight')}</span>
                             </h2>
                             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                                Find exactly what you're looking for in our organized library
+                                {t('home.categories.description')}
                             </p>
                         </div>
 
@@ -351,14 +355,14 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             </div>
                         ) : (
                             <div className="text-center text-muted-foreground">
-                                <p>Categories coming soon...</p>
+                                <p>{t('home.categories.comingSoon')}</p>
                             </div>
                         )}
 
                         <div className="text-center mt-10">
                             <Button size="lg" variant="outline" asChild>
                                 <Link href="/categories">
-                                    View All Categories
+                                    {t('home.categories.viewAll')}
                                     <ArrowRight className="ml-2 w-5 h-5" />
                                 </Link>
                             </Button>
@@ -371,13 +375,13 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                     <div className="text-center mb-12">
                         <Badge className="mb-4">
                             <Zap className="w-3 h-3 mr-1" />
-                            Features
+                            {t('home.features.badge')}
                         </Badge>
                         <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                            Everything You <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">Need</span>
+                            {t('home.features.title')} <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">{t('home.features.titleHighlight')}</span>
                         </h2>
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Powerful tools designed for modern documentation workflows
+                            {t('home.features.description')}
                         </p>
                     </div>
 
@@ -387,9 +391,9 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-500 to-brand-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-brand-500/30">
                                 <BookOpen className="w-7 h-7 text-white" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Structured Templates</h3>
+                            <h3 className="text-xl font-bold mb-3">{t('home.features.structuredTemplates.title')}</h3>
                             <p className="text-muted-foreground leading-relaxed">
-                                Use customizable templates with sections and items for consistent, organized documentation.
+                                {t('home.features.structuredTemplates.description')}
                             </p>
                         </Card>
 
@@ -397,9 +401,9 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-purple-500/30">
                                 <Users className="w-7 h-7 text-white" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Team Collaboration</h3>
+                            <h3 className="text-xl font-bold mb-3">{t('home.features.teamCollaboration.title')}</h3>
                             <p className="text-muted-foreground leading-relaxed">
-                                Work together with real-time comments, mentions, and collaborative editing features.
+                                {t('home.features.teamCollaboration.description')}
                             </p>
                         </Card>
 
@@ -407,9 +411,9 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/30">
                                 <GitBranch className="w-7 h-7 text-white" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Version Control</h3>
+                            <h3 className="text-xl font-bold mb-3">{t('home.features.versionControl.title')}</h3>
                             <p className="text-muted-foreground leading-relaxed">
-                                Track changes, manage branches, and maintain complete documentation history.
+                                {t('home.features.versionControl.description')}
                             </p>
                         </Card>
 
@@ -417,9 +421,9 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-green-500/30">
                                 <Shield className="w-7 h-7 text-white" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Quality Assurance</h3>
+                            <h3 className="text-xl font-bold mb-3">{t('home.features.qualityAssurance.title')}</h3>
                             <p className="text-muted-foreground leading-relaxed">
-                                Automated checks, review workflows, and quality scoring keep docs up to standards.
+                                {t('home.features.qualityAssurance.description')}
                             </p>
                         </Card>
 
@@ -427,9 +431,9 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-orange-500/30">
                                 <Code2 className="w-7 h-7 text-white" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Rich Text Editor</h3>
+                            <h3 className="text-xl font-bold mb-3">{t('home.features.richTextEditor.title')}</h3>
                             <p className="text-muted-foreground leading-relaxed">
-                                Format content beautifully with our powerful editor supporting code, media, and more.
+                                {t('home.features.richTextEditor.description')}
                             </p>
                         </Card>
 
@@ -437,9 +441,9 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-lg shadow-pink-500/30">
                                 <TrendingUp className="w-7 h-7 text-white" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Analytics & Insights</h3>
+                            <h3 className="text-xl font-bold mb-3">{t('home.features.analytics.title')}</h3>
                             <p className="text-muted-foreground leading-relaxed">
-                                Track views, engagement, and performance with detailed analytics dashboards.
+                                {t('home.features.analytics.description')}
                             </p>
                         </Card>
                     </div>
@@ -452,13 +456,13 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="text-center mb-12">
                                 <Badge className="mb-4">
                                     <Clock className="w-3 h-3 mr-1" />
-                                    Latest Updates
+                                    {t('home.recentUpdates.badge')}
                                 </Badge>
                                 <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                                    Recently <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">Updated</span>
+                                    {t('home.recentUpdates.title')} <span className="bg-gradient-to-r from-brand-600 to-purple-600 bg-clip-text text-transparent">{t('home.recentUpdates.titleHighlight')}</span>
                                 </h2>
                                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                                    Fresh content and improvements from our community
+                                    {t('home.recentUpdates.description')}
                                 </p>
                             </div>
 
@@ -491,14 +495,13 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                             <div className="max-w-3xl mx-auto">
                                 <Badge className="mb-6 bg-white/20 border-white/20 text-white">
                                     <Heart className="w-3 h-3 mr-1" />
-                                    Join Us Today
+                                    {t('home.cta.badge')}
                                 </Badge>
                                 <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                    Ready to Transform Your Documentation?
+                                    {t('home.cta.title')}
                                 </h2>
                                 <p className="text-xl mb-10 text-white/90 leading-relaxed">
-                                    Join thousands of teams creating exceptional documentation.
-                                    Start for free, collaborate seamlessly, and build something amazing.
+                                    {t('home.cta.description')}
                                 </p>
                                 <div className="flex flex-wrap gap-4 justify-center">
                                     {auth.user ? (
@@ -506,12 +509,12 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                             <Button size="lg" className="bg-white text-brand-600 hover:bg-white/90 shadow-xl" asChild>
                                                 <Link href="/documents/create">
                                                     <FileText className="mr-2 w-5 h-5" />
-                                                    Create Your First Doc
+                                                    {t('home.cta.createFirstDoc')}
                                                 </Link>
                                             </Button>
                                             <Button size="lg" variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" asChild>
                                                 <Link href="/dashboard">
-                                                    Go to Dashboard
+                                                    {t('home.cta.goToDashboard')}
                                                     <ArrowRight className="ml-2 w-5 h-5" />
                                                 </Link>
                                             </Button>
@@ -521,12 +524,12 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                             <Button size="lg" className="bg-white text-brand-600 hover:bg-white/90 shadow-xl" asChild>
                                                 <Link href="/register">
                                                     <Sparkles className="mr-2 w-5 h-5" />
-                                                    Start Free Today
+                                                    {t('home.cta.startFreeToday')}
                                                 </Link>
                                             </Button>
                                             <Button size="lg" variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" asChild>
                                                 <Link href="/documents">
-                                                    Explore Library
+                                                    {t('home.cta.exploreLibrary')}
                                                     <ArrowRight className="ml-2 w-5 h-5" />
                                                 </Link>
                                             </Button>
@@ -538,15 +541,15 @@ export default function Home({ featuredDocuments, recentDocuments, popularCatego
                                 <div className="mt-10 flex flex-wrap items-center justify-center gap-8 text-white/80 text-sm">
                                     <div className="flex items-center gap-2">
                                         <CheckCircle className="w-5 h-5" />
-                                        <span>Free forever</span>
+                                        <span>{t('home.cta.freeForever')}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <CheckCircle className="w-5 h-5" />
-                                        <span>No credit card required</span>
+                                        <span>{t('home.cta.noCreditCard')}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <CheckCircle className="w-5 h-5" />
-                                        <span>Open source</span>
+                                        <span>{t('home.cta.openSource')}</span>
                                     </div>
                                 </div>
                             </div>

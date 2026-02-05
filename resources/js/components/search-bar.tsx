@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { router } from '@inertiajs/react';
 import { Search, X } from 'lucide-react';
 import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface SearchBarProps {
     placeholder?: string;

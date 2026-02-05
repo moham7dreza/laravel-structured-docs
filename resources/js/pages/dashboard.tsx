@@ -1,10 +1,4 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { NotificationBell } from '@/components/notification-bell';
 import {
     BookOpen,
     Eye,
@@ -19,8 +13,17 @@ import {
     Sparkles,
     Plus,
 } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { LanguageSwitcher } from '@/components/language-switcher';
+import { NotificationBell } from '@/components/notification-bell';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import type { SharedData } from '@/types';
 interface DashboardProps {
     stats: {
         documents_read: number;
@@ -43,6 +46,8 @@ export default function Dashboard({
     myDocuments,
 }: DashboardProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
+
     const getInitials = (name: string) => {
         return name
             .split(' ')
@@ -59,43 +64,44 @@ export default function Dashboard({
     };
     return (
         <>
-            <Head title="Dashboard" />
+            <Head title={t('dashboard.title')} />
             {/* Navigation Header */}
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container mx-auto flex h-14 items-center justify-between px-4">
                     <div className="flex items-center gap-6">
                         <Link href="/" className="flex items-center space-x-2">
                             <FileText className="h-6 w-6" />
-                            <span className="font-bold text-lg">DocSystem</span>
+                            <span className="font-bold text-lg">{t('nav.system')}</span>
                         </Link>
                         <nav className="hidden md:flex gap-6">
                             <Link
                                 href="/"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Home
+                                {t('common.home')}
                             </Link>
                             <Link
                                 href="/documents"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Documents
+                                {t('common.documents')}
                             </Link>
                             <Link
                                 href="/categories"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Categories
+                                {t('common.categories')}
                             </Link>
                             <Link
                                 href="/tags"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Tags
+                                {t('common.tags')}
                             </Link>
                         </nav>
                     </div>
                     <div className="flex items-center gap-2">
+                        <LanguageSwitcher />
                         {auth?.user && <NotificationBell />}
                         <ThemeToggle />
                         {auth?.user && (
@@ -116,10 +122,10 @@ export default function Dashboard({
                     {/* Welcome Section */}
                     <div className="mb-12">
                         <h1 className="text-4xl md:text-5xl font-black mb-3">
-                            Welcome back, {auth?.user?.name?.split(' ')[0]}! 👋
+                            {t('dashboard.welcome')}, {auth?.user?.name?.split(' ')[0]}! 👋
                         </h1>
                         <p className="text-lg text-muted-foreground">
-                            Here's what's happening with your documentation
+                            {t('dashboard.quickStats')}
                         </p>
                     </div>
                     {/* Stats Grid */}
@@ -132,7 +138,7 @@ export default function Dashboard({
                                 <TrendingUp className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div className="text-3xl font-black mb-1">{stats.documents_read}</div>
-                            <div className="text-sm text-muted-foreground">Documents Read</div>
+                            <div className="text-sm text-muted-foreground">{t('dashboard.stats.documentsRead')}</div>
                         </Card>
                         <Card className="p-6 bg-gradient-to-br from-amber-500/10 to-amber-600/5 border-2 hover:border-amber-500/50 transition-all hover:shadow-lg">
                             <div className="flex items-center justify-between mb-3">
@@ -142,7 +148,7 @@ export default function Dashboard({
                                 <TrendingUp className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                             </div>
                             <div className="text-3xl font-black mb-1">{stats.bookmarks}</div>
-                            <div className="text-sm text-muted-foreground">Bookmarked</div>
+                            <div className="text-sm text-muted-foreground">{t('dashboard.stats.bookmarks')}</div>
                         </Card>
                         <Card className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/5 border-2 hover:border-green-500/50 transition-all hover:shadow-lg">
                             <div className="flex items-center justify-between mb-3">
@@ -152,7 +158,7 @@ export default function Dashboard({
                                 <TrendingUp className="w-5 h-5 text-green-600 dark:text-green-400" />
                             </div>
                             <div className="text-3xl font-black mb-1">{stats.contributions}</div>
-                            <div className="text-sm text-muted-foreground">Contributions</div>
+                            <div className="text-sm text-muted-foreground">{t('dashboard.stats.contributions')}</div>
                         </Card>
                         <Card className="p-6 bg-gradient-to-br from-purple-500/10 to-purple-600/5 border-2 hover:border-purple-500/50 transition-all hover:shadow-lg">
                             <div className="flex items-center justify-between mb-3">
@@ -162,7 +168,7 @@ export default function Dashboard({
                                 <TrendingUp className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                             </div>
                             <div className="text-3xl font-black mb-1">{stats.comments}</div>
-                            <div className="text-sm text-muted-foreground">Comments</div>
+                            <div className="text-sm text-muted-foreground">{t('dashboard.stats.comments')}</div>
                         </Card>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -174,11 +180,11 @@ export default function Dashboard({
                                     <div className="flex items-center justify-between mb-6">
                                         <h2 className="text-2xl font-bold flex items-center gap-2">
                                             <Clock className="w-6 h-6 text-primary" />
-                                            Continue Reading
+                                            {t('dashboard.recentlyViewed')}
                                         </h2>
                                         <Link href="/documents">
                                             <Button variant="ghost" size="sm">
-                                                View all
+                                                {t('dashboard.viewAll')}
                                                 <ArrowRight className="w-4 h-4 ml-1" />
                                             </Button>
                                         </Link>
@@ -221,7 +227,7 @@ export default function Dashboard({
                                     <div className="flex items-center justify-between mb-6">
                                         <h2 className="text-2xl font-bold flex items-center gap-2">
                                             <Sparkles className="w-6 h-6 text-primary" />
-                                            Recommended for You
+                                            {t('dashboard.recommended')}
                                         </h2>
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -261,7 +267,7 @@ export default function Dashboard({
                                 <div className="flex items-center justify-between mb-6">
                                     <h2 className="text-2xl font-bold flex items-center gap-2">
                                         <FileText className="w-6 h-6 text-primary" />
-                                        My Documents
+                                        {t('dashboard.myDocuments')}
                                     </h2>
                                     <Link href="/documents/create">
                                         <Button size="sm" className="gap-2">

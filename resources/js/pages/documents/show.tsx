@@ -1,10 +1,3 @@
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ThemeToggle } from '@/components/theme-toggle';
-import CommentSection from '@/components/comment-section';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     BookOpen,
@@ -24,8 +17,15 @@ import {
     Edit,
     Trash2,
 } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React, { useState, useEffect } from 'react';
+import CommentSection from '@/components/comment-section';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import type { SharedData } from '@/types';
 
 interface DocumentShowProps {
     document: {

@@ -1,9 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { Progress } from '@/components/ui/progress';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     Award,
@@ -19,8 +13,14 @@ import {
     Star,
     Zap,
 } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React, { useState } from 'react';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import type { SharedData } from '@/types';
 
 interface Badge {
     name: string;

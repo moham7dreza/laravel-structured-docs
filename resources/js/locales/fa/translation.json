@@ -1,0 +1,485 @@
+{
+  "common": {
+    "home": "خانه",
+    "documents": "مستندات",
+    "categories": "دسته‌بندی‌ها",
+    "tags": "برچسب‌ها",
+    "leaderboard": "جدول امتیازات",
+    "activity": "فعالیت‌ها",
+    "dashboard": "داشبورد",
+    "profile": "پروفایل",
+    "settings": "تنظیمات",
+    "notifications": "اعلان‌ها",
+    "search": "جستجو",
+    "login": "ورود",
+    "register": "ثبت‌نام",
+    "logout": "خروج",
+    "getStarted": "شروع کنید",
+    "createDocument": "ایجاد مستند",
+    "viewAll": "مشاهده همه",
+    "cancel": "لغو",
+    "save": "ذخیره",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "loading": "در حال بارگذاری...",
+    "noResults": "نتیجه‌ای یافت نشد",
+    "backToHome": "بازگشت به خانه"
+  },
+  "home": {
+    "hero": {
+      "badge": "به بیش از {{count}} علاقه‌مند به مستندسازی بپیوندید",
+      "title": "مستندسازی را",
+      "titleHighlight": "زیبا و ساده کنید",
+      "description": "مستندات ساختاریافته را با تیم خود ایجاد، همکاری و به اشتراک بگذارید.",
+      "descriptionHighlight": "دانش را برای همه در دسترس قرار دهید.",
+      "searchPlaceholder": "جستجو در هزاران مستند...",
+      "searchHint": "امتحان کنید: \"API\"، \"شروع کار\"، یا \"آموزش\"",
+      "createDocument": "ایجاد مستند",
+      "exploreDocuments": "کاوش مستندات",
+      "getStartedFree": "شروع رایگان",
+      "browseLibrary": "مرور کتابخانه"
+    },
+    "stats": {
+      "documents": "مستندات",
+      "contributors": "مشارکت‌کنندگان",
+      "totalViews": "مجموع بازدیدها"
+    },
+    "featured": {
+      "badge": "ویژه",
+      "title": "مستندات",
+      "titleHighlight": "پریمیوم",
+      "description": "راهنماها و مراجع با کیفیت انتخاب شده از جامعه ما",
+      "empty": "هنوز مستند ویژه‌ای وجود ندارد",
+      "emptyDescription": "اولین نفری باشید که مستند شگفت‌انگیزی ایجاد می‌کند!",
+      "createDocument": "ایجاد مستند",
+      "viewAll": "مشاهده همه مستندات"
+    },
+    "categories": {
+      "badge": "دسته‌بندی‌ها",
+      "title": "جستجو بر اساس",
+      "titleHighlight": "موضوع",
+      "description": "دقیقاً آنچه را که به دنبالش هستید در کتابخانه سازمان‌یافته ما پیدا کنید",
+      "viewAll": "مشاهده همه دسته‌بندی‌ها",
+      "comingSoon": "دسته‌بندی‌ها به زودی..."
+    },
+    "features": {
+      "badge": "ویژگی‌ها",
+      "title": "همه چیزهایی که",
+      "titleHighlight": "نیاز دارید",
+      "description": "ابزارهای قدرتمند طراحی شده برای گردش کار مستندسازی مدرن",
+      "structuredTemplates": {
+        "title": "قالب‌های ساختاریافته",
+        "description": "از قالب‌های قابل تنظیم با بخش‌ها و آیتم‌ها برای مستندات سازگار و سازمان‌یافته استفاده کنید."
+      },
+      "teamCollaboration": {
+        "title": "همکاری تیمی",
+        "description": "با نظرات، منشن‌ها و ویژگی‌های ویرایش مشارکتی به صورت همزمان کار کنید."
+      },
+      "versionControl": {
+        "title": "کنترل نسخه",
+        "description": "تغییرات را پیگیری کنید، شاخه‌ها را مدیریت کنید و تاریخچه کامل مستندات را حفظ کنید."
+      },
+      "qualityAssurance": {
+        "title": "تضمین کیفیت",
+        "description": "بررسی‌های خودکار، گردش کار بازبینی و امتیازدهی کیفیت، مستندات را در استانداردها نگه می‌دارد."
+      },
+      "richTextEditor": {
+        "title": "ویرایشگر متن غنی",
+        "description": "محتوا را با ویرایشگر قدرتمند ما که از کد، رسانه و موارد دیگر پشتیبانی می‌کند، زیبا قالب‌بندی کنید."
+      },
+      "analytics": {
+        "title": "تحلیل و بینش",
+        "description": "بازدیدها، تعامل و عملکرد را با داشبوردهای تحلیلی دقیق پیگیری کنید."
+      }
+    },
+    "recentUpdates": {
+      "badge": "آخرین به‌روزرسانی‌ها",
+      "title": "اخیراً",
+      "titleHighlight": "به‌روزرسانی شده",
+      "description": "محتوای تازه و بهبودهای جامعه ما"
+    },
+    "cta": {
+      "badge": "امروز به ما بپیوندید",
+      "title": "آماده تحول در مستندسازی خود هستید؟",
+      "description": "به هزاران تیم که مستندات استثنایی ایجاد می‌کنند بپیوندید. رایگان شروع کنید، به طور یکپارچه همکاری کنید و چیزی شگفت‌انگیز بسازید.",
+      "createFirstDoc": "اولین مستند خود را ایجاد کنید",
+      "goToDashboard": "برو به داشبورد",
+      "startFreeToday": "امروز رایگان شروع کنید",
+      "exploreLibrary": "کاوش در کتابخانه",
+      "freeForever": "برای همیشه رایگان",
+      "noCreditCard": "نیازی به کارت اعتباری نیست",
+      "openSource": "متن‌باز"
+    },
+    "footer": {
+      "tagline": "مستندسازی را زیبا، مشارکتی و در دسترس همه می‌کنیم.",
+      "product": "محصول",
+      "community": "جامعه",
+      "resources": "منابع",
+      "users": "کاربران",
+      "about": "درباره ما",
+      "blog": "وبلاگ",
+      "helpCenter": "مرکز راهنمایی",
+      "contact": "تماس",
+      "copyright": "DocHub. ساخته شده با",
+      "forDocumentationLovers": "برای عاشقان مستندسازی.",
+      "privacy": "حریم خصوصی",
+      "terms": "شرایط استفاده",
+      "license": "مجوز",
+      "activityFeed": "فید فعالیت"
+    }
+  },
+  "documents": {
+    "title": "مستندات",
+    "description": "مرور و جستجو در کتابخانه مستندات ما",
+    "createNew": "ایجاد مستند",
+    "filters": "فیلترها",
+    "sortBy": "مرتب‌سازی بر اساس",
+    "viewMode": {
+      "grid": "نمای شبکه‌ای",
+      "list": "نمای لیستی"
+    },
+    "sort": {
+      "latest": "جدیدترین",
+      "oldest": "قدیمی‌ترین",
+      "mostViewed": "پربازدیدترین",
+      "highestRated": "بالاترین امتیاز"
+    },
+    "status": {
+      "all": "همه وضعیت‌ها",
+      "draft": "پیش‌نویس",
+      "published": "منتشر شده",
+      "archived": "بایگانی شده"
+    },
+    "category": {
+      "all": "همه دسته‌بندی‌ها",
+      "select": "انتخاب دسته‌بندی"
+    },
+    "tag": {
+      "all": "همه برچسب‌ها",
+      "select": "انتخاب برچسب"
+    },
+    "empty": {
+      "title": "مستندی یافت نشد",
+      "description": "فیلترهای خود را تنظیم کنید یا یک مستند جدید ایجاد کنید"
+    },
+    "stats": {
+      "views": "بازدید",
+      "comments": "نظر",
+      "score": "امتیاز"
+    }
+  },
+  "categories": {
+    "title": "دسته‌بندی‌ها",
+    "description": "مرور مستندات بر اساس دسته‌بندی",
+    "allCategories": "همه دسته‌بندی‌ها",
+    "documentCount": "{{count}} مستند",
+    "documentCount_plural": "{{count}} مستند",
+    "empty": {
+      "title": "هنوز دسته‌بندی وجود ندارد",
+      "description": "دسته‌بندی‌ها پس از ایجاد اینجا ظاهر می‌شوند"
+    }
+  },
+  "tags": {
+    "title": "برچسب‌ها",
+    "description": "کاوش مستندات بر اساس برچسب‌ها",
+    "allTags": "همه برچسب‌ها",
+    "trendingTags": "برچسب‌های پرطرفدار",
+    "documentCount": "{{count}} مستند",
+    "documentCount_plural": "{{count}} مستند"
+  },
+  "leaderboard": {
+    "title": "جدول امتیازات",
+    "description": "برترین مشارکت‌کنندگان و رتبه‌بندی مستندات",
+    "topContributors": "برترین مشارکت‌کنندگان",
+    "topDocuments": "برترین مستندات",
+    "rank": "رتبه",
+    "user": "کاربر",
+    "score": "امتیاز",
+    "contributions": "مشارکت‌ها"
+  },
+  "profile": {
+    "overview": "نمای کلی",
+    "documents": "مستندات",
+    "activity": "فعالیت",
+    "followers": "دنبال‌کنندگان",
+    "following": "دنبال‌شوندگان",
+    "editProfile": "ویرایش پروفایل",
+    "follow": "دنبال کردن",
+    "unfollow": "لغو دنبال کردن",
+    "stats": {
+      "documents": "مستندات",
+      "followers": "دنبال‌کنندگان",
+      "following": "دنبال‌شوندگان",
+      "score": "امتیاز"
+    }
+  },
+  "dashboard": {
+    "title": "داشبورد",
+    "welcome": "خوش آمدید",
+    "myDocuments": "مستندات من",
+    "recentActivity": "فعالیت‌های اخیر",
+    "quickStats": "آمار سریع",
+    "createDocument": "ایجاد مستند",
+    "recentlyViewed": "اخیراً مشاهده شده",
+    "bookmarks": "نشانک‌ها",
+    "recommended": "پیشنهادی برای شما",
+    "viewAll": "مشاهده همه",
+    "noDocuments": "هنوز مستندی وجود ندارد",
+    "noBookmarks": "هنوز نشانکی وجود ندارد",
+    "noActivity": "فعالیت اخیری وجود ندارد",
+    "stats": {
+      "documentsRead": "مستندات خوانده شده",
+      "bookmarks": "نشانک‌ها",
+      "contributions": "مشارکت‌ها",
+      "comments": "نظرات"
+    }
+  },
+  "auth": {
+    "signIn": "ورود",
+    "signUp": "ثبت‌نام",
+    "email": "ایمیل",
+    "password": "رمز عبور",
+    "confirmPassword": "تایید رمز عبور",
+    "rememberMe": "مرا به خاطر بسپار",
+    "forgotPassword": "رمز عبور را فراموش کرده‌اید؟",
+    "noAccount": "حساب کاربری ندارید؟",
+    "hasAccount": "قبلاً حساب کاربری دارید؟",
+    "continue": "ادامه",
+    "login": {
+      "title": "ورود به حساب کاربری",
+      "description": "ایمیل و رمز عبور خود را وارد کنید",
+      "emailLabel": "آدرس ایمیل",
+      "emailPlaceholder": "email@example.com",
+      "passwordLabel": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور",
+      "loginButton": "ورود"
+    },
+    "register": {
+      "title": "ایجاد حساب کاربری",
+      "description": "اطلاعات خود را برای ایجاد حساب کاربری وارد کنید",
+      "nameLabel": "نام",
+      "namePlaceholder": "نام و نام خانوادگی",
+      "emailLabel": "ایمیل",
+      "emailPlaceholder": "email@example.com",
+      "passwordLabel": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور",
+      "confirmPasswordLabel": "تایید رمز عبور",
+      "confirmPasswordPlaceholder": "تایید رمز عبور",
+      "registerButton": "ثبت‌نام"
+    },
+    "forgotPasswordPage": {
+      "title": "رمز عبور خود را فراموش کرده‌اید؟",
+      "description": "مشکلی نیست. فقط آدرس ایمیل خود را به ما اطلاع دهید تا لینک بازنشانی رمز عبور را برای شما ارسال کنیم.",
+      "emailLabel": "ایمیل",
+      "emailPlaceholder": "email@example.com",
+      "sendResetLink": "ارسال لینک بازنشانی رمز عبور"
+    },
+    "resetPassword": {
+      "title": "بازنشانی رمز عبور",
+      "description": "رمز عبور جدید خود را وارد کنید",
+      "emailLabel": "ایمیل",
+      "passwordLabel": "رمز عبور",
+      "confirmPasswordLabel": "تایید رمز عبور",
+      "resetButton": "بازنشانی رمز عبور"
+    },
+    "verifyEmail": {
+      "title": "تایید آدرس ایمیل",
+      "description": "متشکریم که ثبت‌نام کردید! قبل از شروع، لطفاً با کلیک روی لینکی که برای شما ایمیل کردیم، آدرس ایمیل خود را تایید کنید.",
+      "resendButton": "ارسال مجدد ایمیل تایید",
+      "logoutButton": "خروج",
+      "verificationSent": "یک لینک تایید جدید به آدرس ایمیلی که هنگام ثبت‌نام ارائه دادید ارسال شد."
+    },
+    "confirmPassword": {
+      "title": "تایید رمز عبور",
+      "description": "این یک بخش امن از برنامه است. لطفاً قبل از ادامه، رمز عبور خود را تایید کنید.",
+      "passwordLabel": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور",
+      "confirmButton": "تایید"
+    },
+    "twoFactorChallenge": {
+      "title": "احراز هویت دو مرحله‌ای",
+      "description": "لطفاً با وارد کردن کد احراز هویت ارائه شده توسط برنامه احراز هویت خود، دسترسی به حساب خود را تایید کنید.",
+      "recoveryDescription": "لطفاً با وارد کردن یکی از کدهای بازیابی اضطراری خود، دسترسی به حساب خود را تایید کنید.",
+      "codeLabel": "کد",
+      "codePlaceholder": "کد احراز هویت",
+      "recoveryCodeLabel": "کد بازیابی",
+      "recoveryCodePlaceholder": "کد بازیابی",
+      "useRecoveryCode": "استفاده از کد بازیابی",
+      "useAuthCode": "استفاده از کد احراز هویت",
+      "loginButton": "ورود"
+    }
+  },
+  "comments": {
+    "title": "نظرات",
+    "addComment": "افزودن نظر",
+    "reply": "پاسخ",
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "resolve": "حل شد",
+    "resolved": "حل شده",
+    "writeComment": "یک نظر بنویسید...",
+    "post": "ارسال نظر",
+    "posting": "در حال ارسال...",
+    "noComments": "هنوز نظری وجود ندارد. اولین نفر باشید که نظر می‌دهد!"
+  },
+  "notifications": {
+    "title": "اعلان‌ها",
+    "markAsRead": "علامت به عنوان خوانده شده",
+    "markAllAsRead": "علامت همه به عنوان خوانده شده",
+    "empty": "اعلانی وجود ندارد",
+    "viewAll": "مشاهده همه اعلان‌ها"
+  },
+  "document": {
+    "title": "مستند",
+    "description": "توضیحات",
+    "content": "محتوا",
+    "created": "ایجاد شده",
+    "updated": "به‌روزرسانی شده",
+    "author": "نویسنده",
+    "category": "دسته‌بندی",
+    "tags": "برچسب‌ها",
+    "status": "وضعیت",
+    "visibility": "نمایش",
+    "actions": "اقدامات",
+    "edit": "ویرایش",
+    "delete": "حذف",
+    "share": "اشتراک‌گذاری",
+    "watch": "دنبال کردن",
+    "unwatch": "لغو دنبال کردن",
+    "viewHistory": "مشاهده تاریخچه",
+    "relatedDocuments": "مستندات مرتبط",
+    "tableOfContents": "فهرست مطالب",
+    "noContent": "محتوایی در دسترس نیست",
+    "create": {
+      "title": "ایجاد مستند",
+      "backToDocuments": "بازگشت به مستندات",
+      "basicInfo": "اطلاعات پایه",
+      "structure": "ساختار",
+      "content": "محتوا",
+      "review": "بررسی و انتشار",
+      "documentTitle": "عنوان مستند",
+      "documentTitlePlaceholder": "عنوان مستند را وارد کنید",
+      "documentDescription": "توضیحات",
+      "documentDescriptionPlaceholder": "توضیحات مختصر درباره مستند",
+      "selectCategory": "انتخاب دسته‌بندی",
+      "selectTags": "انتخاب برچسب‌ها",
+      "selectStructure": "انتخاب قالب ساختار",
+      "noStructureAvailable": "قالب ساختاری موجود نیست",
+      "saveDraft": "ذخیره پیش‌نویس",
+      "saveAndPublish": "ذخیره و انتشار",
+      "saving": "در حال ذخیره...",
+      "publishing": "در حال انتشار...",
+      "version": "نسخه",
+      "sections": "بخش‌ها",
+      "addSection": "افزودن بخش",
+      "removeSection": "حذف بخش",
+      "sectionTitle": "عنوان بخش",
+      "sectionContent": "محتوای بخش",
+      "fillAllFields": "لطفاً تمام فیلدهای الزامی را پر کنید"
+    },
+    "edit": {
+      "title": "ویرایش مستند",
+      "backToDocument": "بازگشت به مستند",
+      "saveChanges": "ذخیره تغییرات",
+      "cancel": "لغو",
+      "savingChanges": "در حال ذخیره تغییرات..."
+    },
+    "show": {
+      "relatedDocs": "مستندات مرتبط",
+      "tableOfContents": "فهرست مطالب",
+      "backToTop": "بازگشت به بالا",
+      "lastUpdated": "آخرین به‌روزرسانی",
+      "readTime": "دقیقه مطالعه",
+      "views": "بازدید",
+      "likes": "پسند",
+      "comments": "نظرات",
+      "shareDocument": "اشتراک‌گذاری مستند"
+    }
+  },
+  "search": {
+    "title": "نتایج جستجو",
+    "placeholder": "جستجو...",
+    "results": "نتیجه",
+    "noResults": "نتیجه‌ای یافت نشد برای",
+    "tryDifferent": "کلمات کلیدی دیگری امتحان کنید یا فیلترهای خود را تنظیم کنید"
+  },
+  "activity": {
+    "title": "فید فعالیت",
+    "recentActivity": "فعالیت‌های اخیر",
+    "allActivity": "همه فعالیت‌ها",
+    "noActivity": "فعالیت اخیری وجود ندارد",
+    "loadMore": "بارگذاری بیشتر"
+  },
+  "settings": {
+    "title": "تنظیمات",
+    "profile": "تنظیمات پروفایل",
+    "appearance": "ظاهر",
+    "password": "تغییر رمز عبور",
+    "twoFactor": "احراز هویت دو مرحله‌ای",
+    "notifications": "تنظیمات اعلان",
+    "privacy": "حریم خصوصی",
+    "save": "ذخیره تغییرات",
+    "cancel": "لغو",
+    "saved": "تنظیمات با موفقیت ذخیره شد",
+    "profileInfo": "اطلاعات پروفایل",
+    "profileInfoDesc": "نام و آدرس ایمیل خود را به‌روزرسانی کنید",
+    "updatePassword": "به‌روزرسانی رمز عبور",
+    "updatePasswordDesc": "مطمئن شوید که حساب شما از یک رمز عبور طولانی و تصادفی برای امنیت استفاده می‌کند",
+    "appearanceSettings": "تنظیمات ظاهر",
+    "appearanceSettingsDesc": "تنظیمات ظاهر حساب خود را به‌روزرسانی کنید",
+    "currentPassword": "رمز عبور فعلی",
+    "newPassword": "رمز عبور جدید",
+    "confirmPassword": "تایید رمز عبور",
+    "savePassword": "ذخیره رمز عبور",
+    "name": "نام",
+    "email": "آدرس ایمیل",
+    "fullNamePlaceholder": "نام کامل",
+    "emailPlaceholder": "آدرس ایمیل",
+    "currentPasswordPlaceholder": "رمز عبور فعلی",
+    "newPasswordPlaceholder": "رمز عبور جدید",
+    "confirmPasswordPlaceholder": "تایید رمز عبور",
+    "emailUnverified": "آدرس ایمیل شما تایید نشده است.",
+    "clickToResend": "برای ارسال مجدد ایمیل تایید اینجا کلیک کنید.",
+    "verificationSent": "یک لینک تایید جدید به آدرس ایمیل شما ارسال شد.",
+    "deleteAccount": "حذف حساب کاربری",
+    "deleteAccountDesc": "حساب کاربری و تمام منابع خود را حذف کنید",
+    "deleteAccountWarning": "هشدار",
+    "deleteAccountWarningText": "لطفاً با احتیاط ادامه دهید، این عمل قابل بازگشت نیست.",
+    "deleteAccountConfirmTitle": "آیا مطمئن هستید که می‌خواهید حساب کاربری خود را حذف کنید؟",
+    "deleteAccountConfirmDesc": "پس از حذف حساب کاربری شما، تمام منابع و داده‌های آن نیز به طور دائم حذف خواهند شد. لطفاً برای تایید حذف دائمی حساب کاربری خود، رمز عبور خود را وارد کنید.",
+    "passwordPlaceholder": "رمز عبور"
+  },
+  "user": {
+    "profile": "پروفایل کاربر",
+    "bio": "بیوگرافی",
+    "location": "موقعیت",
+    "website": "وب‌سایت",
+    "joined": "عضویت",
+    "lastSeen": "آخرین بازدید",
+    "viewProfile": "مشاهده پروفایل"
+  },
+  "nav": {
+    "docs": "مستندات",
+    "system": "سیستم مستندسازی"
+  },
+  "page": {
+    "categoriesSubtitle": "کتابخانه جامع مستندات ما را که در {{count}} دسته‌بندی منتخب سازماندهی شده است، مرور کنید. دقیقاً آنچه را که به دنبالش هستید پیدا کنید.",
+    "activeCategories": "{{count}} دسته‌بندی فعال",
+    "comprehensiveGuides": "راهنماهای جامع",
+    "documentationCategories": "دسته‌بندی‌های مستندات",
+    "exploreBy": "جستجو بر اساس",
+    "category": "دسته‌بندی",
+    "discoverBy": "کشف کنید",
+    "byTags": "بر اساس برچسب‌ها",
+    "topicTags": "برچسب‌های موضوعی",
+    "tagsSubtitle": "{{count}} برچسب موضوعی را که فناوری‌ها، فریمورک‌ها و مفاهیم را پوشش می‌دهد، کاوش کنید. محتوایی که با علایق شما مطابقت دارد پیدا کنید.",
+    "activeTags": "{{count}} برچسب فعال",
+    "alphabeticalIndex": "فهرست الفبایی",
+    "clickLetter": "برای پرش به آن بخش روی یک حرف کلیک کنید",
+    "filters": "فیلترها",
+    "clearFilters": "پاک کردن همه فیلترها",
+    "activeFilters": "فیلترهای فعال",
+    "viewProfile": "مشاهده پروفایل",
+    "signIn": "ورود"
+  }
+}

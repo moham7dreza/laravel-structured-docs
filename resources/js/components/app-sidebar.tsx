@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
+import {NavTheme} from "@/components/nav-theme";
 import { NavUser } from '@/components/nav-user';
 import {
     Sidebar,
@@ -15,7 +16,6 @@ import {
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
-import {NavTheme} from "@/components/nav-theme";
 
 const mainNavItems: NavItem[] = [
     {

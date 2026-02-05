@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils';
 import React from 'react';
+import { cn } from '@/lib/utils';
 
 interface GradeBadgeProps {
     grade: 'S' | 'A' | 'B' | 'C' | 'D' | 'F';

@@ -1,16 +1,3 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { ThemeToggle } from '@/components/theme-toggle';
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
     ArrowUpRight,
@@ -25,8 +12,21 @@ import {
     UserCircle,
     X,
 } from 'lucide-react';
-import type { SharedData } from '@/types';
 import React, { useState, useEffect } from 'react';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import type { SharedData } from '@/types';
 
 interface SearchResult {
     type: 'document' | 'user' | 'category' | 'tag';

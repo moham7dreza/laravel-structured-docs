@@ -1,11 +1,11 @@
 import { useForm } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
+import { MessageSquare, Send, Edit2, Trash2, CheckCircle, XCircle } from 'lucide-react';
+import { useState } from 'react';
+import { RichTextEditor } from '@/components/rich-text-editor';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useState } from 'react';
-import { MessageSquare, Send, Edit2, Trash2, CheckCircle, XCircle } from 'lucide-react';
-import { RichTextEditor } from '@/components/rich-text-editor';
 
 interface User {
     id: number;

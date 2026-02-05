@@ -1,10 +1,13 @@
+import { Head, Link, router, usePage } from '@inertiajs/react';
+import { ArrowLeft, FileText, Grid3x3, List, SlidersHorizontal, X, UserCircle, Tag } from 'lucide-react';
+import React, { useState } from 'react';
 import { DocumentCard } from '@/components/document-card';
 import { SearchBar } from '@/components/search-bar';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     Select,
     SelectContent,
@@ -13,10 +16,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { Head, Link, router, usePage } from '@inertiajs/react';
-import { ArrowLeft, FileText, Grid3x3, List, SlidersHorizontal, X, UserCircle, Tag } from 'lucide-react';
 import type { SharedData } from '@/types';
-import React, { useState } from 'react';
 
 interface TagShowProps {
     tag: {
