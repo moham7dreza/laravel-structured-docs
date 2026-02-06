@@ -1,6 +1,7 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save, Send, Loader2, X, Plus, Trash2 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RichTextEditor } from '@/components/rich-text-editor';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -98,6 +99,7 @@ interface DocumentCreateProps {
 }
 
 export default function DocumentCreate({ categories, tags, users }: DocumentCreateProps) {
+    const { t } = useTranslation();
     const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
     const [structures, setStructures] = useState<Structure[]>([]);
     const [selectedStructure, setSelectedStructure] = useState<Structure | null>(null);
@@ -289,7 +291,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
     return (
         <>
-            <Head title="Create Document" />
+            <Head title={t('document.create.title')} />
 
             {/* Header */}
             <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
@@ -297,10 +299,10 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                     <Button variant="ghost" size="sm" asChild>
                         <a href="/documents" className="flex items-center gap-2">
                             <ArrowLeft className="h-4 w-4" />
-                            Back to Documents
+                            {t('document.create.backToDocuments')}
                         </a>
                     </Button>
-                    <h1 className="font-semibold">Create New Document</h1>
+                    <h1 className="font-semibold">{t('document.create.createNewDocument')}</h1>
                     <div className="w-32" /> {/* Spacer for centering */}
                 </div>
             </header>
@@ -310,29 +312,29 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                     <form onSubmit={handleSubmit}>
                         <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
                             <TabsList className="grid w-full grid-cols-6 mb-8">
-                                <TabsTrigger value="basic">Basic Info</TabsTrigger>
-                                <TabsTrigger value="structure">Structure</TabsTrigger>
-                                <TabsTrigger value="branch">Branches</TabsTrigger>
-                                <TabsTrigger value="permissions">Permissions</TabsTrigger>
-                                <TabsTrigger value="references">References</TabsTrigger>
-                                <TabsTrigger value="settings">Settings</TabsTrigger>
+                                <TabsTrigger value="basic">{t('document.create.basicInfoTab')}</TabsTrigger>
+                                <TabsTrigger value="structure">{t('document.create.structure')}</TabsTrigger>
+                                <TabsTrigger value="branch">{t('document.create.branches')}</TabsTrigger>
+                                <TabsTrigger value="permissions">{t('document.create.permissions')}</TabsTrigger>
+                                <TabsTrigger value="references">{t('document.create.references')}</TabsTrigger>
+                                <TabsTrigger value="settings">{t('document.create.settings')}</TabsTrigger>
                             </TabsList>
 
                             {/* TAB 1: Basic Information */}
                             <TabsContent value="basic">
                                 <Card className="p-6">
-                                    <h2 className="text-2xl font-bold mb-6">Basic Information</h2>
+                                    <h2 className="text-2xl font-bold mb-6">{t('document.create.basicInfo')}</h2>
 
                                     {/* Title */}
                                     <div className="mb-6">
                                         <Label htmlFor="title">
-                                            Document Title <span className="text-destructive">*</span>
+                                            {t('document.create.documentTitleRequired')}
                                         </Label>
                                         <Input
                                             id="title"
                                             value={data.title}
                                             onChange={(e) => setData('title', e.target.value)}
-                                            placeholder="Enter document title..."
+                                            placeholder={t('document.create.documentTitlePlaceholder')}
                                             className="mt-2"
                                         />
                                         {errors.title && (
@@ -342,12 +344,12 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
                                     {/* Description */}
                                     <div className="mb-6">
-                                        <Label htmlFor="description">Description</Label>
+                                        <Label htmlFor="description">{t('document.create.documentDescription')}</Label>
                                         <Textarea
                                             id="description"
                                             value={data.description}
                                             onChange={(e) => setData('description', e.target.value)}
-                                            placeholder="Brief description of the document..."
+                                            placeholder={t('document.create.documentDescriptionPlaceholder')}
                                             rows={4}
                                             className="mt-2"
                                         />
@@ -355,25 +357,25 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
                                     {/* Image URL */}
                                     <div className="mb-6">
-                                        <Label htmlFor="image">Cover Image URL</Label>
+                                        <Label htmlFor="image">{t('document.create.coverImage')}</Label>
                                         <Input
                                             id="image"
                                             type="url"
                                             value={data.image}
                                             onChange={(e) => setData('image', e.target.value)}
-                                            placeholder="https://example.com/image.jpg"
+                                            placeholder={t('document.create.coverImagePlaceholder')}
                                             className="mt-2"
                                         />
                                         <p className="text-sm text-muted-foreground mt-1">
-                                            Optional: Provide a URL for the document cover image
+                                            {t('document.create.coverImageOptional')}
                                         </p>
                                     </div>
 
                                     {/* Tags */}
                                     <div className="mb-6">
-                                        <Label>Tags</Label>
+                                        <Label>{t('document.create.tags')}</Label>
                                         <p className="text-sm text-muted-foreground mt-1 mb-3">
-                                            Select tags to categorize this document
+                                            {t('document.create.selectTags')}
                                         </p>
                                         <div className="flex flex-wrap gap-2">
                                             {tags.map((tag) => (
@@ -401,7 +403,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             onClick={() => setCurrentTab('structure')}
                                             disabled={!data.title}
                                         >
-                                            Next: Structure & Content
+                                            {t('document.create.nextButton')}
                                         </Button>
                                     </div>
                                 </Card>
@@ -410,16 +412,16 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                             {/* TAB 2: Structure & Category */}
                             <TabsContent value="structure">
                                 <Card className="p-6">
-                                    <h2 className="text-2xl font-bold mb-6">Structure & Category</h2>
+                                    <h2 className="text-2xl font-bold mb-6">{t('document.create.structureCategory')}</h2>
 
                                     {/* Category */}
                                     <div className="mb-6">
                                         <Label htmlFor="category">
-                                            Category <span className="text-destructive">*</span>
+                                            {t('document.create.categoryRequired')}
                                         </Label>
                                         <Select value={data.category_id} onValueChange={handleCategoryChange}>
                                             <SelectTrigger className="mt-2">
-                                                <SelectValue placeholder="Select a category..." />
+                                                <SelectValue placeholder={t('document.create.selectCategoryPlaceholder')} />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {categories.map((cat) => (
@@ -438,26 +440,26 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                     {selectedCategory && (
                                         <div className="mb-6">
                                             <Label htmlFor="structure">
-                                                Document Structure <span className="text-destructive">*</span>
+                                                {t('document.create.selectStructure')}
                                             </Label>
                                             <p className="text-sm text-muted-foreground mt-1 mb-2">
-                                                Select a structure template. Default structure is recommended.
+                                                {t('document.create.selectStructureHint')}
                                             </p>
                                             {loadingStructures ? (
                                                 <div className="mt-2 flex items-center gap-2 text-muted-foreground">
                                                     <Loader2 className="h-4 w-4 animate-spin" />
-                                                    Loading structures...
+                                                    {t('document.create.loadingStructures')}
                                                 </div>
                                             ) : structures.length > 0 ? (
                                                 <Select value={data.structure_id} onValueChange={handleStructureChange}>
                                                     <SelectTrigger className="mt-2">
-                                                        <SelectValue placeholder="Select a structure template..." />
+                                                        <SelectValue placeholder={t('document.create.selectStructurePlaceholder')} />
                                                     </SelectTrigger>
                                                     <SelectContent>
                                                         {structures.map((struct) => (
                                                             <SelectItem key={struct.id} value={struct.id.toString()}>
                                                                 {struct.title}
-                                                                {struct.is_default && ' (Default)'}
+                                                                {struct.is_default && ` ${t('document.create.defaultStructure')}`}
                                                                 {' - v' + struct.version}
                                                             </SelectItem>
                                                         ))}
@@ -465,7 +467,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                 </Select>
                                             ) : (
                                                 <p className="mt-2 text-sm text-muted-foreground">
-                                                    No structures available for this category.
+                                                    {t('document.create.noStructureAvailable')}
                                                 </p>
                                             )}
                                             {errors.structure_id && (
@@ -477,9 +479,9 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                     {/* Document Content */}
                                     {selectedStructure && (
                                         <div className="mt-8">
-                                            <h3 className="text-xl font-semibold mb-4">Document Content</h3>
+                                            <h3 className="text-xl font-semibold mb-4">{t('document.create.documentContent')}</h3>
                                             <p className="text-sm text-muted-foreground mb-6">
-                                                Fill in the content based on the selected structure
+                                                {t('document.create.fillInContent')}
                                             </p>
 
                                             {selectedStructure.sections.map((section) => (
@@ -544,9 +546,9 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                             {/* TAB 3: Branch & Integration */}
                             <TabsContent value="branch">
                                 <Card className="p-6">
-                                    <h2 className="text-2xl font-bold mb-2">Git Branch Information</h2>
+                                    <h2 className="text-2xl font-bold mb-2">{t('document.create.branches.title')}</h2>
                                     <p className="text-muted-foreground mb-6">
-                                        Link this document to Git branches and Jira tasks (optional)
+                                        {t('document.create.branches.description')}
                                     </p>
 
                                     {data.branches.map((branch, index) => (
@@ -567,34 +569,34 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div>
-                                                    <Label>Jira Task ID *</Label>
+                                                    <Label>{t('document.create.branches.taskId')} *</Label>
                                                     <Input
                                                         value={branch.task_id}
                                                         onChange={(e) => updateBranch(index, 'task_id', e.target.value)}
-                                                        placeholder="e.g., PROJ-123"
+                                                        placeholder={t('document.create.branches.taskIdPlaceholder')}
                                                         className="mt-1"
                                                     />
                                                 </div>
                                                 <div>
-                                                    <Label>Branch Name *</Label>
+                                                    <Label>{t('document.create.branches.branchName')} *</Label>
                                                     <Input
                                                         value={branch.branch_name}
                                                         onChange={(e) => updateBranch(index, 'branch_name', e.target.value)}
-                                                        placeholder="e.g., feature/PROJ-123"
+                                                        placeholder={t('document.create.branches.branchNamePlaceholder')}
                                                         className="mt-1"
                                                     />
                                                 </div>
                                                 <div className="col-span-2">
-                                                    <Label>Task Title</Label>
+                                                    <Label>{t('document.create.branches.taskTitle')}</Label>
                                                     <Input
                                                         value={branch.task_title}
                                                         onChange={(e) => updateBranch(index, 'task_title', e.target.value)}
-                                                        placeholder="Brief description of the task"
+                                                        placeholder={t('document.create.branches.taskTitlePlaceholder')}
                                                         className="mt-1"
                                                     />
                                                 </div>
                                                 <div className="col-span-2">
-                                                    <Label>Repository URL</Label>
+                                                    <Label>{t('document.create.branches.repositoryUrl')}</Label>
                                                     <Input
                                                         type="url"
                                                         value={branch.repository_url}
@@ -638,13 +640,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                             {/* TAB 4: Permissions */}
                             <TabsContent value="permissions">
                                 <Card className="p-6">
-                                    <h2 className="text-2xl font-bold mb-6">Permissions</h2>
+                                    <h2 className="text-2xl font-bold mb-6">{t('document.create.permissionsSection.title')}</h2>
 
                                     {/* Editors */}
                                     <div className="mb-8">
-                                        <h3 className="text-lg font-semibold mb-2">Document Editors</h3>
+                                        <h3 className="text-lg font-semibold mb-2">{t('document.create.permissionsSection.editorsSection')}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">
-                                            Assign editors who can collaborate on this document
+                                            {t('document.create.permissionsSection.editorsDescription')}
                                         </p>
 
                                         {data.editors.map((editor, index) => (
@@ -696,8 +698,8 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                                 <SelectValue />
                                                             </SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem value="full">Full Access</SelectItem>
-                                                                <SelectItem value="limited">Limited Access</SelectItem>
+                                                                <SelectItem value="full">{t('document.create.permissionsSection.fullAccess')}</SelectItem>
+                                                                <SelectItem value="limited">{t('document.create.permissionsSection.limitedAccess')}</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
@@ -712,15 +714,15 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             className="w-full gap-2"
                                         >
                                             <Plus className="h-4 w-4" />
-                                            Add Editor
+                                            {t('document.create.permissionsSection.addEditor')}
                                         </Button>
                                     </div>
 
                                     {/* Reviewers */}
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-2">Document Reviewers</h3>
+                                        <h3 className="text-lg font-semibold mb-2">{t('document.create.permissionsSection.reviewersSection')}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">
-                                            Assign reviewers for approval and feedback
+                                            {t('document.create.permissionsSection.reviewersDescription')}
                                         </p>
 
                                         {data.reviewers.map((reviewer, index) => (
@@ -772,10 +774,10 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                                 <SelectValue />
                                                             </SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem value="pending">Pending</SelectItem>
-                                                                <SelectItem value="in_progress">In Progress</SelectItem>
-                                                                <SelectItem value="approved">Approved</SelectItem>
-                                                                <SelectItem value="rejected">Rejected</SelectItem>
+                                                                <SelectItem value="pending">{t('document.create.permissionsSection.pending')}</SelectItem>
+                                                                <SelectItem value="in_progress">{t('document.create.permissionsSection.inProgress')}</SelectItem>
+                                                                <SelectItem value="approved">{t('document.create.permissionsSection.approved')}</SelectItem>
+                                                                <SelectItem value="rejected">{t('document.create.permissionsSection.rejected')}</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
@@ -815,13 +817,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                             {/* TAB 5: References & Links */}
                             <TabsContent value="references">
                                 <Card className="p-6">
-                                    <h2 className="text-2xl font-bold mb-6">References & Links</h2>
+                                    <h2 className="text-2xl font-bold mb-6">{t('document.create.referencesSection.title')}</h2>
 
                                     {/* Document References */}
                                     <div className="mb-8">
-                                        <h3 className="text-lg font-semibold mb-2">Document References</h3>
+                                        <h3 className="text-lg font-semibold mb-2">{t('document.create.referencesSection.documentsSection')}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">
-                                            Link to other related documents
+                                            {t('document.create.referencesSection.documentsDescription')}
                                         </p>
 
                                         {data.references.map((ref, index) => (
