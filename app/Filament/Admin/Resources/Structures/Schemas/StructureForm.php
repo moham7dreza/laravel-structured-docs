@@ -82,6 +82,57 @@ class StructureForm
                                     ->minValue(1)
                                     ->nullable()
                                     ->visible(fn ($get) => $get('is_repeatable')),
+
+                                Section::make('Section Items')
+                                    ->schema([
+                                        Repeater::make('items')
+                                            ->relationship()
+                                            ->schema([
+                                                TextInput::make('label')
+                                                    ->required()
+                                                    ->maxLength(255)
+                                                    ->columnSpan(2),
+                                                Textarea::make('description')
+                                                    ->rows(2)
+                                                    ->columnSpanFull(),
+                                                Select::make('type')
+                                                    ->options([
+                                                        'text' => 'Text',
+                                                        'textarea' => 'Textarea',
+                                                        'rich_text' => 'Rich Text',
+                                                        'number' => 'Number',
+                                                        'date' => 'Date',
+                                                        'select' => 'Select',
+                                                        'multiselect' => 'Multi-select',
+                                                        'checkbox' => 'Checkbox',
+                                                        'radio' => 'Radio',
+                                                        'file' => 'File',
+                                                        'image' => 'Image',
+                                                        'link' => 'Link',
+                                                        'reference' => 'Reference',
+                                                        'code' => 'Code',
+                                                        'checklist' => 'Checklist',
+                                                    ])
+                                                    ->required()
+                                                    ->columnSpan(2),
+                                                TextInput::make('placeholder')
+                                                    ->maxLength(255)
+                                                    ->columnSpan(2),
+                                                TextInput::make('default_value')
+                                                    ->maxLength(255)
+                                                    ->columnSpan(2),
+                                                Toggle::make('is_required')
+                                                    ->default(false)
+                                                    ->columnSpan(1),
+                                            ])
+                                            ->columns(4)
+                                            ->collapsible()
+                                            ->itemLabel(fn (array $state): ?string => $state['label'] ?? null)
+                                            ->reorderable()
+                                            ->orderColumn('position')
+                                            ->addActionLabel('Add Item'),
+                                    ])
+                                    ->columnSpanFull(),
                             ])
                             ->columns(4)
                             ->collapsible()
@@ -90,6 +141,7 @@ class StructureForm
                             ->orderColumn('position')
                             ->addActionLabel('Add Section'),
                     ])
+                    ->columnSpanFull()
                     ->collapsed(),
             ]);
     }
