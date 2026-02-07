@@ -16,6 +16,12 @@
                         document.documentElement.classList.add('dark');
                     }
                 }
+
+                // Set dir attribute based on saved language preference
+                const savedLang = localStorage.getItem('i18nextLng') || 'en';
+                const dir = savedLang === 'fa' ? 'rtl' : 'ltr';
+                document.documentElement.setAttribute('dir', dir);
+                document.documentElement.setAttribute('lang', savedLang);
             })();
         </script>
 

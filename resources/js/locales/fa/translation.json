@@ -23,7 +23,10 @@
     "edit": "ویرایش",
     "loading": "در حال بارگذاری...",
     "noResults": "نتیجه‌ای یافت نشد",
-    "backToHome": "بازگشت به خانه"
+    "backToHome": "بازگشت به خانه",
+    "back": "بازگشت",
+    "next": "بعدی:",
+    "optional": "اختیاری"
   },
   "home": {
     "hero": {
@@ -356,14 +359,15 @@
       "createNewDocument": "ایجاد مستند جدید",
       "basicInfo": "اطلاعات پایه",
       "basicInfoTab": "اطلاعات پایه",
-      "structure": "ساختار و دسته‌بندی",
-      "branches": "شاخه‌ها",
-      "permissions": "مجوزها",
-      "references": "ارجاع‌ها",
-      "settings": "تنظیمات",
+      "structureTab": "ساختار و دسته‌بندی",
+      "branchesTab": "شاخه‌ها",
+      "permissionsTab": "مجوزها",
+      "referencesTab": "ارجاع‌ها",
+      "settingsTab": "تنظیمات",
       "content": "محتوا",
       "documentContent": "محتوای مستند",
       "review": "بررسی و انتشار",
+      "optional": "اختیاری",
       "documentTitle": "عنوان مستند",
       "documentTitleRequired": "عنوان مستند *",
       "documentTitlePlaceholder": "عنوان مستند را وارد کنید...",
@@ -414,7 +418,7 @@
         "mergedAt": "زمان ادغام",
         "mergedAtHint": "زمان ادغام این شاخه (خالی بگذارید اگر هنوز ادغام نشده)"
       },
-      "permissions": {
+      "permissionsSection": {
         "title": "مجوزها",
         "editorsSection": "ویرایشگران مستند",
         "editorsDescription": "ویرایشگرانی را برای همکاری در این مستند اختصاص دهید",
@@ -439,7 +443,7 @@
         "notifiedAt": "زمان اطلاع‌رسانی",
         "respondedAt": "زمان پاسخ"
       },
-      "references": {
+      "referencesSection": {
         "title": "ارجاع‌ها و پیوندها",
         "documentsSection": "ارجاع‌های مستند",
         "documentsDescription": "پیوند دهید به مستندات دیگر در سیستم",
@@ -509,6 +513,7 @@
   "search": {
     "title": "نتایج جستجو",
     "placeholder": "جستجو...",
+    "button": "جستجو",
     "results": "نتیجه",
     "noResults": "نتیجه‌ای یافت نشد برای",
     "tryDifferent": "کلمات کلیدی دیگری امتحان کنید یا فیلترهای خود را تنظیم کنید"

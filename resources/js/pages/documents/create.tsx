@@ -311,13 +311,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                 <div className="container mx-auto px-4 py-8 max-w-6xl">
                     <form onSubmit={handleSubmit}>
                         <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
-                            <TabsList className="grid w-full grid-cols-6 mb-8">
-                                <TabsTrigger value="basic">{t('document.create.basicInfoTab')}</TabsTrigger>
-                                <TabsTrigger value="structure">{t('document.create.structure')}</TabsTrigger>
-                                <TabsTrigger value="branch">{t('document.create.branches')}</TabsTrigger>
-                                <TabsTrigger value="permissions">{t('document.create.permissions')}</TabsTrigger>
-                                <TabsTrigger value="references">{t('document.create.references')}</TabsTrigger>
-                                <TabsTrigger value="settings">{t('document.create.settings')}</TabsTrigger>
+                            <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 mb-8 h-auto">
+                                <TabsTrigger value="basic" className="text-xs lg:text-sm truncate">{t('document.create.basicInfoTab')}</TabsTrigger>
+                                <TabsTrigger value="structure" className="text-xs lg:text-sm truncate">{t('document.create.structureTab')}</TabsTrigger>
+                                <TabsTrigger value="branch" className="text-xs lg:text-sm truncate">{t('document.create.branchesTab')}</TabsTrigger>
+                                <TabsTrigger value="permissions" className="text-xs lg:text-sm truncate">{t('document.create.permissionsTab')}</TabsTrigger>
+                                <TabsTrigger value="references" className="text-xs lg:text-sm truncate">{t('document.create.referencesTab')}</TabsTrigger>
+                                <TabsTrigger value="settings" className="text-xs lg:text-sm truncate">{t('document.create.settingsTab')}</TabsTrigger>
                             </TabsList>
 
                             {/* TAB 1: Basic Information */}
@@ -616,7 +616,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                         className="w-full gap-2"
                                     >
                                         <Plus className="h-4 w-4" />
-                                        Add Branch
+                                        {t('document.create.branches.addBranch')}
                                     </Button>
 
                                     <div className="flex justify-between mt-6">
@@ -625,13 +625,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             variant="outline"
                                             onClick={() => setCurrentTab('structure')}
                                         >
-                                            Previous
+                                            {t('common.back')}
                                         </Button>
                                         <Button
                                             type="button"
                                             onClick={() => setCurrentTab('permissions')}
                                         >
-                                            Next: Permissions (Optional)
+                                            {t('common.next')} {t('document.create.permissionsTab')} ({t('document.create.optional')})
                                         </Button>
                                     </div>
                                 </Card>
@@ -687,7 +687,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                         </Select>
                                                     </div>
                                                     <div>
-                                                        <Label>Access Type *</Label>
+                                                        <Label>{t('document.create.permissionsSection.accessType')} *</Label>
                                                         <Select
                                                             value={editor.access_type}
                                                             onValueChange={(value) =>
@@ -743,7 +743,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <div>
-                                                        <Label>Reviewer *</Label>
+                                                        <Label>{t('document.create.permissionsSection.user')} *</Label>
                                                         <Select
                                                             value={reviewer.user_id?.toString() || ''}
                                                             onValueChange={(value) =>
@@ -751,7 +751,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                             }
                                                         >
                                                             <SelectTrigger className="mt-1">
-                                                                <SelectValue placeholder="Select reviewer..." />
+                                                                <SelectValue placeholder={t('document.create.permissionsSection.selectUser')} />
                                                             </SelectTrigger>
                                                             <SelectContent>
                                                                 {users.map((user) => (
@@ -763,7 +763,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                         </Select>
                                                     </div>
                                                     <div>
-                                                        <Label>Status *</Label>
+                                                        <Label>{t('document.create.permissionsSection.reviewStatus')} *</Label>
                                                         <Select
                                                             value={reviewer.status}
                                                             onValueChange={(value) =>
@@ -792,7 +792,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             className="w-full gap-2"
                                         >
                                             <Plus className="h-4 w-4" />
-                                            Add Reviewer
+                                            {t('document.create.permissionsSection.addReviewer')}
                                         </Button>
                                     </div>
 
@@ -802,13 +802,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             variant="outline"
                                             onClick={() => setCurrentTab('branch')}
                                         >
-                                            Previous
+                                            {t('common.back')}
                                         </Button>
                                         <Button
                                             type="button"
                                             onClick={() => setCurrentTab('references')}
                                         >
-                                            Next: References (Optional)
+                                            {t('common.next')} {t('document.create.referencesTab')} ({t('document.create.optional')})
                                         </Button>
                                     </div>
                                 </Card>
@@ -842,7 +842,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
                                                 <div className="space-y-3">
                                                     <div>
-                                                        <Label>Target Document</Label>
+                                                        <Label>{t('document.create.referencesSection.referencedDocument')}</Label>
                                                         <Input
                                                             type="number"
                                                             value={ref.target_document_id || ''}
@@ -858,13 +858,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                         />
                                                     </div>
                                                     <div>
-                                                        <Label>Context</Label>
+                                                        <Label>{t('document.create.referencesSection.context')}</Label>
                                                         <Textarea
                                                             value={ref.context}
                                                             onChange={(e) =>
                                                                 updateReference(index, 'context', e.target.value)
                                                             }
-                                                            placeholder="Why is this document referenced?"
+                                                            placeholder={t('document.create.referencesSection.contextPlaceholder')}
                                                             rows={2}
                                                             className="mt-1"
                                                         />
@@ -880,15 +880,15 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             className="w-full gap-2"
                                         >
                                             <Plus className="h-4 w-4" />
-                                            Add Reference
+                                            {t('document.create.referencesSection.addReference')}
                                         </Button>
                                     </div>
 
                                     {/* External Links */}
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-2">External Links</h3>
+                                        <h3 className="text-lg font-semibold mb-2">{t('document.create.referencesSection.externalLinksSection')}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">
-                                            Add links to external resources
+                                            {t('document.create.referencesSection.externalLinksDescription')}
                                         </p>
 
                                         {data.links.map((link, index) => (
@@ -907,21 +907,21 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
                                                 <div className="space-y-3">
                                                     <div>
-                                                        <Label>Title *</Label>
+                                                        <Label>{t('document.create.referencesSection.linkTitle')} *</Label>
                                                         <Input
                                                             value={link.title}
                                                             onChange={(e) => updateLink(index, 'title', e.target.value)}
-                                                            placeholder="Link title"
+                                                            placeholder={t('document.create.referencesSection.linkTitlePlaceholder')}
                                                             className="mt-1"
                                                         />
                                                     </div>
                                                     <div>
-                                                        <Label>URL *</Label>
+                                                        <Label>{t('document.create.referencesSection.url')} *</Label>
                                                         <Input
                                                             type="url"
                                                             value={link.url}
                                                             onChange={(e) => updateLink(index, 'url', e.target.value)}
-                                                            placeholder="https://example.com"
+                                                            placeholder={t('document.create.referencesSection.urlPlaceholder')}
                                                             className="mt-1"
                                                         />
                                                     </div>
@@ -948,7 +948,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             className="w-full gap-2"
                                         >
                                             <Plus className="h-4 w-4" />
-                                            Add Link
+                                            {t('document.create.referencesSection.addLink')}
                                         </Button>
                                     </div>
 
@@ -958,13 +958,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             variant="outline"
                                             onClick={() => setCurrentTab('permissions')}
                                         >
-                                            Previous
+                                            {t('common.back')}
                                         </Button>
                                         <Button
                                             type="button"
                                             onClick={() => setCurrentTab('settings')}
                                         >
-                                            Next: Settings
+                                            {t('common.next')} {t('document.create.settingsTab')}
                                         </Button>
                                     </div>
                                 </Card>
@@ -973,12 +973,12 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                             {/* TAB 6: Settings */}
                             <TabsContent value="settings">
                                 <Card className="p-6">
-                                    <h2 className="text-2xl font-bold mb-6">Document Settings</h2>
+                                    <h2 className="text-2xl font-bold mb-6">{t('document.create.settingsSection.title')}</h2>
 
                                     <div className="grid grid-cols-3 gap-6 mb-8">
                                         {/* Visibility */}
                                         <div>
-                                            <Label>Visibility</Label>
+                                            <Label>{t('document.create.settingsSection.visibility')}</Label>
                                             <Select
                                                 value={data.visibility}
                                                 onValueChange={(value: any) => setData('visibility', value)}
@@ -987,16 +987,16 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="public">Public</SelectItem>
-                                                    <SelectItem value="private">Private</SelectItem>
-                                                    <SelectItem value="team">Team</SelectItem>
+                                                    <SelectItem value="public">{t('document.create.settingsSection.public')}</SelectItem>
+                                                    <SelectItem value="private">{t('document.create.settingsSection.private')}</SelectItem>
+                                                    <SelectItem value="team">{t('document.create.settingsSection.team')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
 
                                         {/* Status */}
                                         <div>
-                                            <Label>Status</Label>
+                                            <Label>{t('document.create.settingsSection.status')}</Label>
                                             <Select
                                                 value={data.status}
                                                 onValueChange={(value: any) => setData('status', value)}
@@ -1005,19 +1005,19 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="draft">Draft</SelectItem>
-                                                    <SelectItem value="pending_review">Pending Review</SelectItem>
-                                                    <SelectItem value="published">Published</SelectItem>
-                                                    <SelectItem value="completed">Completed</SelectItem>
-                                                    <SelectItem value="stale">Stale</SelectItem>
-                                                    <SelectItem value="archived">Archived</SelectItem>
+                                                    <SelectItem value="draft">{t('document.create.settingsSection.draft')}</SelectItem>
+                                                    <SelectItem value="pending_review">{t('document.create.settingsSection.pendingReview')}</SelectItem>
+                                                    <SelectItem value="published">{t('document.create.settingsSection.published')}</SelectItem>
+                                                    <SelectItem value="completed">{t('document.create.settingsSection.completed')}</SelectItem>
+                                                    <SelectItem value="stale">{t('document.create.settingsSection.stale')}</SelectItem>
+                                                    <SelectItem value="archived">{t('document.create.settingsSection.archived')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
 
                                         {/* Approval Status */}
                                         <div>
-                                            <Label>Approval Status</Label>
+                                            <Label>{t('document.create.settingsSection.approvalStatus')}</Label>
                                             <Select
                                                 value={data.approval_status}
                                                 onValueChange={(value: any) => setData('approval_status', value)}
@@ -1026,10 +1026,10 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="not_submitted">Not Submitted</SelectItem>
-                                                    <SelectItem value="pending">Pending</SelectItem>
-                                                    <SelectItem value="approved">Approved</SelectItem>
-                                                    <SelectItem value="rejected">Rejected</SelectItem>
+                                                    <SelectItem value="not_submitted">{t('document.create.settingsSection.notSubmitted')}</SelectItem>
+                                                    <SelectItem value="pending">{t('document.create.permissionsSection.pending')}</SelectItem>
+                                                    <SelectItem value="approved">{t('document.create.permissionsSection.approved')}</SelectItem>
+                                                    <SelectItem value="rejected">{t('document.create.permissionsSection.rejected')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -1037,9 +1037,9 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
 
                                     {/* Watchers */}
                                     <div>
-                                        <h3 className="text-lg font-semibold mb-2">Document Watchers</h3>
+                                        <h3 className="text-lg font-semibold mb-2">{t('document.create.settingsSection.watchersSection')}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">
-                                            Users who will be notified of changes to this document
+                                            {t('document.create.settingsSection.watchersDescription')}
                                         </p>
 
                                         <div className="flex flex-wrap gap-2">
@@ -1069,13 +1069,13 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                             variant="outline"
                                             onClick={() => setCurrentTab('references')}
                                         >
-                                            Previous
+                                            {t('common.back')}
                                         </Button>
                                         <Button
                                             type="button"
                                             onClick={() => setCurrentTab('basic')}
                                         >
-                                            Review & Submit
+                                            {t('document.create.review')}
                                         </Button>
                                     </div>
                                 </Card>
@@ -1090,7 +1090,7 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                 onClick={() => router.visit('/documents')}
                                 disabled={processing}
                             >
-                                Cancel
+                                {t('common.cancel')}
                             </Button>
                             <Button
                                 type="submit"
@@ -1100,12 +1100,12 @@ export default function DocumentCreate({ categories, tags, users }: DocumentCrea
                                 {processing ? (
                                     <>
                                         <Loader2 className="h-4 w-4 animate-spin" />
-                                        Creating...
+                                        {t('document.create.saving')}
                                     </>
                                 ) : (
                                     <>
                                         <Send className="h-4 w-4" />
-                                        Create Document
+                                        {t('common.createDocument')}
                                     </>
                                 )}
                             </Button>

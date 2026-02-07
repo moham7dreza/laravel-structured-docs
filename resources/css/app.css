@@ -21,6 +21,9 @@
         'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Source Code Pro',
         Menlo, Monaco, 'Courier New', monospace;
 
+    /* ===== SPACING ===== */
+    --space-x: 0.5rem;
+
     /* ===== BORDER RADIUS ===== */
     --radius: 0.5rem;
     --radius-lg: var(--radius);
@@ -299,12 +302,13 @@
         }
     }
 
-    /* RTL Support */
+    /* RTL Support - Minimal approach, only what's needed */
     [dir="rtl"] {
         direction: rtl;
         text-align: right;
     }
 
+    /* RTL Tailwind utilities */
     [dir="rtl"] .space-x-reverse > * + * {
         margin-right: var(--space-x);
         margin-left: 0;
@@ -320,9 +324,23 @@
         margin-right: auto;
     }
 
-    /* Fix flex direction in RTL */
-    [dir="rtl"] .flex-row {
-        flex-direction: row-reverse;
+    /* RTL form elements - minimal fix */
+    [dir="rtl"] input[type="text"],
+    [dir="rtl"] input[type="search"],
+    [dir="rtl"] textarea {
+        text-align: right;
+        direction: rtl;
+    }
+
+    /* RTL placeholder text */
+    [dir="rtl"] ::placeholder {
+        text-align: right;
+    }
+
+    /* RTL labels */
+    [dir="rtl"] label {
+        text-align: right;
+        display: block;
     }
 
     /* Persian/Farsi specific font optimization */

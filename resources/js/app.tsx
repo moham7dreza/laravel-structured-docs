@@ -8,6 +8,16 @@ import './i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+// Initialize language direction on app load
+const initializeLanguage = () => {
+    const savedLang = localStorage.getItem('i18nextLng') || 'en';
+    const dir = savedLang === 'fa' ? 'rtl' : 'ltr';
+    document.documentElement.setAttribute('dir', dir);
+    document.documentElement.setAttribute('lang', savedLang);
+};
+
+initializeLanguage();
+
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
     resolve: (name) =>

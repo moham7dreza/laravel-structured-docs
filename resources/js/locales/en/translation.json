@@ -23,7 +23,10 @@
     "edit": "Edit",
     "loading": "Loading...",
     "noResults": "No results found",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "back": "Back",
+    "next": "Next:",
+    "optional": "Optional"
   },
   "home": {
     "hero": {
@@ -356,11 +359,11 @@
       "createNewDocument": "Create New Document",
       "basicInfo": "Basic Information",
       "basicInfoTab": "Basic Info",
-      "structure": "Structure & Category",
-      "branches": "Branches",
-      "permissions": "Permissions",
-      "references": "References",
-      "settings": "Settings",
+      "structureTab": "Structure & Category",
+      "branchesTab": "Branches",
+      "permissionsTab": "Permissions",
+      "referencesTab": "References",
+      "settingsTab": "Settings",
       "content": "Content",
       "documentContent": "Document Content",
       "review": "Review & Publish",
@@ -414,7 +417,7 @@
         "mergedAt": "Merged At",
         "mergedAtHint": "When this branch was merged (leave empty if not merged yet)"
       },
-      "permissions": {
+      "permissionsSection": {
         "title": "Permissions",
         "editorsSection": "Document Editors",
         "editorsDescription": "Assign editors who can collaborate on this document",
@@ -439,7 +442,7 @@
         "notifiedAt": "Notified At",
         "respondedAt": "Responded At"
       },
-      "references": {
+      "referencesSection": {
         "title": "References & Links",
         "documentsSection": "Document References",
         "documentsDescription": "Link to other documents in the system",
@@ -509,6 +512,7 @@
   "search": {
     "title": "Search Results",
     "placeholder": "Search...",
+    "button": "Search",
     "results": "results",
     "noResults": "No results found for",
     "tryDifferent": "Try different keywords or adjust your filters"
