@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Structures\Schemas;
 
+use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -124,6 +125,19 @@ class StructureForm
                                                 Toggle::make('is_required')
                                                     ->default(false)
                                                     ->columnSpan(1),
+                                                TextInput::make('position')
+                                                    ->numeric()
+                                                    ->default(0)
+                                                    ->minValue(0)
+                                                    ->columnSpan(1)
+                                                    ->helperText('Order of this item in the section'),
+                                                KeyValue::make('validation_rules')
+                                                    ->label('Validation Rules')
+                                                    ->keyLabel('Parameter')
+                                                    ->valueLabel('Value')
+                                                    ->addButtonLabel('Add validation rule')
+                                                    ->helperText('Key-value pairs for validation (e.g., min: 5, max: 100, pattern: regex)')
+                                                    ->columnSpanFull(),
                                             ])
                                             ->columns(4)
                                             ->collapsible()
