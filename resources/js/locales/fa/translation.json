@@ -229,11 +229,22 @@
     "editProfile": "ویرایش پروفایل",
     "follow": "دنبال کردن",
     "unfollow": "لغو دنبال کردن",
+    "statistics": "آمار",
+    "rankBadge": "رتبه #{{position}}",
+    "levelBadge": "سطح {{level}}",
+    "joinedBadge": "عضو شده {{date}}",
+    "noActivity": "هنوز فعالیتی نیست",
+    "noActivityDesc": "فعالیت‌های اخیر در اینجا نمایش داده می‌شوند.",
     "stats": {
+      "title": "آمار",
       "documents": "مستندات",
       "followers": "دنبال‌کنندگان",
       "following": "دنبال‌شوندگان",
-      "score": "امتیاز"
+      "score": "کل امتیاز",
+      "documentsCreated": "مستندات ایجاد شده",
+      "documentsReviewed": "مستندات بازنگری شده",
+      "helpfulVotes": "رای‌های مفید",
+      "commentsMade": "نظرات ارائه شده"
     }
   },
   "dashboard": {

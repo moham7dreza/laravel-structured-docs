@@ -228,12 +228,24 @@
     "following": "Following",
     "editProfile": "Edit Profile",
     "follow": "Follow",
+    "following": "Following",
     "unfollow": "Unfollow",
+    "statistics": "Statistics",
+    "rankBadge": "Rank #{{position}}",
+    "levelBadge": "Level {{level}}",
+    "joinedBadge": "Joined {{date}}",
+    "noActivity": "No activity yet",
+    "noActivityDesc": "Recent activity will appear here.",
     "stats": {
+      "title": "Statistics",
       "documents": "Documents",
       "followers": "Followers",
       "following": "Following",
-      "score": "Score"
+      "score": "Total Score",
+      "documentsCreated": "Documents Created",
+      "documentsReviewed": "Documents Reviewed",
+      "helpfulVotes": "Helpful Votes",
+      "commentsMade": "Comments Made"
     }
   },
   "dashboard": {

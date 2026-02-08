@@ -12,6 +12,8 @@ import {
     Mail,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -56,6 +58,7 @@ export default function UserProfile({
     isFollowing,
     isOwnProfile,
 }: UserProfileProps) {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<
         'documents' | 'activity' | 'stats'
     >('documents');
@@ -99,30 +102,31 @@ export default function UserProfile({
             {/* Navigation Header */}
             <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container mx-auto px-4">
-                    <div className="flex h-16 items-center justify-between">
+                    <div className="flex h-16 items-center">
                         <div className="flex items-center gap-6">
                             <Link href="/" className="text-xl font-bold">
-                                📚 Docs
+                                📚 {t('nav.docs')}
                             </Link>
                             <div className="hidden md:flex items-center gap-4">
                                 <Link
                                     href="/"
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                 >
-                                    Home
+                                    {t('common.home')}
                                 </Link>
                                 <Link
                                     href="/documents"
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                 >
-                                    Documents
+                                    {t('common.documents')}
                                 </Link>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2">
+                        <div className="ml-auto flex items-center gap-2">
+                            <LanguageSwitcher />
                             <ThemeToggle />
                             <Button variant="ghost" size="sm" asChild>
-                                <Link href="/dashboard">Dashboard</Link>
+                                <Link href="/dashboard">{t('common.dashboard')}</Link>
                             </Button>
                         </div>
                     </div>
@@ -166,7 +170,7 @@ export default function UserProfile({
                                             <Button asChild>
                                                 <Link href="/settings/profile">
                                                     <Settings className="h-4 w-4 mr-2" />
-                                                    Edit Profile
+                                                    {t('profile.editProfile')}
                                                 </Link>
                                             </Button>
                                         ) : (
@@ -181,12 +185,12 @@ export default function UserProfile({
                                                 {isFollowing ? (
                                                     <>
                                                         <UserCheck className="h-4 w-4 mr-2" />
-                                                        Following
+                                                        {t('profile.following')}
                                                     </>
                                                 ) : (
                                                     <>
                                                         <UserPlus className="h-4 w-4 mr-2" />
-                                                        Follow
+                                                        {t('profile.follow')}
                                                     </>
                                                 )}
                                             </Button>
@@ -201,7 +205,7 @@ export default function UserProfile({
                                             {user.documents_count}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
-                                            Documents
+                                            {t('profile.stats.documents')}
                                         </div>
                                     </div>
                                     <div className="text-center sm:text-left">
@@ -209,7 +213,7 @@ export default function UserProfile({
                                             {user.followers_count}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
-                                            Followers
+                                            {t('profile.stats.followers')}
                                         </div>
                                     </div>
                                     <div className="text-center sm:text-left">
@@ -217,16 +221,16 @@ export default function UserProfile({
                                             {user.following_count}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
-                                            Following
+                                            {t('profile.stats.following')}
                                         </div>
                                     </div>
                                     <div className="text-center sm:text-left">
-                                        <div className="text-2xl font-bold flex items-center gap-2 justify-center sm:justify-start">
-                                            <TrendingUp className="h-5 w-5 text-brand-500" />
+                                        <div className="text-2xl font-bold flex items-center justify-center sm:justify-start">
+                                            <TrendingUp className="h-5 w-5 text-brand-500 mr-2" />
                                             {user.total_score.toLocaleString()}
                                         </div>
                                         <div className="text-sm text-muted-foreground">
-                                            Total Score
+                                            {t('profile.stats.score')}
                                         </div>
                                     </div>
                                 </div>
@@ -239,7 +243,7 @@ export default function UserProfile({
                                             className="gap-1.5"
                                         >
                                             <Award className="h-3.5 w-3.5" />
-                                            Rank #{user.leaderboard_position}
+                                            {t('profile.rankBadge', { position: user.leaderboard_position })}
                                         </Badge>
                                     )}
                                     {user.current_rank && (
@@ -248,12 +252,12 @@ export default function UserProfile({
                                             className="gap-1.5"
                                         >
                                             <Award className="h-3.5 w-3.5" />
-                                            Level {user.current_rank}
+                                            {t('profile.levelBadge', { level: user.current_rank })}
                                         </Badge>
                                     )}
                                     <Badge variant="outline" className="gap-1.5">
                                         <Calendar className="h-3.5 w-3.5" />
-                                        Joined {formatDate(user.created_at)}
+                                        {t('profile.joinedBadge', { date: formatDate(user.created_at) })}
                                     </Badge>
                                 </div>
                             </div>
@@ -273,7 +277,7 @@ export default function UserProfile({
                             className="gap-2"
                         >
                             <FileText className="h-4 w-4" />
-                            Documents
+                            {t('profile.documents')}
                         </Button>
                         <Button
                             variant={
@@ -283,7 +287,7 @@ export default function UserProfile({
                             className="gap-2"
                         >
                             <BookOpen className="h-4 w-4" />
-                            Activity
+                            {t('profile.activity')}
                         </Button>
                         {user.score_breakdown && (
                             <Button
@@ -294,7 +298,7 @@ export default function UserProfile({
                                 className="gap-2"
                             >
                                 <TrendingUp className="h-4 w-4" />
-                                Statistics
+                                {t('profile.statistics')}
                             </Button>
                         )}
                     </div>
@@ -447,10 +451,10 @@ export default function UserProfile({
                                 <Card className="p-12 text-center">
                                     <BookOpen className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                                     <h3 className="text-xl font-semibold mb-2">
-                                        No activity yet
+                                        {t('profile.noActivity')}
                                     </h3>
                                     <p className="text-muted-foreground">
-                                        Recent activity will appear here.
+                                        {t('profile.noActivityDesc')}
                                     </p>
                                 </Card>
                             )
@@ -462,7 +466,7 @@ export default function UserProfile({
                                     <Card className="p-6">
                                         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                                             <FileText className="h-5 w-5 text-brand-500" />
-                                            Documents Created
+                                            {t('profile.stats.documentsCreated')}
                                         </h3>
                                         <div className="text-4xl font-bold">
                                             {
@@ -475,7 +479,7 @@ export default function UserProfile({
                                     <Card className="p-6">
                                         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                                             <BookOpen className="h-5 w-5 text-brand-500" />
-                                            Documents Reviewed
+                                            {t('profile.stats.documentsReviewed')}
                                         </h3>
                                         <div className="text-4xl font-bold">
                                             {
@@ -488,7 +492,7 @@ export default function UserProfile({
                                     <Card className="p-6">
                                         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                                             <TrendingUp className="h-5 w-5 text-brand-500" />
-                                            Helpful Votes
+                                            {t('profile.stats.helpfulVotes')}
                                         </h3>
                                         <div className="text-4xl font-bold">
                                             {user.score_breakdown.helpful_votes}
@@ -498,7 +502,7 @@ export default function UserProfile({
                                     <Card className="p-6">
                                         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
                                             <Users className="h-5 w-5 text-brand-500" />
-                                            Comments Made
+                                            {t('profile.stats.commentsMade')}
                                         </h3>
                                         <div className="text-4xl font-bold">
                                             {user.score_breakdown.comments_made}
