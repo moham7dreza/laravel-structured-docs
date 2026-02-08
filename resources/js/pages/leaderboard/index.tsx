@@ -21,6 +21,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import type { SharedData } from '@/types';
+import {useTranslation} from "react-i18next";
+import {LanguageSwitcher} from "@/components/language-switcher";
 
 interface Badge {
     name: string;
@@ -70,6 +72,7 @@ interface LeaderboardProps {
 
 export default function Leaderboard({ users, stats, timeframe, currentUser }: LeaderboardProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
     const [activeTimeframe, setActiveTimeframe] = useState(timeframe);
 
     const handleTimeframeChange = (newTimeframe: string) => {
@@ -133,37 +136,38 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                 {/* Navigation */}
                 <nav className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                     <div className="container mx-auto px-4">
-                        <div className="flex h-16 items-center justify-between">
+                        <div className="flex h-16 items-center">
                             <div className="flex items-center gap-6">
                                 <Link href="/" className="text-xl font-bold">
-                                    📚 Docs
+                                    📚 {t('nav.docs')}
                                 </Link>
                                 <div className="hidden md:flex items-center gap-4">
                                     <Link
                                         href="/"
                                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                     >
-                                        Home
+                                        {t('common.home')}
                                     </Link>
                                     <Link
                                         href="/documents"
                                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                                     >
-                                        Documents
+                                        {t('common.documents')}
                                     </Link>
                                     <Link
                                         href="/leaderboard"
                                         className="text-sm font-medium text-foreground transition-colors"
                                     >
-                                        Leaderboard
+                                        {t('common.leaderboard')}
                                     </Link>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="ml-auto flex items-center gap-2">
+                                <LanguageSwitcher />
                                 <ThemeToggle />
                                 {auth?.user && (
                                     <Button variant="ghost" size="sm" asChild>
-                                        <Link href="/dashboard">Dashboard</Link>
+                                        <Link href="/dashboard">{t('common.dashboard')}</Link>
                                     </Button>
                                 )}
                             </div>
@@ -179,10 +183,10 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                 <Trophy className="w-16 h-16 text-brand-600" />
                             </div>
                             <h1 className="text-4xl md:text-5xl font-black mb-4 bg-gradient-to-r from-brand-600 to-accent-600 bg-clip-text text-transparent">
-                                Leaderboard
+                                {t('common.leaderboard')}
                             </h1>
                             <p className="text-lg text-muted-foreground mb-8">
-                                Top contributors who are shaping our documentation platform
+                                {t('leaderboard.description')}
                             </p>
 
                             {/* Timeframe Filters */}
@@ -192,28 +196,28 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                     size="sm"
                                     onClick={() => handleTimeframeChange('all')}
                                 >
-                                    All Time
+                                    {t('leaderboard.allTime')}
                                 </Button>
                                 <Button
                                     variant={activeTimeframe === 'year' ? 'default' : 'outline'}
                                     size="sm"
                                     onClick={() => handleTimeframeChange('year')}
                                 >
-                                    This Year
+                                    {t('leaderboard.thisYear')}
                                 </Button>
                                 <Button
                                     variant={activeTimeframe === 'month' ? 'default' : 'outline'}
                                     size="sm"
                                     onClick={() => handleTimeframeChange('month')}
                                 >
-                                    This Month
+                                    {t('leaderboard.thisMonth')}
                                 </Button>
                                 <Button
                                     variant={activeTimeframe === 'week' ? 'default' : 'outline'}
                                     size="sm"
                                     onClick={() => handleTimeframeChange('week')}
                                 >
-                                    This Week
+                                    {t('leaderboard.thisWeek')}
                                 </Button>
                             </div>
 
@@ -222,22 +226,22 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                 <Card className="p-4 bg-card/50 backdrop-blur">
                                     <Users className="w-6 h-6 text-brand-600 mb-2 mx-auto" />
                                     <div className="text-2xl font-bold">{stats.total_users}</div>
-                                    <div className="text-sm text-muted-foreground">Contributors</div>
+                                    <div className="text-sm text-muted-foreground">{t('leaderboard.contributors')}</div>
                                 </Card>
                                 <Card className="p-4 bg-card/50 backdrop-blur">
                                     <TrendingUp className="w-6 h-6 text-green-600 mb-2 mx-auto" />
                                     <div className="text-2xl font-bold">{Math.round(stats.average_score)}</div>
-                                    <div className="text-sm text-muted-foreground">Avg Score</div>
+                                    <div className="text-sm text-muted-foreground">{t('leaderboard.avgScore')}</div>
                                 </Card>
                                 <Card className="p-4 bg-card/50 backdrop-blur">
                                     <Trophy className="w-6 h-6 text-yellow-600 mb-2 mx-auto" />
                                     <div className="text-2xl font-bold">{stats.highest_score}</div>
-                                    <div className="text-sm text-muted-foreground">Top Score</div>
+                                    <div className="text-sm text-muted-foreground">{t('leaderboard.topScore')}</div>
                                 </Card>
                                 <Card className="p-4 bg-card/50 backdrop-blur">
                                     <Award className="w-6 h-6 text-purple-600 mb-2 mx-auto" />
                                     <div className="text-2xl font-bold">{stats.total_score.toLocaleString()}</div>
-                                    <div className="text-sm text-muted-foreground">Total Points</div>
+                                    <div className="text-sm text-muted-foreground">{t('leaderboard.totalPoints')}</div>
                                 </Card>
                             </div>
                         </div>
@@ -287,10 +291,10 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                         <Progress value={currentUser.progress_to_next_level} className="h-2" />
                                     </div>
                                 </div>
-                                <div className="text-right">
-                                    <div className="text-3xl font-bold text-brand-600">{currentUser.total_score}</div>
-                                    <div className="text-sm text-muted-foreground">Total Points</div>
-                                </div>
+                                            <div className="text-right">
+                                                <div className="text-3xl font-bold text-brand-600">{currentUser.total_score}</div>
+                                                <div className="text-sm text-muted-foreground">{t('leaderboard.totalPoints')}</div>
+                                            </div>
                             </div>
                         </Card>
                     )}
@@ -361,7 +365,7 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                         {/* Progress Bar */}
                                         <div className="mb-3">
                                             <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                                                <span>Level {user.level} Progress</span>
+                                                <span>{t('leaderboard.levelProgress', { level: user.level })}</span>
                                                 <span>{user.progress_to_next_level}%</span>
                                             </div>
                                             <Progress value={user.progress_to_next_level} className="h-1.5" />
@@ -373,28 +377,28 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                                 <FileText className="w-4 h-4 text-blue-500" />
                                                 <div>
                                                     <div className="text-sm font-semibold">{user.score_breakdown.documents_created.value}</div>
-                                                    <div className="text-xs text-muted-foreground">Documents</div>
+                                                    <div className="text-xs text-muted-foreground">{t('leaderboard.documents')}</div>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
                                                 <CheckCircle className="w-4 h-4 text-green-500" />
                                                 <div>
                                                     <div className="text-sm font-semibold">{user.score_breakdown.documents_reviewed.value}</div>
-                                                    <div className="text-xs text-muted-foreground">Reviews</div>
+                                                    <div className="text-xs text-muted-foreground">{t('leaderboard.reviews')}</div>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
                                                 <ThumbsUp className="w-4 h-4 text-purple-500" />
                                                 <div>
                                                     <div className="text-sm font-semibold">{user.score_breakdown.helpful_votes.value}</div>
-                                                    <div className="text-xs text-muted-foreground">Helpful</div>
+                                                    <div className="text-xs text-muted-foreground">{t('leaderboard.helpful')}</div>
                                                 </div>
                                             </div>
                                             <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
                                                 <MessageSquare className="w-4 h-4 text-orange-500" />
                                                 <div>
                                                     <div className="text-sm font-semibold">{user.score_breakdown.comments_made.value}</div>
-                                                    <div className="text-xs text-muted-foreground">Comments</div>
+                                                    <div className="text-xs text-muted-foreground">{t('common.comments')}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -402,7 +406,7 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                         {/* Score Breakdown Details */}
                                         <details className="mt-3">
                                             <summary className="cursor-pointer text-sm text-brand-600 hover:text-brand-700 font-medium">
-                                                View detailed score breakdown
+                                                {t('leaderboard.viewBreakdown')}
                                             </summary>
                                             <div className="mt-2 p-3 rounded-lg bg-muted/30 space-y-2">
                                                 {Object.entries(user.score_breakdown).map(([key, item]) => (
@@ -414,8 +418,8 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                                                     </div>
                                                 ))}
                                                 <div className="pt-2 border-t border-border flex justify-between items-center font-bold">
-                                                    <span>Total:</span>
-                                                    <span className="text-brand-600">{user.total_score} points</span>
+                                                    <span>{t('leaderboard.total')}:</span>
+                                                    <span className="text-brand-600">{user.total_score} {t('leaderboard.points')}</span>
                                                 </div>
                                             </div>
                                         </details>
@@ -429,12 +433,12 @@ export default function Leaderboard({ users, stats, timeframe, currentUser }: Le
                     {users.length === 0 && (
                         <Card className="p-12 text-center">
                             <Trophy className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                            <h3 className="text-xl font-semibold mb-2">No Rankings Yet</h3>
+                            <h3 className="text-xl font-semibold mb-2">{t('leaderboard.noRankings')}</h3>
                             <p className="text-muted-foreground mb-4">
-                                Be the first to earn points and climb the leaderboard!
+                                {t('leaderboard.beFirst')}
                             </p>
                             <Button asChild>
-                                <Link href="/documents/create">Create a Document</Link>
+                                <Link href="/documents/create">{t('common.createDocument')}</Link>
                             </Button>
                         </Card>
                     )}
