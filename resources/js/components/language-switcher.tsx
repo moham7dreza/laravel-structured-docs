@@ -38,15 +38,22 @@ export function LanguageSwitcher() {
             i18n.changeLanguage(langCode);
             document.documentElement.setAttribute('dir', newLang.dir);
             document.documentElement.setAttribute('lang', langCode);
+            document.documentElement.setAttribute('lang', langCode);
             localStorage.setItem('i18nextLng', langCode);
+            // Force a small delay to ensure direction is set before re-render
+            setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('languageChanged', { detail: langCode }));
+            }, 0);
         }
     };
 
-    // Set initial direction
+    // Set initial direction and update on language change
     useEffect(() => {
-        document.documentElement.setAttribute('dir', currentLanguage.dir);
-        document.documentElement.setAttribute('lang', currentLanguage.code);
-    }, [currentLanguage]);
+        const cleanLang = i18n.language.split('-')[0];
+        const newLang = languages.find((lang) => lang.code === cleanLang) || languages[0];
+        document.documentElement.setAttribute('dir', newLang.dir);
+        document.documentElement.setAttribute('lang', cleanLang);
+    }, [i18n.language]);
 
     return (
         <DropdownMenu>

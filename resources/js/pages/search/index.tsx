@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -216,6 +217,7 @@ export default function SearchPage({
                         </nav>
                     </div>
                     <div className="flex items-center gap-2">
+                        <LanguageSwitcher />
                         <ThemeToggle />
                         {auth?.user ? (
                             <Link href={`/users/${auth.user.id}`}>
@@ -261,7 +263,7 @@ export default function SearchPage({
 
                                     <div className="relative flex gap-3 bg-white/10 backdrop-blur-md rounded-xl p-2 border border-white/20">
                                         {/* Search Icon */}
-                                        <div className="absolute left-5 top-1/2 -translate-y-1/2 pointer-events-none">
+                                        <div className="absolute ltr:left-5 rtl:right-5 top-1/2 -translate-y-1/2 pointer-events-none">
                                             <Search className="h-6 w-6 text-white/60 group-focus-within:text-white transition-colors" />
                                         </div>
 
@@ -271,7 +273,7 @@ export default function SearchPage({
                                             placeholder="Search for documents, users, categories, and more..."
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="flex-1 h-14 pl-14 pr-4 text-base bg-transparent border-0 text-white placeholder:text-white/50 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
+                                            className="flex-1 h-14 ltr:pl-14 rtl:pr-14 ltr:pr-4 rtl:pl-4 text-base bg-transparent border-0 text-white placeholder:text-white/50 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-none"
                                         />
 
                                         {/* Search Button */}

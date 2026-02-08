@@ -18,7 +18,10 @@ import {
     Trash2,
 } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import CommentSection from '@/components/comment-section';
+import { InlineCommentButton } from '@/components/inline-comment-button';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -98,6 +101,7 @@ function getScoreGrade(score: number): string {
 
 export default function DocumentShow({ document, sections, comments, inlineComments, relatedDocuments }: DocumentShowProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation();
     const [activeSection, setActiveSection] = useState<number | null>(null);
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -126,40 +130,41 @@ export default function DocumentShow({ document, sections, comments, inlineComme
             <header className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
                 isScrolled ? 'bg-background/95 backdrop-blur shadow-md' : 'bg-background/60 backdrop-blur'
             }`}>
-                <div className="container flex h-14 items-center justify-between">
+                <div className="container mx-auto px-4 flex h-14 items-center">
                     <div className="flex items-center gap-6">
                         <Link href="/" className="flex items-center space-x-2">
                             <FileText className="h-6 w-6" />
-                            <span className="font-bold text-lg">DocSystem</span>
+                            <span className="font-bold text-lg">{t('nav.system' as const)}</span>
                         </Link>
                         <nav className="hidden md:flex gap-6">
                             <Link
                                 href="/"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Home
+                                {t('common.home' as const)}
                             </Link>
                             <Link
                                 href="/documents"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Documents
+                                {t('common.documents' as const)}
                             </Link>
                             <Link
                                 href="/categories"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Categories
+                                {t('common.categories' as const)}
                             </Link>
                             <Link
                                 href="/tags"
                                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                             >
-                                Tags
+                                {t('common.tags' as const)}
                             </Link>
                         </nav>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="ml-auto flex items-center gap-2">
+                        <LanguageSwitcher />
                         <ThemeToggle />
                         {auth?.user ? (
                             <Link href={`/users/${auth.user.id}`}>
@@ -185,7 +190,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                     <div className="container mx-auto px-4 py-4">
                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                             <Link href="/" className="hover:text-foreground transition-colors">
-                                Home
+                                {t('common.home')}
                             </Link>
                             <span>/</span>
                             {document.category && (
@@ -211,7 +216,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-8 transition-colors group"
                     >
                         <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                        Back to {document.category ? document.category.name : 'Documents'}
+                        {t('common.back')} {t('common.to')} {document.category ? document.category.name : t('common.documents')}
                     </Link>
 
                     <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8">
@@ -265,7 +270,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                                 <Button asChild size="sm" className="gap-2">
                                                     <Link href={`/documents/${document.slug}/edit`}>
                                                         <Edit className="w-4 h-4" />
-                                                        Edit
+                                                        {t('common.edit')}
                                                     </Link>
                                                 </Button>
                                                 <Button
@@ -283,7 +288,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                                     }}
                                                 >
                                                     <Trash2 className="w-4 h-4" />
-                                                    Delete
+                                                    {t('common.delete')}
                                                 </Button>
                                             </div>
                                         )}
@@ -311,16 +316,16 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                         <Separator orientation="vertical" className="h-6" />
                                         <div className="flex items-center gap-1.5 text-muted-foreground">
                                             <Eye className="w-4 h-4" />
-                                            <span>{document.views_count.toLocaleString()} views</span>
+                                            <span>{document.views_count.toLocaleString()} {t('document.show.views')}</span>
                                         </div>
                                         <div className="flex items-center gap-1.5 text-muted-foreground">
                                             <MessageSquare className="w-4 h-4" />
-                                            <span>{document.comments_count} comments</span>
+                                            <span>{document.comments_count} {t('common.comments')}</span>
                                         </div>
                                         <div className="flex items-center gap-1.5 text-muted-foreground">
                                             <Clock className="w-4 h-4" />
                                             <span>
-                                                Updated {new Date(document.updated_at).toLocaleDateString()}
+                                                {t('document.show.lastUpdated')} {new Date(document.updated_at).toLocaleDateString()}
                                             </span>
                                         </div>
                                     </div>
@@ -347,31 +352,82 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                 </div>
                             </Card>
 
-                            {/* Document Content */}
-                            <Card className="p-8 md:p-10 bg-card/50 backdrop-blur-sm border-2 mb-8">
-                                <div
-                                    className="prose prose-slate dark:prose-invert max-w-none
-                                        prose-headings:font-bold prose-headings:tracking-tight
-                                        prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
-                                        prose-p:leading-relaxed prose-p:text-base
-                                        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-                                        prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-                                        prose-pre:bg-muted prose-pre:border prose-pre:border-border
-                                        prose-img:rounded-lg prose-img:shadow-lg
-                                        prose-blockquote:border-l-4 prose-blockquote:border-primary
-                                        prose-ul:list-disc prose-ol:list-decimal"
-                                    dangerouslySetInnerHTML={{ __html: document.content }}
-                                />
-                            </Card>
+                            {/* Document Sections */}
+                            {sections.length > 0 ? (
+                                <div className="space-y-8">
+                                    {sections.map((section) => (
+                                        <div key={section.id} id={`section-${section.id}`} className="scroll-mt-24">
+                                            <Card className="p-8 md:p-10 bg-card/50 backdrop-blur-sm border-2">
+                                                <h2 className="text-2xl md:text-3xl font-bold mb-6">{section.title}</h2>
+
+                                                {/* Section Items */}
+                                                <div className="space-y-6">
+                                                    {section.items && section.items.length > 0 ? (
+                                                        section.items.map((item) => (
+                                                            <div key={item.id} className="border-l-4 border-primary/30 pl-6 py-4">
+                                                                <h3 className="text-lg font-semibold mb-3">{item.title}</h3>
+                                                                <div
+                                                                    className="prose prose-slate dark:prose-invert max-w-none text-sm mb-4
+                                                                        prose-headings:font-bold prose-headings:tracking-tight
+                                                                        prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
+                                                                        prose-p:leading-relaxed
+                                                                        prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                                                                        prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+                                                                        prose-pre:bg-muted prose-pre:border prose-pre:border-border
+                                                                        prose-img:rounded-lg prose-img:shadow-lg
+                                                                        prose-blockquote:border-l-4 prose-blockquote:border-primary
+                                                                        prose-ul:list-disc prose-ol:list-decimal"
+                                                                    dangerouslySetInnerHTML={{ __html: item.content }}
+                                                                />
+
+                                                                {/* Inline Comments for Section Item */}
+                                                                {auth?.user && (
+                                                                    <InlineCommentButton
+                                                                        documentId={document.id}
+                                                                        sectionItemId={item.id}
+                                                                        comments={inlineComments[item.id] || []}
+                                                                        currentUser={auth?.user}
+                                                                        showResolve={auth.user.id === document.owner.id}
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        ))
+                                                    ) : (
+                                                        <p className="text-muted-foreground italic">No items in this section</p>
+                                                    )}
+                                                </div>
+                                            </Card>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <Card className="p-8 md:p-10 bg-card/50 backdrop-blur-sm border-2 mb-8">
+                                    <div
+                                        className="prose prose-slate dark:prose-invert max-w-none
+                                            prose-headings:font-bold prose-headings:tracking-tight
+                                            prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
+                                            prose-p:leading-relaxed prose-p:text-base
+                                            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+                                            prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+                                            prose-pre:bg-muted prose-pre:border prose-pre:border-border
+                                            prose-img:rounded-lg prose-img:shadow-lg
+                                            prose-blockquote:border-l-4 prose-blockquote:border-primary
+                                            prose-ul:list-disc prose-ol:list-decimal"
+                                        dangerouslySetInnerHTML={{ __html: document.content }}
+                                    />
+                                </Card>
+                            )}
 
                             {/* Comments Section */}
-                            <Card className="p-8">
-                                <CommentSection
-                                    documentId={document.id}
-                                    comments={comments}
-                                    currentUser={auth?.user}
-                                />
-                            </Card>
+                            {!sections.length && (
+                                <Card className="p-8">
+                                    <CommentSection
+                                        documentId={document.id}
+                                        comments={comments}
+                                        currentUser={auth?.user}
+                                    />
+                                </Card>
+                            )}
                         </div>
 
                         {/* Sidebar */}
@@ -379,7 +435,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                             {/* Score Card */}
                             <Card className="p-6 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-2 shadow-lg">
                                 <div className="text-center">
-                                    <div className="inline-flex items-center justify-center w-24 h-24 rounded-full mb-4 bg-gradient-to-br ${getScoreColor(document.score)} shadow-xl">
+                                    <div className={`inline-flex items-center justify-center w-24 h-24 rounded-full mb-4 bg-gradient-to-br ${getScoreColor(document.score)} shadow-xl`}>
                                         <div className="text-4xl font-black text-white">
                                             {getScoreGrade(document.score)}
                                         </div>
@@ -397,19 +453,19 @@ export default function DocumentShow({ document, sections, comments, inlineComme
 
                             {/* Actions */}
                             <Card className="p-6">
-                                <h3 className="font-semibold mb-4">Quick Actions</h3>
+                                <h3 className="font-semibold mb-4">{t('document.show.quickActions') || 'Quick Actions'}</h3>
                                 <div className="space-y-2">
                                     <Button variant="outline" className="w-full justify-start hover:bg-primary/10">
                                         <Bookmark className="w-4 h-4 mr-2" />
-                                        Bookmark
+                                        {t('document.show.bookmark') || 'Bookmark'}
                                     </Button>
                                     <Button variant="outline" className="w-full justify-start hover:bg-primary/10">
                                         <Share2 className="w-4 h-4 mr-2" />
-                                        Share
+                                        {t('document.show.share') || 'Share'}
                                     </Button>
                                     <Button variant="outline" className="w-full justify-start hover:bg-primary/10">
                                         <Star className="w-4 h-4 mr-2" />
-                                        Watch Updates
+                                        {t('document.show.watchUpdates') || 'Watch Updates'}
                                     </Button>
                                 </div>
                             </Card>
@@ -419,7 +475,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                 <Card className="p-6 sticky top-24">
                                     <h3 className="font-semibold mb-4 flex items-center gap-2">
                                         <BookOpen className="w-4 h-4" />
-                                        Contents
+                                        {t('document.show.tableOfContents') || 'Contents'}
                                     </h3>
                                     <nav className="space-y-1">
                                         {sections.map((section) => (
@@ -454,10 +510,11 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                     Timeline
                                 </h3>
                                 <div className="space-y-3 text-sm">
+                                    {/* Timeline */}
                                     <div className="flex items-start gap-3">
                                         <div className="w-2 h-2 rounded-full bg-green-500 mt-1.5"></div>
                                         <div className="flex-1">
-                                            <div className="text-muted-foreground text-xs">Created</div>
+                                            <div className="text-muted-foreground text-xs">{t('document.show.created') || 'Created'}</div>
                                             <div className="font-medium">
                                                 {new Date(document.created_at).toLocaleDateString('en-US', {
                                                     month: 'short',
@@ -471,7 +528,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                         <div className="flex items-start gap-3">
                                             <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5"></div>
                                             <div className="flex-1">
-                                                <div className="text-muted-foreground text-xs">Published</div>
+                                                <div className="text-muted-foreground text-xs">{t('document.show.published') || 'Published'}</div>
                                                 <div className="font-medium">
                                                     {new Date(document.published_at).toLocaleDateString('en-US', {
                                                         month: 'short',
@@ -485,7 +542,7 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                     <div className="flex items-start gap-3">
                                         <div className="w-2 h-2 rounded-full bg-amber-500 mt-1.5"></div>
                                         <div className="flex-1">
-                                            <div className="text-muted-foreground text-xs">Last Updated</div>
+                                            <div className="text-muted-foreground text-xs">{t('document.show.lastUpdated') || 'Last Updated'}</div>
                                             <div className="font-medium">
                                                 {new Date(document.updated_at).toLocaleDateString('en-US', {
                                                     month: 'short',
@@ -503,30 +560,16 @@ export default function DocumentShow({ document, sections, comments, inlineComme
                                 <Card className="p-6">
                                     <h3 className="font-semibold mb-4 flex items-center gap-2">
                                         <GitBranch className="w-4 h-4" />
-                                        Git Integration
+                                        {t('document.show.gitIntegration') || 'Git Integration'}
                                     </h3>
-                                    <div className="space-y-2">
-                                        {document.branches.map((branch) => (
-                                            <div
-                                                key={branch.id}
-                                                className="p-3 rounded-lg bg-muted/50 border transition-colors hover:border-primary/50"
-                                            >
-                                                <div className="font-mono text-sm font-semibold mb-1">
-                                                    {branch.name}
-                                                </div>
-                                                <div className="text-xs text-muted-foreground truncate">
-                                                    {branch.repository}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                    {/* ...existing code... */}
                                 </Card>
                             )}
 
                             {/* Related Documents */}
                             {relatedDocuments.length > 0 && (
                                 <Card className="p-6">
-                                    <h3 className="font-semibold mb-4">Related Docs</h3>
+                                    <h3 className="font-semibold mb-4">{t('document.show.relatedDocs') || 'Related Docs'}</h3>
                                     <div className="space-y-3">
                                         {relatedDocuments.map((doc) => (
                                             <Link

@@ -11,9 +11,10 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 // Initialize language direction on app load
 const initializeLanguage = () => {
     const savedLang = localStorage.getItem('i18nextLng') || 'en';
-    const dir = savedLang === 'fa' ? 'rtl' : 'ltr';
+    const cleanLang = savedLang.split('-')[0]; // Handle language codes like 'en-US'
+    const dir = cleanLang === 'fa' ? 'rtl' : 'ltr';
     document.documentElement.setAttribute('dir', dir);
-    document.documentElement.setAttribute('lang', savedLang);
+    document.documentElement.setAttribute('lang', cleanLang);
 };
 
 initializeLanguage();

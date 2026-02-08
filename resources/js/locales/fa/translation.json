@@ -25,6 +25,9 @@
     "noResults": "نتیجه‌ای یافت نشد",
     "backToHome": "بازگشت به خانه",
     "back": "بازگشت",
+    "to": "به",
+    "comment": "نظر",
+    "comments": "نظر",
     "next": "بعدی:",
     "optional": "اختیاری"
   },
@@ -507,7 +510,14 @@
       "views": "بازدید",
       "likes": "پسند",
       "comments": "نظرات",
-      "shareDocument": "اشتراک‌گذاری مستند"
+      "shareDocument": "اشتراک‌گذاری مستند",
+      "quickActions": "عملیات سریع",
+      "bookmark": "ذخیره",
+      "share": "اشتراک",
+      "watchUpdates": "دنبال کردن به‌روزرسانی‌ها",
+      "created": "ایجاد شده",
+      "published": "منتشر شده",
+      "gitIntegration": "یکپارچه‌سازی Git"
     }
   },
   "search": {

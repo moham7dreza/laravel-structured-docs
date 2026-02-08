@@ -2,6 +2,7 @@ import { Head, Link, router, usePage } from '@inertiajs/react';
 import { ArrowLeft, FileText, Grid3x3, List, SlidersHorizontal, X, UserCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import { DocumentCard } from '@/components/document-card';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { SearchBar } from '@/components/search-bar';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -131,6 +132,7 @@ export default function CategoryShow({
                         </nav>
                     </div>
                     <div className="flex items-center gap-4">
+                        <LanguageSwitcher />
                         <ThemeToggle />
                         {auth?.user ? (
                             <Link href={`/users/${auth.user.id}`}>

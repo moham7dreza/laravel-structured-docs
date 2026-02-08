@@ -31,4 +31,11 @@ i18n
         },
     });
 
+// Update direction whenever language changes
+i18n.on('languageChanged', (lng) => {
+    const dir = lng === 'fa' ? 'rtl' : 'ltr';
+    document.documentElement.setAttribute('dir', dir);
+    document.documentElement.setAttribute('lang', lng);
+});
+
 export default i18n;

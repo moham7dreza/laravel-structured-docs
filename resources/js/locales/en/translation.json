@@ -25,6 +25,9 @@
     "noResults": "No results found",
     "backToHome": "Back to Home",
     "back": "Back",
+    "to": "to",
+    "comment": "comment",
+    "comments": "comments",
     "next": "Next:",
     "optional": "Optional"
   },
@@ -506,7 +509,14 @@
       "views": "views",
       "likes": "likes",
       "comments": "comments",
-      "shareDocument": "Share Document"
+      "shareDocument": "Share Document",
+      "quickActions": "Quick Actions",
+      "bookmark": "Bookmark",
+      "share": "Share",
+      "watchUpdates": "Watch Updates",
+      "created": "Created",
+      "published": "Published",
+      "gitIntegration": "Git Integration"
     }
   },
   "search": {
