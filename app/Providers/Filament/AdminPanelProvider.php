@@ -19,6 +19,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -70,7 +71,8 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationIcon('heroicon-o-bug-ant')
                     ->navigationBadge()
                     ->navigationGroup('System')
-                    ->modelPruneInterval(now()->subDays(7))
+                    ->modelPruneInterval(now()->subDays(7)),
+                FilamentSpatieLaravelBackupPlugin::make(),
             ]);
     }
 }
