@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Andreia\FilamentNordTheme\FilamentNordThemePlugin;
+use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -28,6 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
             ->colors([
                 'primary' => Color::Amber,
@@ -62,6 +64,13 @@ class AdminPanelProvider extends PanelProvider
                     ->showDebugModeWarning()
                     ->showGitBranch(),
                 FilamentNordThemePlugin::make(),
+                FilamentExceptionsPlugin::make(),
+                FilamentExceptionsPlugin::make()
+                    ->navigationLabel('Error Logs')
+                    ->navigationIcon('heroicon-o-bug-ant')
+                    ->navigationBadge()
+                    ->navigationGroup('System')
+                    ->modelPruneInterval(now()->subDays(7))
             ]);
     }
 }
