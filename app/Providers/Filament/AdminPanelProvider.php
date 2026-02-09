@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 use Swis\Filament\Backgrounds\FilamentBackgroundsPlugin;
 
 class AdminPanelProvider extends PanelProvider
@@ -73,6 +74,7 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('System')
                     ->modelPruneInterval(now()->subDays(7)),
                 FilamentSpatieLaravelBackupPlugin::make(),
+                FilamentSpatieLaravelHealthPlugin::make(),
             ]);
     }
 }
