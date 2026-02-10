@@ -7,6 +7,7 @@ use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\LanguageSwitch\Events\LocaleChanged;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
+use daacreators\CreatorsTicketing\TicketingPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -83,6 +84,7 @@ class AdminPanelProvider extends PanelProvider
                 FilamentJobsMonitorPlugin::make()
                     ->enableNavigation(),
                 FilamentAuthenticationLogPlugin::make(),
+                TicketingPlugin::make(),
             ]);
     }
 
