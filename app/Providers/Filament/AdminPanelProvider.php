@@ -6,6 +6,7 @@ use Andreia\FilamentNordTheme\FilamentNordThemePlugin;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\LanguageSwitch\Events\LocaleChanged;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
+use Croustibat\FilamentJobsMonitor\FilamentJobsMonitorPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -78,6 +79,8 @@ class AdminPanelProvider extends PanelProvider
                     ->modelPruneInterval(now()->subDays(7)),
                 FilamentSpatieLaravelBackupPlugin::make(),
                 FilamentSpatieLaravelHealthPlugin::make(),
+                FilamentJobsMonitorPlugin::make()
+                    ->enableNavigation(),
             ]);
     }
 
