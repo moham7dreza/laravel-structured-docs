@@ -68,8 +68,8 @@ class DocumentPenaltySeeder extends Seeder
         }
 
         $this->command->info("   ✓ Created {$penaltyCount} document penalties");
-        $this->command->info("   ✓ Resolved: 5 penalties");
-        $this->command->info("   ✓ Unresolved: ".($penaltyCount - 5).' penalties');
+        $this->command->info('   ✓ Resolved: 5 penalties');
+        $this->command->info('   ✓ Unresolved: '.($penaltyCount - 5).' penalties');
 
         $this->command->table(
             ['Status', 'Count'],

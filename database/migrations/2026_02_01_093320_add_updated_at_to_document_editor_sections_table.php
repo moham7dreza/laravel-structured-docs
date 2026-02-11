@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('document_editor_sections', function (Blueprint $table) {
-            if (!Schema::hasColumn('document_editor_sections', 'updated_at')) {
+            if (! Schema::hasColumn('document_editor_sections', 'updated_at')) {
                 $table->timestamp('updated_at')->nullable()->after('created_at');
             }
         });

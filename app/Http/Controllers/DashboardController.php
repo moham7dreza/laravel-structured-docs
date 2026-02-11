@@ -35,7 +35,9 @@ class DashboardController extends Controller
             ->unique('document_id')
             ->map(function ($view) {
                 $doc = $view->document;
-                if (!$doc) return null;
+                if (! $doc) {
+                    return null;
+                }
 
                 return [
                     'id' => $doc->id,
@@ -73,7 +75,9 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($watcher) {
                 $doc = $watcher->document;
-                if (!$doc) return null;
+                if (! $doc) {
+                    return null;
+                }
 
                 return [
                     'id' => $doc->id,
@@ -177,7 +181,7 @@ class DashboardController extends Controller
 
     private function formatSubject($activity): ?array
     {
-        if (!$activity->subject) {
+        if (! $activity->subject) {
             return null;
         }
 

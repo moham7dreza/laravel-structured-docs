@@ -77,7 +77,7 @@ class UserProfileController extends Controller
             return back()->with('error', 'You cannot follow yourself.');
         }
 
-        if (!$currentUser->following()->where('following_id', $user->id)->exists()) {
+        if (! $currentUser->following()->where('following_id', $user->id)->exists()) {
             $currentUser->following()->attach($user->id);
         }
 

@@ -20,8 +20,9 @@ class CommentTestSeeder extends Seeder
         // Get a published document
         $document = Document::where('status', 'published')->first();
 
-        if (!$document) {
+        if (! $document) {
             $this->command->error('No published documents found. Please create a document first.');
+
             return;
         }
 
@@ -30,6 +31,7 @@ class CommentTestSeeder extends Seeder
 
         if ($users->count() < 2) {
             $this->command->error('Need at least 2 users. Please run UserSeeder first.');
+
             return;
         }
 

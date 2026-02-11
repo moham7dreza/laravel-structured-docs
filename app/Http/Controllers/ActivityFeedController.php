@@ -68,7 +68,7 @@ class ActivityFeedController extends Controller
      */
     private function formatSubject(Activity $activity): ?array
     {
-        if (!$activity->subject) {
+        if (! $activity->subject) {
             return null;
         }
 
