@@ -57,7 +57,8 @@ class Notification extends Model
     /**
      * Scope a query to only include unread notifications.
      */
-    public function scopeUnread($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function unread($query)
     {
         return $query->whereNull('read_at');
     }
@@ -65,7 +66,8 @@ class Notification extends Model
     /**
      * Scope a query to only include read notifications.
      */
-    public function scopeRead($query)
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function read($query)
     {
         return $query->whereNotNull('read_at');
     }

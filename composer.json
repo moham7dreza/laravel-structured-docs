@@ -3,7 +3,10 @@
     "name": "laravel/react-starter-kit",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -28,6 +31,7 @@
         "tapp/filament-authentication-log": "^5.0"
     },
     "require-dev": {
+        "driftingly/rector-laravel": "^2.1",
         "fakerphp/faker": "^1.23",
         "fruitcake/laravel-debugbar": "^4.0",
         "laravel/boost": "^2.0",
@@ -83,6 +87,12 @@
             "@php artisan config:clear --ansi",
             "@test:lint",
             "@php artisan test"
+        ],
+        "rector": [
+            "vendor/bin/rector"
+        ],
+        "test:rector": [
+            "vendor/bin/rector --dry-run"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
