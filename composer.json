@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "alizharb/filament-activity-log": "^1.3",
         "andreia/filament-nord-theme": "^3.0",
         "bezhansalleh/filament-exceptions": "^4.1",
         "bezhansalleh/filament-language-switch": "^4.1",

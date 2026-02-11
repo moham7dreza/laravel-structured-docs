@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use AlizHarb\ActivityLog\ActivityLogPlugin;
 use Andreia\FilamentNordTheme\FilamentNordThemePlugin;
 use BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin;
 use BezhanSalleh\LanguageSwitch\Events\LocaleChanged;
@@ -86,6 +87,10 @@ class AdminPanelProvider extends PanelProvider
                     ->enableNavigation(),
                 FilamentAuthenticationLogPlugin::make(),
                 TicketingPlugin::make(),
+                ActivityLogPlugin::make()
+                    ->label('Log')
+                    ->pluralLabel('Logs')
+                    ->navigationGroup('System'),
             ]);
     }
 

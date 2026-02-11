@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable
 {
@@ -18,6 +20,8 @@ class User extends Authenticatable
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
+
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -88,6 +92,12 @@ class User extends Authenticatable
             'show_email' => 'boolean',
             'show_activity' => 'boolean',
         ];
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll();
     }
 
     /**
