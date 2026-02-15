@@ -25,6 +25,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Moataz01\FilamentNotificationSound\FilamentNotificationSoundPlugin;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
@@ -91,6 +92,7 @@ class AdminPanelProvider extends PanelProvider
                     ->label('Log')
                     ->pluralLabel('Logs')
                     ->navigationGroup('System'),
+                FilamentNotificationSoundPlugin::make(),
             ]);
     }
 
